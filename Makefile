@@ -39,7 +39,6 @@ all:	init $(NAME)
 	@ $(RM) -rf $(PATH_LOG)/time.log
 
 init:
-	@ echo ">> $(SRCS)"
 	@ date +%S > $(addprefix $(PATH_LOG)/, time.log)
 	@ $(shell mkdir -p $(PATH_OBJ) $(PATH_LOG))
 	@ make -C $(PATH_LIBFT)
