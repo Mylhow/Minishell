@@ -1,8 +1,5 @@
-
 #ifndef TOKEN_H
 # define TOKEN_H
-
-#include "libft.h"
 
 # define QUOTE_NONE     0
 # define QUOTE_SINGLE   '\''

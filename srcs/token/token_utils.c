@@ -1,5 +1,7 @@
 
 #include "token.h"
+#include "libft_string.h"
+#include "libft_mem.h"
 
 int          is_token_operator(char *value)
 {
@@ -67,7 +69,7 @@ t_cmd_token  *create_next_token(t_cmd_token **list, char *value, int len)
 {
     t_cmd_token *token;
     
-     if (!(token = (t_cmd_token *)malloc(sizeof(t_cmd_token))))
+     if (!(token = (t_cmd_token *)wrmalloc(sizeof(t_cmd_token))))
         return (NULL);
     if (!(token->value = (char *)ft_calloc(sizeof(char), len + 1)))
         return (NULL);

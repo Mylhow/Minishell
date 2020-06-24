@@ -1,15 +1,11 @@
-#include "minishell.h"
-#include "libft.h"
-#include "get_next_line.h"
+#include "token.h"
+#include "libft_gnl.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
 
-int main(int ac, char **av)
+int main(void)
 {
     char        *unparsed_cmd;
     t_cmd_token *token_list;
@@ -48,7 +44,7 @@ int main(int ac, char **av)
             printf ("\n");
         printf ("$>");
         fflush(stdout);
-        free(unparsed_cmd);
+        wrfree(unparsed_cmd);
     }
     return (0);
 }

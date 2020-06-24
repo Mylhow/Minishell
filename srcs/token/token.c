@@ -6,8 +6,8 @@
 */
 
 #include "token.h"
-
-
+#include "libft_mem.h"
+#include <stdlib.h>
 
 t_cmd_token         *tokenize(char *raw_cmd)
 {
@@ -80,8 +80,8 @@ void            destroy_token_list(t_cmd_token  **list)
         while (*list)
         {
             tmp = (*list)->next;
-            free((*list)->value);
-            free(*list);
+            wrfree((*list)->value);
+            wrfree(*list);
             *list = tmp;
         }
     }
