@@ -12,7 +12,8 @@ PATH_LIBFT	=	lib/libft
 
 # List of sources
 SRCS_TOKEN	=	$(addprefix $(PATH_SRC)/token/, token.c token_utils.c main.c)
-SRCS		=	$(SRCS_TOKEN)
+SRCS_OTHER  =   $(addprefix $(PATH_SRC)/function/, ft_echo.c)
+SRCS		=	$(SRCS_TOKEN) $(SRCS_OTHER)
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
 INCS		=	$(wildcard $(PATH_INC)/*.h)
 LOG			=	$(addprefix $(PATH_LOG)/, $(patsubst %.a.log,%.log,$(NAME).log))
