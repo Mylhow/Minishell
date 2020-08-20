@@ -12,12 +12,13 @@ PATH_LIBFT	=	lib/libft
 
 # List of sources
 SRCS_TOKEN	=	$(addprefix $(PATH_SRC)/token/, token.c token_utils.c main.c)
+SRCS_TERM	=	$(addprefix $(PATH_SRC)/terminal/, init_term.c)
 SRCS_OTHER  =   $(addprefix $(PATH_SRC)/function/, ft_echo.c)
-SRCS		=	$(SRCS_TOKEN) $(SRCS_OTHER)
+SRCS		=	$(SRCS_TOKEN) $(SRCS_OTHER) $(SRCS_TERM)
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
 INCS		=	$(wildcard $(PATH_INC)/*.h)
 LOG			=	$(addprefix $(PATH_LOG)/, $(patsubst %.a.log,%.log,$(NAME).log))
-LIBFT		=	-L$(PATH_LIBFT) -lft
+LIBFT		=	-L$(PATH_LIBFT) -lft -lcurses
 
 # Commands of compilation
 COMP		=	clang

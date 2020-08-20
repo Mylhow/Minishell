@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include "terminal.h"
 
 int main(void)
 {
@@ -12,6 +13,8 @@ int main(void)
     t_cmd_token *tmp;
     int         notnull;
 
+
+    init_term();
     printf ("$>");
     fflush(stdout);
     while (get_next_line(0, &unparsed_cmd))
