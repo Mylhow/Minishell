@@ -12,7 +12,7 @@ PATH_LIBFT	=	lib/libft
 
 # List of sources
 SRCS_TOKEN	=	$(addprefix $(PATH_SRC)/token/, token.c token_utils.c main.c)
-SRCS_TERM	=	$(addprefix $(PATH_SRC)/terminal/, init_term.c utils.c)
+SRCS_TERM	=	$(addprefix $(PATH_SRC)/terminal/, init_term.c utils.c handle_key.c)
 SRCS_OTHER  =   $(addprefix $(PATH_SRC)/function/, ft_echo.c)
 SRCS		=	$(SRCS_TOKEN) $(SRCS_OTHER) $(SRCS_TERM)
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))

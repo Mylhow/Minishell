@@ -1,6 +1,8 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
+#include "terminal.h"
+
 # define QUOTE_NONE     0
 # define QUOTE_SINGLE   '\''
 # define QUOTE_DOUBLE   '"'
@@ -22,6 +24,7 @@ typedef struct          s_cmd_token
     struct s_cmd_token  *back;
 }                       t_cmd_token;
 
+
 //  Utilities for get_token_type
 int             is_token_builting(char *value);
 int             is_token_operator(char * value);
@@ -32,6 +35,8 @@ t_cmd_type      get_token_type(t_cmd_token *last, char *value);
 t_cmd_token     *create_next_token(t_cmd_token **list, char *value, int len);
 
 //  Tokenize an unparsed command and destroys it.
+#include "terminal.h"
+int             main_token(t_term *term);
 t_cmd_token     *tokenize(char *raw_cmd);
 void            destroy_token_list(t_cmd_token  **list);
 
