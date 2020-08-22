@@ -1,15 +1,17 @@
-#include "token.h"
+#include "minishell.h"
 #include "libft_gnl.h"
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include "terminal.h"
 
-int main(void)
+int main(int ac, char **av, char **environnement)
 {
     t_term      term;
+	envir       *env;
 
+    if (!(env = init_env(ac, av, environnement)))
+        return -1;
     if (init_term(&term) == 0) /* initialise termcaps et. */
         if (config_term(&term) != 0)
             return -1;

@@ -10,7 +10,7 @@
     #include <stdlib.h>
     
     #define STR_SIZE 64
-    #define PROMPT_SIZE 1
+    #define PROMPT_SIZE 2
     // dprintf(1, "\033[6n"); //affiche la position du curseur
 
     typedef struct termios t_termios;
@@ -18,13 +18,17 @@
     {
         char *clear;
         char *cl_eol;
+
         char *fcolor;
         char *bcolor;
         char *blink;
-        char *reset;
         char *bold;
         char *under;
+        char *reset;
+
         char *pos;
+        char *save;
+        char *restore;
         char *up;
         char *down;
         char *right;
@@ -37,7 +41,8 @@
         int         nb_blocks; //nb_block * STR_SIZE = taille alloué pour la commande
         int         ndx_cursor; //indice du curseur sur une ligne
         int         ndx_line; //indique la ligne du curseur
-        int         ndx_str; //indice du curseur sur la str_cmd
+        int         ndx_str; //indice du curseur sur la str_cmd``
+        int         str_size; //taille de la commande tapé (en octets)
         char        last_char; //dernier caractere tapé
         char        *str_cmd; //commande
         char        esc_flag;

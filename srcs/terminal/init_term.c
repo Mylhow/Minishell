@@ -17,6 +17,8 @@ void    init_caps(t_caps *caps)
     caps->down = tigetstr("cud1");
     caps->right = tigetstr("cuf1");
     caps->left = tigetstr("cub1");
+    caps->save = tigetstr("sc");
+    caps->restore = tigetstr("rc");
 }
 int config_term(t_term *term)
 {

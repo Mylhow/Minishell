@@ -8,12 +8,32 @@ int ft_m_putchar(int c)
 
 void    debug(t_term *term)
 {
-    dprintf(1, "\nlast_char ='%c' code:%d\n", term->last_char, term->last_char);
-    dprintf(1, "ndx_cursor =%d\n", term->ndx_cursor);
-    dprintf(1, "ndx_str=%d\n", term->ndx_str);
-    dprintf(1, "ndx_line =%d\n", term->ndx_line);
-    dprintf(1, "str_cmd = %s\n", term->str_cmd);
-    dprintf(1, "str_cmd_size =%d\n", term->nb_blocks * STR_SIZE);
+    int tmp;
+
+    tmp = 3;
+    tputs(term->caps.save, 1, ft_m_putchar);
+    tputs(tgoto(term->caps.pos, 2 * term->caps.column / 4, tmp), 1, ft_m_putchar);
+    dprintf(1, "last_char ='%c' code:%d    \n", term->last_char, (int)term->last_char);
+    tmp ++;
+    tputs(tgoto(term->caps.pos, 2 * term->caps.column / 4, tmp), 1, ft_m_putchar);
+    dprintf(1, "ndx_cursor =%d    \n", term->ndx_cursor);
+    tmp ++;
+    tputs(tgoto(term->caps.pos, 2 * term->caps.column / 4, tmp), 1, ft_m_putchar);
+    dprintf(1, "ndx_line =%d    \n", term->ndx_line);
+    tmp ++;
+    tputs(tgoto(term->caps.pos, 2 * term->caps.column / 4, tmp), 1, ft_m_putchar);
+    dprintf(1, "ndx_str=%d    \n", term->ndx_str);
+    tmp ++;
+    tputs(tgoto(term->caps.pos, 2 * term->caps.column / 4, tmp), 1, ft_m_putchar);
+    dprintf(1, "str_cmd = %s    \n", term->str_cmd);
+    tmp ++;
+    tputs(tgoto(term->caps.pos, 2 * term->caps.column / 4, tmp), 1, ft_m_putchar);
+    dprintf(1, "str_cmd_size =%d    \n", term->str_size);
+    tmp ++;
+    tputs(tgoto(term->caps.pos, 2 * term->caps.column / 4, tmp), 1, ft_m_putchar);
+    dprintf(1, "str_cmd_alloc_size =%d    \n", term->nb_blocks * STR_SIZE);
+
+    tputs(term->caps.restore, 1, ft_m_putchar);
 }
 
 char    *resize_str(char *str, int new_size)
