@@ -132,7 +132,6 @@ envir	*init_env(int ac, char **environnement, char **envp)
 	(void)ac;
 	env_index = 0;
 	//init premier maillon
-	dprintf(1, "pass\n");
 	if (envp[env_index])
 	{
 		if (!(env = new_var(envp[env_index])))
@@ -145,7 +144,6 @@ envir	*init_env(int ac, char **environnement, char **envp)
 		env_index++;
 	}
 	//init toute la chaine
-	dprintf(1, "pass2");
 	while (envp[env_index])
 	{
 		if (!(env = new_var(envp[env_index])))
@@ -157,6 +155,5 @@ envir	*init_env(int ac, char **environnement, char **envp)
 		before = env;
 		env_index++;
 	}
-	dprintf(1, "pass3");
 	return env;
 }

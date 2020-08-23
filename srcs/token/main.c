@@ -29,6 +29,7 @@ int main(int ac, char **av, char **environnement)
         fflush(stdout);
         ft_memset(term.str_cmd, '\0', term.nb_blocks * STR_SIZE);
     }
+    //exit terminal properly
     if (tcsetattr(0, 0, &term.termios_backup) == -1)
           return (-1);
     return (0);

@@ -51,6 +51,7 @@ int     escape_sequences(t_term *term)
 					//si on atteint le bout de la ligne
 					term->ndx_cursor = 0;
 					term->ndx_line += 1;
+					tputs(tgoto(term->caps.pos, term->ndx_cursor + PROMPT_SIZE, term->ndx_line), 1, ft_m_putchar);
 				}
 				
 				term->ndx_str++;
@@ -72,6 +73,8 @@ int     escape_sequences(t_term *term)
 					//si on atteint le bout de la ligne
 					term->ndx_cursor = term->caps.column;
 					term->ndx_line -= 1;
+					tputs(tgoto(term->caps.pos, term->ndx_cursor + PROMPT_SIZE, term->ndx_line), 1, ft_m_putchar);
+					// debug(term);
 				}
 				term->ndx_str--;
 			}
@@ -87,7 +90,7 @@ int     back_space(t_term *term)
 	int i;
 
 	i = 0;
-	if (term->ndx_str >= 0)
+	if (term->ndx_str > 0)
 	{
 		term->ndx_str--;
 		while (term->ndx_str + i <= term->str_size)
@@ -104,7 +107,7 @@ int     back_space(t_term *term)
 		dprintf(1, "%s", term->str_cmd + term->ndx_str);
 		tputs(tgoto(term->caps.pos, term->ndx_cursor + PROMPT_SIZE, term->ndx_line), 1, ft_m_putchar);
 	}
-	debug(term);
+	// debug(term);
 	return 1;
 }
 // insére un caractere dans str_cmd
@@ -120,9 +123,9 @@ void	insert(t_term *term)
 		i++;
 	}
 	term->str_cmd[term->ndx_str] = term->last_char; //insere le nouveau caractere
-	if (term->ndx_cursor >= term->caps.column)
+	if (term->ndx_cursor >= term->caps.column - PROMPT_SIZE)
 	{
-			//si on arrive a la fin du terminal
+		//si on arrive a la fin du terminal
 		term->ndx_cursor = 0;
 		term->ndx_line += 1;
 		dprintf(1, "\n");
@@ -139,7 +142,20 @@ void	insert(t_term *term)
 //return 0 if end of cmd
 int		handle_key(t_term *term)
 {
+	// char num[25];
+
+	// dprintf(0, "\033[6n");
+	// dprintf(0, "read:%ld", read(0, num, 24));
+	// num[4] = '\0';
+	// dprintf(1, ";%d;", term->ndx_line);
+	// term->ndx_line = ft_atoi(num+2);
+	// term->ndx_line --;
+	// // dprintf(1, "ndx_line = %d", term->ndx_line);
+	// tputs(tgoto(term->caps.pos, term->ndx_cursor, term->ndx_line), 1, ft_m_putchar);
 	// debug(term);
+	// debug(term);
+	if (term->ndx_line > term->caps.line - 1)
+		term->ndx_line = term->caps.line - 1;
 	if (term->last_char == '\033' || term->esc_flag == 1 || term->esc_flag == 2)
 		return(escape_sequences(term));
 	//gestion du retour
@@ -148,7 +164,7 @@ int		handle_key(t_term *term)
 	//gestion des caracteres tapés
 	else if (term->last_char != '\n' )
 	{
-		//si la string alloué est trop petite
+		//réalloue la string si elle est trop petite
 		if (term->ndx_str == STR_SIZE * term->nb_blocks - 1)
 		{
 			term->str_cmd = resize_str(term->str_cmd, (term->nb_blocks + 1) * STR_SIZE);
@@ -157,13 +173,10 @@ int		handle_key(t_term *term)
 		//enregistrement du caractere
 		insert(term);
 		//affichage du caractere
-		debug(term);
 		return 1;
 	}
-	dprintf(1, "ENTER");
-		// debug(&term);
-		//si on passe ici
-		// ENTER a été pressé
+	// dprintf(1, "ENTER");
+	//si on passe ici ENTER a été pressé
 	if (term->str_cmd[0] != '\0' && term->last_char == '\n')
 		dprintf(1, "\n");
 	term->ndx_cursor = 0;

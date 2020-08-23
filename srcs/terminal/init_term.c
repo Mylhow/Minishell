@@ -20,6 +20,7 @@ void    init_caps(t_caps *caps)
     caps->save = tigetstr("sc");
     caps->restore = tigetstr("rc");
 }
+//configure le terminal de facon canonique et de couper la liaison entre le terminal et le clavier 
 int config_term(t_term *term)
 {
     if (tigetflag("os") != 0)
