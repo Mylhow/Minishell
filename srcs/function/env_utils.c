@@ -54,7 +54,7 @@ void	add_env_var(envir *env, char *var)
 	tmp = env;
 	while (tmp->next)
 		tmp = tmp->next;
-	ft_printf("ADDING_VAR: %s\n", var);
+	dprintf(1, "ADDING_VAR: %s\n", var);
 	tmp->next = new_var(var);
 }
 
@@ -67,10 +67,10 @@ void	print_env(envir *env)
 	tmp = env;
 	while (tmp->next)
 	{
-		ft_printf("%s=%s\n", tmp->key, tmp->value);
+		dprintf(1, "%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	ft_printf("%s=%s\n", tmp->key, tmp->value);
+	dprintf(1, "%s=%s\n", tmp->key, tmp->value);
 }
 
 envir	*new_var(char *var)
@@ -89,14 +89,11 @@ envir	*new_var(char *var)
 	}
 	else
 		value = ft_strchr(var, '=') + 1;
-	new = (envir*)malloc(sizeof(envir));
-	if (!new)
+	if (!(new = (envir*)malloc(sizeof(envir))))
 		return NULL;
-	new->key = (char *)malloc(key_size * sizeof(char) + 1);
-	if (!new->key)
+	if (!(new->key = (char *)malloc(key_size * sizeof(char) + 1)))
 		return NULL;
-	new->value = (char *)malloc(ft_strlen(value) * sizeof(char) + 1);
-	if (!new->value)
+	if (!(new->value = (char *)malloc(ft_strlen(value) * sizeof(char) + 1)))
 		return NULL;
 	new->next = NULL;
 	ft_strlcpy(new->key, var, key_size);
