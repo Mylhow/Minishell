@@ -17,8 +17,8 @@ SRCS_TERM	=	$(addprefix $(PATH_SRC)/terminal/, init_term.c utils.c handle_key.c)
 SRCS_OTHER  =   $(addprefix $(PATH_SRC)/function/, ft_echo.c ft_env.c env_utils.c)
 SRCS		=	$(SRCS_TOKEN) $(SRCS_OTHER) $(SRCS_TERM) $(SRCS_ENV)
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
-INCS		=	$(wildcard $(PATH_INC)/*.h)
-LOG			=	$(addprefix $(PATH_LOG)/, $(patsubst %.a.log,%.log,$(NAME).log))
+INCS		=	$(addprefix $(PATH_INC)/, minishell.h terminal.h token.h env.h)
+LOG			=	$(PATH_LOG)/minishell.log
 LIBFT		=	-L$(PATH_LIBFT) -lft -lcurses
 
 # Commands of compilation
@@ -38,11 +38,9 @@ _SUCCESS	=	[$(_GREEN)SUCCESS$(_RESET)]
 
 # Functions
 all:	init $(NAME)
-	@ echo "$(_SUCCESS) Compilation done in $$(($$(date +%S)-$$(cat  logs/time.log)))s"
-	@ $(RM) -rf $(PATH_LOG)/time.log
+	@ echo "$(_SUCCESS) Compilation done"
 
 init:
-	@ date +%S > $(addprefix $(PATH_LOG)/, time.log)
 	@ $(shell mkdir -p $(PATH_OBJ) $(PATH_LOG))
 	@ make -C $(PATH_LIBFT)
 
