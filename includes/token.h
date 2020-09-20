@@ -35,7 +35,7 @@ t_cmd_type      get_token_type(t_cmd_token *last, char *value);
 t_cmd_token     *create_next_token(t_cmd_token **list, char *value, int len);
 
 //  Tokenize an unparsed command and destroys it.
-#include "terminal.h"
+
 int             main_token(t_term *term);
 t_cmd_token     *tokenize(char *raw_cmd);
 void            destroy_token_list(t_cmd_token  **list);

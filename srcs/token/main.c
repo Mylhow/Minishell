@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include "env.h" // à enlever
 
 int main(int ac, char **av, char **environnement)
 {
@@ -23,6 +24,9 @@ int main(int ac, char **av, char **environnement)
             continue;
         main_token(&term);
         printf ("\n");
+        //ft_env(ac -1, av + 1, env);
+        //export(ac, av, (char **)env);
+        //print_env(env);
         // printf ("$>%d, %d, %d", term.ndx_line, term.ndx_cursor, term.ndx_str);
         // printf("$>\033[1D\033[K");
         printf("$>");

@@ -3,6 +3,7 @@
     #include "libft_string.h"
     #include "libft_put.h"
     #include "libft_mem.h"
+    #include "libft_number.h"
     #include <curses.h>
     #include <term.h>
     #include <unistd.h>
@@ -43,7 +44,7 @@
         int         ndx_line; //indique la ligne du curseur
         int         ndx_str; //indice du curseur sur la str_cmd``
         int         str_size; //taille de la commande tapé (en octets)
-        char        last_char; //dernier caractere tapé
+        unsigned char        last_char; //dernier caractere tapé
         char        *str_cmd; //commande
         char        esc_flag;
         t_caps      caps;

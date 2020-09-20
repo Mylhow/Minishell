@@ -81,7 +81,7 @@ void	lunch_utility(char **argv, int i)
 	}
 }
 
-void    env(int ac, char** argv, char **environnement)
+void    ft_env(int ac, char** argv, char **environnement)
 {
 	envir	*env;
 	int		cas;
@@ -128,18 +128,20 @@ envir	*init_env(int ac, char **environnement, char **envp)
 	int env_index;
 	envir *before;
 	envir *env;
+	envir *first;
 
 	(void)ac;
+	(void)environnement;
 	env_index = 0;
 	//init premier maillon
 	if (envp[env_index])
 	{
-		if (!(env = new_var(envp[env_index])))
+		if (!(first = new_var(envp[env_index])))
 		{
-			dprintf(1, "break");
+			dprintf(1, "break1");
 			return(NULL);
 		}
-		*environnement = (char *)env;
+		env = first;
 		before = env;
 		env_index++;
 	}
@@ -155,5 +157,5 @@ envir	*init_env(int ac, char **environnement, char **envp)
 		before = env;
 		env_index++;
 	}
-	return env;
+	return first;
 }

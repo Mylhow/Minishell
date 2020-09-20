@@ -142,6 +142,16 @@ void	insert(t_term *term)
 //return 0 if end of cmd
 int		handle_key(t_term *term)
 {
+
+
+	// IDéE:: 
+	//	enlever écriture des \n sur le multilignes, save pos écrit fin de phrase, restore pos
+	//
+	// erreur: Pour chaque block, un espace de trop apparait
+	//
+	// a chaque commande récuperer de nouveau les parametres du terminal.
+	//
+	//gérer le retour a la ligne
 	// char num[25];
 
 	// dprintf(0, "\033[6n");

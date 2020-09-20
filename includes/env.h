@@ -14,12 +14,12 @@ envir	*init_env(int ac, char **environnement, char **envp);
 //      initialise l'environnement sous une forme de
 //      liste chainé de structures ENV comportant chacun
 //      une variable l'environnement sous le forme key/value
-//      Return: renvoie -1 en cas d'erreur sinon 0
+//      Return: renvoie NULL en cas d'erreur sinon un pointeur sur la liste chainée
 
 int		parse_env_args(int ac, char **av, int *util_idx);
 //      Fonction déterminant le mode de fonctionnement de env en fonction de ses parametres (voir env)
 
-void    env(int ac, char** argv, char **environnement);
+void    ft_env(int ac, char** argv, char **environnement);
 //      fonction lancant un utilitaire dans un environnement modifié ou affichant l'environnement selon ses parametres.
 //case 0: nothing
 	//print env
@@ -49,6 +49,15 @@ void	print_env(envir *env);
 
 void	lunch_utility(char **argv, int i);
 //      Fonction simulant le lancement d'un utilitaire
+
+// EXPORT
+
+int    export(int ac, char **argv, char **environnment);
+//      Set an environment variable.
+
+int check_var(char *variable);
+//      check if the syntax of the env variable is correct
+//      return 0 if the syntax is correct else return 1
 
 
 #endif //ENV_H
