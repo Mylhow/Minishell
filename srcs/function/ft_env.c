@@ -20,39 +20,43 @@
 //		export can set variable without value
 
 
-int		parse_env_args(int ac, char **av, int *util_idx)
-{
-	int		arg;
-	int		i;
-	int		equel_found;
+// int		parse_env_args(int ac, char **av, int *util_idx)
+// {
+// 	// Si "=" alors variable
+// 	// Si pas de "=" alors test si built-in
+// 	// Si oui, alors la suite n'est qu'argument de ce built-in
+// 	// Sinon renvoi une erreur
+// 	int		arg;
+// 	int		i;
+// 	int		equel_found;
 
-	i = 0;
-	arg = 0;
-	equel_found = 0;
-	if (ac == 0)
-		return 0;
-	while (av[arg])
-	{
-		while (av[arg][i])
-		{
-			if (av[arg][i] == '=')
-				equel_found = 1;
-			i++;
-		}
-		if (equel_found == 0)
-		{
-			*util_idx = arg;
-			if (arg == 0)
-				return 3;
-			else
-				return 2;
-		}
-		equel_found = 0;
-		i = 0;
-		arg++;
-	}
-	return 1;
-}
+// 	i = 0;
+// 	arg = 0;
+// 	equel_found = 0;
+// 	if (ac == 0)
+// 		return 0;
+// 	while (av[arg])
+// 	{
+// 		while (av[arg][i])
+// 		{
+// 			if (av[arg][i] == '=')
+// 				equel_found = 1;
+// 			i++;
+// 		}
+// 		if (equel_found == 0)
+// 		{
+// 			*util_idx = arg;
+// 			if (arg == 0)
+// 				return 3;
+// 			else
+// 				return 2;
+// 		}
+// 		equel_found = 0;
+// 		i = 0;
+// 		arg++;
+// 	}
+// 	return 1;
+// }
 
 int		parse_export(int ac, char **argv)
 {
@@ -81,46 +85,96 @@ void	lunch_utility(char **argv, int i)
 	}
 }
 
-void    ft_env(int ac, char** argv, char **environnement)
+int is_utility(char *var)
 {
-	envir	*env;
-	int		cas;
-	int 	i;
-	int		util_idx;
-
-	if ((!argv || !*argv) && ac != 0)
-		return;	
-	i = 0;
-	util_idx = 0;
-	cas = parse_env_args(ac, argv, &util_idx);
-	env = dup_env((envir *)environnement);
-	dprintf(1, "CASE = %d\n", cas);
-	if (cas == 0)
-		print_env(env);
-	else if (cas == 1)
-	{
-		while (i < ac)
-		{
-			add_env_var(env, argv[i]);
-			i++;
-		}
-		print_env(env);
-	}
-	else if (cas == 2)
-	{
-		while (i < util_idx)
-		{
-			add_env_var(env, argv[i]);
-			i++;
-		}
-		lunch_utility(argv, i);
-	}
-	else
-		lunch_utility(argv, i);
+	if(ft_strcmp(var, "echo") == 0)
+		return 1;
+	return 0;
 }
 
-// check la syntax de la nouvelle variable d'environnment
-// retourne 1 si une erreur de syntax est presente, sinon 0
+//A sécuriser
+//Fonctions de suppression de l'environnement à faire
+void	ft_env(int ac, char** argv, char **environnement)
+{
+	envir	*env;
+	int 	i;
+	int		x;
+	int		equal_found;
+
+	if (ac < 0) // A mettre a jour avec les bonnes valeurs
+		return;
+	i = 0;
+	x = 0;
+	equal_found = 0;
+	env = dup_env((envir *)environnement);	
+	while (argv != NULL && argv[i] != NULL)
+	{
+		while (argv[i][x])
+		{
+			if (argv[i][x] == '=')
+				equal_found = 1;
+			x++;
+		}
+		if (equal_found == 0)
+		{
+			if (is_utility(argv[i]) == 1)
+				lunch_utility(argv, i);
+			else
+				dprintf(1, "variable syntax error\n");
+			return ;
+		}
+		add_env_var(env, argv[i]);
+		equal_found = 0;
+		x = 0;
+		i++;
+	}
+	print_env(env);
+	return;
+}
+
+
+
+
+// void    ft_env(int ac, char** argv, char **environnement)
+// {
+// 	envir	*env;
+// 	int		cas;
+// 	int 	i;
+// 	int		util_idx;
+
+// 	if ((!argv || !*argv) && ac != 0)
+// 		return;	
+// 	i = 0;
+// 	util_idx = 0;
+// 	cas = parse_env_args(ac, argv, &util_idx);
+// 	env = dup_env((envir *)environnement);
+// 	dprintf(1, "CASE = %d\n", cas);
+// 	if (cas == 0)
+// 		print_env(env);
+// 	else if (cas == 1)
+// 	{
+// 		while (i < ac)
+// 		{
+// 			add_env_var(env, argv[i]);
+// 			i++;
+// 		}
+// 		print_env(env);
+// 	}
+// 	else if (cas == 2)
+// 	{
+// 		while (i < util_idx)
+// 		{
+// 			add_env_var(env, argv[i]);
+// 			i++;
+// 		}
+// 		lunch_utility(argv, i);
+// 	}
+// 	else
+// 		lunch_utility(argv, i);
+// }
+
+// // check la syntax de la nouvelle variable d'environnment
+// // retourne 1 si une erreur de syntax est presente, sinon 0
 
 
 envir	*init_env(int ac, char **environnement, char **envp)

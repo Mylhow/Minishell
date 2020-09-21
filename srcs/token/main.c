@@ -6,12 +6,17 @@
 #include <signal.h>
 #include "env.h" // à enlever
 
+        // ft_env(ac -1, av + 1, (char**)env); // commande pour lancer ft_env avec les argument de minishell
+        // export(ac, av, (char **)env); // pareil pour export
+        // print_env(env); //affiche la table d'environnement
+        // add_env_var(envir *env, char* var); Pour ajouter une variable à l'environnement (attention c'est une copie de la variable qui est crée, pensez a free() l'original)
+
 int main(int ac, char **av, char **environnement)
 {
     t_term      term;
 	envir       *env;
 
-    if (!(env = init_env(ac, av, environnement)))
+    if (!(env = init_env(ac, av, environnement))) // initialise l'environnement
         return -1;
     if (init_term(&term) == 0) /* initialise termcaps et. */
         if (config_term(&term) != 0)
@@ -24,11 +29,7 @@ int main(int ac, char **av, char **environnement)
             continue;
         main_token(&term);
         printf ("\n");
-        //ft_env(ac -1, av + 1, env);
-        //export(ac, av, (char **)env);
-        //print_env(env);
-        // printf ("$>%d, %d, %d", term.ndx_line, term.ndx_cursor, term.ndx_str);
-        // printf("$>\033[1D\033[K");
+
         printf("$>");
         fflush(stdout);
         ft_memset(term.str_cmd, '\0', term.nb_blocks * STR_SIZE);

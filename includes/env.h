@@ -32,6 +32,15 @@ void    ft_env(int ac, char** argv, char **environnement);
 // case 3: only utility
 	//lunch utility
 
+// case 0: nothing
+	//print env
+// case 1: only with "="
+	//add variables
+	//print env
+// case 2: One is without "="
+	// add variables
+	// lunch utility with the rest of the arguments
+
 envir   *new_var(char *var);
 //      fonction créant un nouveau maillon d'environnement(envir *) a partir d'un variable d'environnement(char *)
 
