@@ -94,6 +94,7 @@ int is_utility(char *var)
 
 //A sécuriser
 //Fonctions de suppression de l'environnement à faire
+// penser a checker les variables de ft_env aussi (faire une fonction variable_syntax() a utiliser dans ft_env et dans export)
 void	ft_env(int ac, char** argv, char **environnement)
 {
 	envir	*env;

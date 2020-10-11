@@ -5,7 +5,6 @@ int     escape_sequences(t_term *term)
 {
 	if (term->last_char == '\033')
 	{
-		// dprintf(1, "ESC");
 		term->esc_flag = 1;
 		return 1;
 	}

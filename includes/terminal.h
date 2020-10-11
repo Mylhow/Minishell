@@ -4,7 +4,7 @@
     #include "libft_put.h"
     #include "libft_mem.h"
     #include "libft_number.h"
-    #include <curses.h>
+    
     #include <term.h>
     #include <unistd.h>
     #include <stdio.h>
@@ -12,6 +12,16 @@
     
     #define STR_SIZE 64
     #define PROMPT_SIZE 2
+    
+    //tparm colors
+    #define COLOR_BLACK	0
+    #define COLOR_RED	1
+    #define COLOR_GREEN	2
+    #define COLOR_YELLOW	3
+    #define COLOR_BLUE	4
+    #define COLOR_MAGENTA	5
+    #define COLOR_CYAN	6
+    #define COLOR_WHITE	7
     // dprintf(1, "\033[6n"); //affiche la position du curseur
 
     typedef struct termios t_termios;

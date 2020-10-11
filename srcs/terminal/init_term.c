@@ -87,7 +87,7 @@ static void    print_start(t_term *term)
     
     tputs(term->caps.reset, 1, ft_m_putchar);
     tputs(tparm(term->caps.fcolor, COLOR_CYAN), 1, ft_m_putchar);
-    printf("\t~By Nlecaill, Dgascon et Lrobino\n\n");
+    printf("\t~By Nlecaill, Dgascon, Abourbou et Lrobino\n\n");
 }
 int init_term_variables(t_term *term)
 {

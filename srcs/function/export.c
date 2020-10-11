@@ -45,9 +45,7 @@ int    export(int ac, char **argv, char **environnment)
 	ret = 0;
 	env = (envir*)environnment;
 	if (!argv || !*argv)
-	{
 		return -1;
-	}
 	while (env->next)
 		env = env->next;
 	while (argv[i])

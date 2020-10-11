@@ -27,9 +27,9 @@ int main(int ac, char **av, char **environnement)
     {
         if (handle_key(&term))
             continue;
+        //TODO ajouter une condition avec term->last_char =='\n' 
         main_token(&term);
         printf ("\n");
-
         printf("$>");
         fflush(stdout);
         ft_memset(term.str_cmd, '\0', term.nb_blocks * STR_SIZE);
