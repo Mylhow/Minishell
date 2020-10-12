@@ -1,6 +1,8 @@
 #ifndef TERMINAL_H
 # define TERMINAL_H
 
+# include <term.h>
+
 # define T_CLEAR "clear"
 # define T_CLEOL "el"
 # define T_FCOLOR "setaf"
@@ -20,6 +22,12 @@
 # define T_LINE "lines"
 
 # define STR_SIZE 64
+# define PROMPT_SIZE 2
+
+# define LEFTCHAR 'D'
+# define RIGHTCHAR 'C'
+# define UPCHAR 'A'
+# define DOWNCHAR 'B'
 
 typedef struct 		termios	t_termios;
 
@@ -38,7 +46,15 @@ typedef struct		s_term
 }					t_term;
 
 t_term **getTerm(void);
-int init_term();
-int put_caps(char *caps, int color);
-int put_cursor(int col, int row);
+int     init_term(void);
+int     put_caps(char *caps, int color);
+int     put_cursor(int col, int row);
+void    insert(void);
+int     handle_key(void);
+char    *realloc_str(char *str, int new_size);
+void     move_right(void);
+void     move_left(void);
+void     move_up(void);
+void     move_down(void);
+
 #endif

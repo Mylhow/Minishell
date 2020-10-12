@@ -28,14 +28,16 @@ int main(int ac, char **av, char **environment)
 
 	if (!((*getTerm()) = wrmalloc(sizeof(t_term))))
 		return (ft_exit(EXIT_FAILURE));
-	if (init_term() == ft_exit(EXIT_FAILURE))
+	if (init_term() == EXIT_FAILURE)
 		return (ft_exit(EXIT_FAILURE));
 	printf("$>");
 	fflush(stdout);
 	while (read(STDIN_FILENO, &(*getTerm())->last_char, 1) > 0)
 	{
-		printf("\n");
-		printf("$>");
+	    if (!(handle_key()))
+            continue;
+		//printf("\n");
+		//printf("$>");
 		fflush(stdout);
 		ft_bzero((*getTerm())->str_cmd, (*getTerm())->nb_blocks * STR_SIZE);
 	}
