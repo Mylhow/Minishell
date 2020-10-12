@@ -11,11 +11,11 @@ PATH_LOG	=	logs
 PATH_LIBFT	=	lib/libft
 
 # List of sources
-SRCS_TOKEN	=	$(addprefix $(PATH_SRC)/token/, token.c token_utils.c main.c)
+SRCS_TOKEN	=	$(addprefix $(PATH_SRC)/token/, token.c token_utils.c)
 SRCS_TERM	=	$(addprefix $(PATH_SRC)/terminal/, init_term.c utils.c handle_key.c)
 # SRCS_ENV	=	$(addprefix $(PATH_SRC)/function/, ft_env.c)
 SRCS_OTHER  =   $(addprefix $(PATH_SRC)/function/, ft_echo.c ft_env.c export.c env_utils.c)
-SRCS		=	$(SRCS_TOKEN) $(SRCS_OTHER) $(SRCS_TERM) $(SRCS_ENV)
+SRCS		=	$(SRCS_TOKEN) $(SRCS_OTHER) $(SRCS_TERM) $(SRCS_ENV) $(addprefix $(PATH_SRC)/, main.c)
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
 INCS		=	$(addprefix $(PATH_INC)/, minishell.h terminal.h token.h env.h)
 LOG			=	$(PATH_LOG)/minishell.log
@@ -30,9 +30,9 @@ COMP_ADD	=	-I$(PATH_LIBFT)/$(PATH_INC) -I$(PATH_INC)
 RM			=	/bin/rm
 
 # Color Code and template code
-_YELLOW		=	\e[38;5;184m
-_GREEN		=	\e[38;5;46m
-_RESET		=	\e[0m
+_YELLOW		=	\033[38;5;184m
+_GREEN		=	\033[38;5;46m
+_RESET		=	\033[0m
 _INFO		=	[$(_YELLOW)INFO$(_RESET)]
 _SUCCESS	=	[$(_GREEN)SUCCESS$(_RESET)]
 
@@ -48,6 +48,10 @@ $(NAME): $(OBJS) $(INCS)
 	@ (set -x; $(COMP) $(COMP_FLAG) $(COMP_ADD) -o $(NAME) $(OBJS) $(LIBFT)) >> $(LOG) 2>&1
 
 $(PATH_OBJ)/%.o : $(PATH_SRC)/*/%.c  $(INCS)
+	@ (set -x; $(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@) >> $(LOG) 2>&1
+	@ echo "$(_INFO) Compilation of $*"
+
+$(PATH_OBJ)/%.o : $(PATH_SRC)/%.c  $(INCS)
 	@ (set -x; $(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@) >> $(LOG) 2>&1
 	@ echo "$(_INFO) Compilation of $*"
 
