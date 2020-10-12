@@ -19,7 +19,7 @@ SRCS		=	$(SRCS_TERM) $(addprefix $(PATH_SRC)/, main.c)
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
 INCS		=	$(addprefix $(PATH_INC)/, minishell.h terminal.h)
 LOG			=	$(PATH_LOG)/minishell.log
-LIBFT		=	-L$(PATH_LIBFT) -lft -lncurses
+LIBFT		=	-L$(PATH_LIBFT) -lft
 
 # Commands of compilation
 COMP		=	clang
@@ -45,7 +45,7 @@ init:
 	@ make -C $(PATH_LIBFT)
 
 $(NAME): $(OBJS) $(INCS)
-	@ (set -x; $(COMP) $(COMP_FLAG) $(COMP_ADD) -o $(NAME) $(OBJS) $(LIBFT)) >> $(LOG) 2>&1
+	@ (set -x; $(COMP) $(COMP_FLAG) $(COMP_ADD) -o $(NAME) $(OBJS) $(LIBFT) -lncurses) >> $(LOG) 2>&1
 
 $(PATH_OBJ)/%.o : $(PATH_SRC)/*/%.c  $(INCS)
 	@ (set -x; $(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@) >> $(LOG) 2>&1

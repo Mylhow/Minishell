@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <curses.h>
 #include "libft_put.h"
+#include "libft_string.h"
 #include "../../includes/terminal.h"
 
 int put_caps(char *caps, int color)
@@ -11,7 +12,7 @@ int put_caps(char *caps, int color)
 
 	caps_get = tigetstr(caps);
 
-	if (caps == T_FCOLOR || caps == T_BCOLOR)
+	if (!(ft_strcmp(caps, T_FCOLOR)) || !(ft_strcmp(caps, T_BCOLOR)))
 	{
 		ret = tputs(tparm(caps_get, color), 1, putchar);
 	}
