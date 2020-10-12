@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Minishell"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/dgascon/Documents/Minishell/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/dgascon/Documents/Minishell/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/dgascon/Documents/Minishell/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Minishell">
+				<Option output="/Users/dgascon/Documents/Minishell/cmake-build-debug/Minishell" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/dgascon/Documents/Minishell/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/dgascon/Documents/Minishell/lib/libft/includes"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.1/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 Minishell"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Minishell/fast">
+				<Option output="/Users/dgascon/Documents/Minishell/cmake-build-debug/Minishell" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/dgascon/Documents/Minishell/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/dgascon/Documents/Minishell/lib/libft/includes"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.1/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 Minishell/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/dgascon/Documents/Minishell/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/dgascon/Documents/Minishell/includes/terminal.h">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/includes/libft.h">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/includes/libft_ctype.h">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/includes/libft_gnl.h">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/includes/libft_list.h">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/includes/libft_mem.h">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/includes/libft_number.h">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/includes/libft_put.h">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/includes/libft_string.h">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_isalnum.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_isalpha.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_isdigit.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_islower.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_isprint.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_isspace.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_isupper.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_isxdigit.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_tolower.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/ctype/ft_toupper.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/gnl/get_next_line.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/gnl/get_next_line_utils.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/list/ft_lstadd_back.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/list/ft_lstadd_front.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/list/ft_lstclear.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/list/ft_lstdelone.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/list/ft_lstiter.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/list/ft_lstlast.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/list/ft_lstmap.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/list/ft_lstnew.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/list/ft_lstsize.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/mem/ft_calloc.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/mem/ft_wrmalloc.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/number/ft_atoi.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/number/ft_digit.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/number/ft_itoa.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/put/ft_putchar.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/put/ft_putnbr.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/put/ft_putstr.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_bzero.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_charstr.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_chartostr.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_memccpy.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_memchr.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_memcmp.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_memcpy.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_memrchr.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_memset.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_split.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_strcat.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_strchr.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_strcmp.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_strdup.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_strichr.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_strjoin.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_strlcpy.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_strlen.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_strncmp.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/lib/libft/srcs/string/ft_substr.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/srcs/main.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/srcs/terminal/utils.c">
+			<Option target="Minishell"/>
+		</Unit>
+		<Unit filename="/Users/dgascon/Documents/Minishell/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
