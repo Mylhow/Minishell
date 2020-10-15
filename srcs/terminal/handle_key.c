@@ -1,118 +1,90 @@
 #include "terminal.h"
 #include <stdio.h>
-#include "libft.h"
+#include "libft_mem.h"
+#include "libft_string.h"
+#include "libft_number.h"
+#include "libft_printf.h"
 
-static int     escape_sequences()
-{
-    t_term *term;
 
-    term = (*getTerm());
-    if (term->last_char == '\033') {
-        term->esc_flag = 1;
-        return (EXIT_FAILURE);
-    }
-    else if (term->esc_flag == 1 && term->last_char == '[')
-    {
-        term->esc_flag = 2;
-        return (EXIT_FAILURE);
-    }
-    else if (term->esc_flag == 2)
-    {
-        if (term->last_char == LEFTCHAR)
-            move_left();
-        else if (term->last_char == RIGHTCHAR)
-            move_right();
-        else if (term->last_char == UPCHAR)
-            move_up();
-        else if (term->last_char == DOWNCHAR)
-            move_down();
-        term->esc_flag = 0;
-        return (EXIT_FAILURE);
-    }
-    return (EXIT_SUCCESS);
-}
-
-static int     backspace()
-{
-    t_term *term;
-    int i;
-
-    term = (*getTerm());
-
-    i = -1;
-    if (term->ndx_str > 0)
-    {
-        term->ndx_str--;
-        while (term->ndx_str + ++i <= term->str_size)
-            term->str_cmd[term->ndx_str + i] = term->str_cmd[term->ndx_str + i + 1];
-        term->ndx_cursor--;
-        term->str_size--;
-        term->str_cmd[term->ndx_str + i + 1] = '\0';
-        put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
-        put_caps(T_CLEOL, 0);
-        dprintf(1, "%s", term->str_cmd + term->ndx_str);
-        put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
-    }
-    // debug(term);
-    return EXIT_SUCCESS;
-}
-
-void    insert()
+static void	insert(t_block *block)
 {
     t_term *term;
     int i;
 
     i = 0;
     term = (*getTerm());
-    while (term->str_size - i > term->ndx_str)
-    {
-        term->str_cmd[term->str_size - i] = term->str_cmd[term->str_size - 1 - i];
-        i++;
-    }
-    term->str_cmd[term->ndx_str] = term->last_char;
+    block->str_cmd[block->ndx_str] = term->last_char;
     put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
-    dprintf(1, "%s", term->str_cmd + term->ndx_str);
+    ft_printf("%s", block->str_cmd + block->ndx_str);
     term->ndx_cursor++;
-    term->ndx_str++;
-    term->str_size++;
+    block->ndx_str++;
+    block->size++;
 }
 
-static int     check_key()
+static int ft_return_line(t_term *term, t_block *block)
+{
+	t_hash	*hash;
+
+	if (block->str_cmd[block->size - 1] == '\\')
+	{
+		if (!(hash = ft_hashnew(ft_strjoin("block_",
+										   ft_itoa(ft_hashlen(term->list_blocks) + 1)), ft_blocknew())))
+			return (EXIT_FAILURE);
+		ft_hashadd_back(&(term->list_blocks), hash);
+		term->ndx_line++;
+		term->ndx_cursor = 0;
+		printf("\n> ");
+		term->current_block = hash;
+		return (2);
+	}
+	return (EXIT_SUCCESS);
+}
+
+static int	check_key(t_block *block)
 {
     t_term  *term;
-    int     line;
 
     term = (*getTerm());
-    line = tigetnum(T_LINE);
     if (term->last_char == '\033' || term->esc_flag == 1 || term->esc_flag == 2)
-        return (escape_sequences());
+        return (escape_sequences(block));
     if (term->last_char == 127 || term->last_char == 8)
-        return (!backspace());
+        return (!backspace(block));
     if (term->last_char != '\n')
     {
-        if (term->ndx_str == STR_SIZE * term->nb_blocks - 1)
+		if (block->ndx_str == STR_SIZE * block->nb_blocks)
         {
-            term->str_cmd = realloc_str(term->str_cmd, (term->nb_blocks + 1) * STR_SIZE);
-            term->nb_blocks++;
+			block->nb_blocks++;
+			if (!(block->str_cmd = realloc_str(block->str_cmd, (block->nb_blocks) * STR_SIZE)))
+				return (EXIT_FAILURE);
         }
-        insert();
-        return (EXIT_FAILURE);
+        insert(block);
+		debug(term);
+		return (2);
     }
-    return (EXIT_SUCCESS);
+    else
+		return (ft_return_line(term, block));
 }
 
-int     handle_key()
+int			handle_key()
 {
-    t_term *term;
+    t_term	*term;
+    t_block *block;
+	int 	ret;
 
     term = (*getTerm());
-    if (check_key())
-        return (EXIT_FAILURE);
-    if (term->str_cmd[0] != '\0' && term->last_char == '\n')
-        dprintf(1, "\n");
+    debug(term);
+	block = (t_block *)(term->current_block)->value;
+	ret = check_key(block);
+	if (ret == 2)
+		return (2);
+	if (ret == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+    if (block->str_cmd[0] == '\0' || term->last_char == '\n')
+        ft_printf("\n");
     term->ndx_cursor = 0;
-    term->ndx_str = 0;
-    term->str_size = 0;
+    block->ndx_str = 0;
+    block->size = 0;
     term->ndx_line++;
-    return (EXIT_SUCCESS);
+	debug(term);
+	return (EXIT_SUCCESS);
 }

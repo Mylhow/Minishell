@@ -1,67 +1,58 @@
 #include "terminal.h"
 
-void     move_right()
+void     move_right(t_block *block)
 {
-    t_term *term;
+	t_term *term;
 
-    term = (*getTerm());
-    if (term->ndx_str < term->str_size)
-    {
-        if (term->ndx_cursor < tigetnum(T_COLUMN))
-        {
-            term->ndx_cursor++;
-            put_caps(T_RIGHT, 0);
-        }
-        else
-        {
-            term->ndx_cursor = 0;
-            term->ndx_line += 1;
-            put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
-        }
-        term->ndx_str++;
-    }
+	term = (*getTerm());
+	if (term->ndx_cursor < block->ndx_str)
+	{
+		term->ndx_cursor++;
+		put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
+	}
 }
 
-void     move_left()
+void     move_left(t_block *block)
 {
     t_term *term;
 
     term = (*getTerm());
-    if (term->ndx_str > 0)
-    {
-        if (term->ndx_cursor > 0)
-        {
-            term->ndx_cursor--;
-            put_caps(T_LEFT, 0);
-        }
-        else
-        {
-            term->ndx_cursor = tigetnum(T_COLUMN);
-            term->ndx_line -= 1;
-            put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
-        }
-        term->ndx_str--;
-    }
+	(void)block;
+    if (term->ndx_cursor > 0)
+	{
+    	term->ndx_cursor--;
+		put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
+	}
 }
 
-void     move_up()
+void     move_up(t_block *block)
 {
     t_term *term;
 
     term = (*getTerm());
-    if (term->ndx_str / tigetnum(T_COLUMN) > 1)
+    if (term->current_block->before)
     {
-        term->ndx_str -= tigetnum(T_COLUMN);
+    	term->current_block = term->current_block->before;
+    	block = term->current_block->value;
+		if (term->ndx_cursor > block->ndx_str)
+			term->ndx_cursor = block->ndx_str;
         term->ndx_line -= 1;
-        put_caps(T_UP, 0);
+        put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
     }
 }
 
-void     move_down()
+void     move_down(t_block *block)
 {
-    t_term *term;
+	t_term *term;
 
-    term = (*getTerm());
-    if (term->ndx_str / tigetnum(T_COLUMN) < term->str_size / tigetnum(T_COLUMN))
-        put_caps(T_DOWN, 0);
+	term = (*getTerm());
+	if (term->current_block->next)
+	{
+		term->current_block = term->current_block->next;
+		block = term->current_block->value;
+		if (term->ndx_cursor > block->ndx_str)
+			term->ndx_cursor = block->ndx_str;
+		term->ndx_line += 1;
+		put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
+	}
 }

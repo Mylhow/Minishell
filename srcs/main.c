@@ -1,11 +1,9 @@
 #include <unistd.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include <term.h>
-#include <curses.h>
 #include "libft_mem.h"
-#include "libft_string.h"
 #include "../includes/terminal.h"
+#include "libft_printf.h"
 
 int ft_exit(int exit_status)
 {
@@ -20,6 +18,29 @@ t_term **getTerm(void)
 	return (&term);
 }
 
+static int update()
+{
+	printf("$ ");
+	fflush(stdout);
+	while (read(STDIN_FILENO, &(*getTerm())->last_char, 1) > 0)
+	{
+		if (!(handle_key()))
+		{
+			ft_hashclear(&((*getTerm())->list_blocks));
+			if (!((*getTerm())->list_blocks = ft_hashnew("block_1", ft_blocknew())))
+				return (ft_exit(EXIT_FAILURE));
+			(*getTerm())->current_block = (*getTerm())->list_blocks;
+			ft_printf("$ ");
+			fflush(stdout);
+			continue;
+		}
+		fflush(stdout);
+
+	}
+	close(STDIN_FILENO);
+	return (EXIT_SUCCESS);
+}
+
 int main(int ac, char **av, char **environment)
 {
 	(void) ac;
@@ -28,19 +49,10 @@ int main(int ac, char **av, char **environment)
 
 	if (!((*getTerm()) = wrmalloc(sizeof(t_term))))
 		return (ft_exit(EXIT_FAILURE));
-	if (init_term() == EXIT_FAILURE)
+	if (init_term())
 		return (ft_exit(EXIT_FAILURE));
-	printf("$>");
-	fflush(stdout);
-	while (read(STDIN_FILENO, &(*getTerm())->last_char, 1) > 0)
-	{
-	    if (!(handle_key()))
-            continue;
-		//printf("\n");
-		//printf("$>");
-		fflush(stdout);
-		ft_bzero((*getTerm())->str_cmd, (*getTerm())->nb_blocks * STR_SIZE);
-	}
+	if (update())
+		return (ft_exit(EXIT_FAILURE));
 	if (tcsetattr(0, 0, &(*getTerm())->termios_backup) == -1)
 		return (ft_exit(EXIT_FAILURE));
 	return (ft_exit(EXIT_SUCCESS));
