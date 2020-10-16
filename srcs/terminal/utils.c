@@ -70,15 +70,11 @@ void    debug(t_term *term)
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
 		put_caps(T_CLEOL, 0);
-		dprintf(1, "%-18s = %d\n", "ndx_str", block->ndx_str);
+		dprintf(1, "%-18s = %d\n", "size", block->size);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
 		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %s\n", "str_cmd", block->str_cmd);
-		tmp++;
-		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-		put_caps(T_CLEOL, 0);
-		dprintf(1, "%-18s = %d\n", "str_cmd_size", block->size);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
 		put_caps(T_CLEOL, 0);

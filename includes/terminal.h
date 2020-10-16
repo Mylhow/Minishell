@@ -29,15 +29,14 @@
 # define RIGHTCHAR 'C'
 # define UPCHAR 'A'
 # define DOWNCHAR 'B'
-# define DELCHAR 127 //TODO autant mettre celui là aussi
-# define BACKSPACE 8 //TODO autant mettre celui là aussi
+# define DELCHAR 127
+# define BACKSPACE 8
 
 typedef struct 		termios	t_termios;
 
 typedef struct		s_block
 {
 	int				nb_blocks;
-	int 			ndx_str;
 	int 			size;
 	char 			*str_cmd;
 	char 			*str_put;

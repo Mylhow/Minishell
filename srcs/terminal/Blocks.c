@@ -12,7 +12,6 @@ t_block *ft_blocknew(void)
 		return (0);
 	ptr->nb_blocks = 1;
 	ptr->size = 0;
-	ptr->ndx_str = 0;
 	if ((ptr->str_cmd = (char *)wrmalloc(STR_SIZE * ptr->nb_blocks)) == 0)
 		return (0);
 	if ((ptr->str_put = (char *)wrmalloc(STR_SIZE * ptr->nb_blocks)) == 0)
@@ -27,5 +26,5 @@ void ft_blockprint(t_block *block)
 {
 	if (!block)
 		return;
-	ft_printf("{nbBlocks: %d}[ndx: %d] = ([%d] '%s') = ('%s')\n", block->nb_blocks, block->ndx_str, block->size, block->str_cmd, block->str_put);
+	ft_printf("{nbBlocks: %d} = ([%d] '%s') = ('%s')\n", block->nb_blocks, block->size, block->str_cmd, block->str_put);
 }

@@ -5,7 +5,7 @@ void     move_right(t_block *block)
 	t_term *term;
 
 	term = (*getTerm());
-	if (term->ndx_cursor < block->ndx_str)
+	if (term->ndx_cursor < block->size)
 	{
 		term->ndx_cursor++;
 		put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
@@ -34,8 +34,8 @@ void     move_up(t_block *block)
     {
     	term->current_block = term->current_block->before;
     	block = term->current_block->value;
-		if (term->ndx_cursor > block->ndx_str)
-			term->ndx_cursor = block->ndx_str;
+		if (term->ndx_cursor > block->size)
+			term->ndx_cursor = block->size;
         term->ndx_line -= 1;
         put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
     }
@@ -50,8 +50,8 @@ void     move_down(t_block *block)
 	{
 		term->current_block = term->current_block->next;
 		block = term->current_block->value;
-		if (term->ndx_cursor > block->ndx_str)
-			term->ndx_cursor = block->ndx_str;
+		if (term->ndx_cursor > block->size)
+			term->ndx_cursor = block->size;
 		term->ndx_line += 1;
 		put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
 	}

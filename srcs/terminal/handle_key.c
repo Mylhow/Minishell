@@ -12,10 +12,10 @@ static void	insert(t_block *block)
 
     term = (*getTerm());
 	put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
-	if (term->ndx_cursor < block->ndx_str)
+	if (term->ndx_cursor < block->size)
 	{
 		tmp = ft_strdup(block->str_cmd);
-		ft_bzero(block->str_cmd, block->ndx_str);
+		ft_bzero(block->str_cmd, block->size);
 		ft_memcpy(block->str_cmd, tmp, term->ndx_cursor);
 		block->str_cmd[term->ndx_cursor] = term->last_char;
 		ft_strcat(block->str_cmd, tmp + term->ndx_cursor);
@@ -24,11 +24,10 @@ static void	insert(t_block *block)
 	}
 	else
 	{
-		block->str_cmd[block->ndx_str] = term->last_char;
-		ft_printf("%s", block->str_cmd + block->ndx_str);
+		block->str_cmd[block->size] = term->last_char;
+		ft_printf("%s", block->str_cmd + block->size);
 	}
 	term->ndx_cursor++;
-    block->ndx_str++;
     block->size++;
 	put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
 }
@@ -63,7 +62,7 @@ static int	check_key(t_block *block)
         return (!backspace(block));
     if (term->last_char != '\n')
     {
-		if (block->ndx_str == STR_SIZE * block->nb_blocks) //TODO passer à une variable block->alloc_size
+		if (block->size == STR_SIZE * block->nb_blocks) //TODO passer à une variable block->alloc_size
         {
 			block->nb_blocks++;
 			if (!(block->str_cmd = realloc_str(block->str_cmd, (block->nb_blocks) * STR_SIZE)))
@@ -88,13 +87,12 @@ int			handle_key()
 	block = (t_block *)(term->current_block)->value;
 	ret = check_key(block);
 	if (ret == 2)
-		return (2); //TODO pourquoi un retour spécial alors que tu ne récupere que du booléen de l'autre coté?
+		return (2);
 	if (ret == EXIT_FAILURE)
 		return (EXIT_FAILURE);
     if (block->str_cmd[0] == '\0' || term->last_char == '\n')
         ft_printf("\n");
     term->ndx_cursor = 0;
-    block->ndx_str = 0;
     block->size = 0;
     term->ndx_line++;
 	debug(term);
