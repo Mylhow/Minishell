@@ -32,6 +32,7 @@ static int update()
 			(*getTerm())->current_block = (*getTerm())->list_blocks;
 			ft_printf("$ ");
 			fflush(stdout);
+			put_caps(T_CLEOL, 0);
 			continue;
 		}
 		fflush(stdout);

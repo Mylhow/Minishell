@@ -47,78 +47,49 @@ char *realloc_str(char *str, int new_size)
     return (tmp);
 }
 
-static void freedebug(t_term *term)
-{
-	t_block *block;
-	int tmp;
-
-	tmp = 3;
-	block = (t_block *)term->list_blocks->last(term->list_blocks)->value;
-	put_caps(T_SAVE, 0);
-	put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-	dprintf(1, "%-100s\n", " ");
-	tmp ++;
-	put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-	dprintf(1, "%-100s\n", " ");
-	tmp ++;
-	put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-	dprintf(1, "%-100s\n", " ");
-	tmp ++;
-	put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-	dprintf(1, "%-100s\n", " ");
-	tmp ++;
-	put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-	dprintf(1, "%-100s\n", " ");
-	tmp ++;
-	put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-	dprintf(1, "%-100s\n", " ");
-	tmp ++;
-	put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-	dprintf(1, "%-100s\n", " ");
-	tmp ++;
-	put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-	dprintf(1, "%-100s\n", " ");
-	tmp ++;
-	put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-	dprintf(1, "%-100s\n", " ");
-	put_caps(T_RESTORE, 0);
-}
-
 void    debug(t_term *term)
 {
 	t_block *block;
     int tmp;
 
     tmp = 3;
-    if (0) {
-		freedebug(term);
+    if (1) {
 		block = (t_block *) (term->current_block)->value;
 		put_caps(T_SAVE, 0);
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
-		dprintf(1, "%-18s = '%c' code:%d    \n", "last_char", term->last_char, (int) term->last_char);
+		put_caps(T_CLEOL, 0);
+		dprintf(1, "%-18s = '%c' code:%d\n", "last_char", term->last_char, (int) term->last_char);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
+		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %d\n", "ndx_cursor", term->ndx_cursor);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
+		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %d\n", "ndx_line", term->ndx_line);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
+		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %d\n", "ndx_str", block->ndx_str);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
+		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %s\n", "str_cmd", block->str_cmd);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
+		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %d\n", "str_cmd_size", block->size);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
+		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %d\n", "nb_block", block->nb_blocks);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
+		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %d\n", "str_cmd_alloc_size", block->nb_blocks * STR_SIZE);
 		tmp++;
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
+		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %s\n", "last_name_block", term->current_block->key);
 		put_caps(T_RESTORE, 0);
 	}

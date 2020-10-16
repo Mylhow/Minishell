@@ -5,20 +5,32 @@
 #include "libft_number.h"
 #include "libft_printf.h"
 
-
 static void	insert(t_block *block)
 {
-    t_term *term;
-    int i;
+    t_term	*term;
+    char	*tmp;
 
-    i = 0;
     term = (*getTerm());
-    block->str_cmd[block->ndx_str] = term->last_char;
-    put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
-    ft_printf("%s", block->str_cmd + block->ndx_str);
-    term->ndx_cursor++;
+	put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
+	if (term->ndx_cursor < block->ndx_str)
+	{
+		tmp = ft_strdup(block->str_cmd);
+		ft_bzero(block->str_cmd, block->ndx_str);
+		ft_memcpy(block->str_cmd, tmp, term->ndx_cursor);
+		block->str_cmd[term->ndx_cursor] = term->last_char;
+		ft_strcat(block->str_cmd, tmp + term->ndx_cursor);
+		put_caps(T_CLEOL, 0);
+		ft_printf("%s", block->str_cmd + term->ndx_cursor);
+	}
+	else
+	{
+		block->str_cmd[block->ndx_str] = term->last_char;
+		ft_printf("%s", block->str_cmd + block->ndx_str);
+	}
+	term->ndx_cursor++;
     block->ndx_str++;
     block->size++;
+	put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
 }
 
 static int ft_return_line(t_term *term, t_block *block)
