@@ -4,6 +4,24 @@
 #include "libft_mem.h"
 #include "libft_string.h"
 
+static void move_manage(t_term *term, t_block *block)
+{
+	if (term->last_char == LEFTCHAR)
+		move_left(block);
+	else if (term->last_char == RIGHTCHAR)
+		move_right(block);
+	else if (term->last_char == UPCHAR)
+		move_up(block);
+	else if (term->last_char == DOWNCHAR)
+		move_down(block);
+	else if (term->last_char == HOMECHAR)
+		term->ndx_cursor = 0;
+	else if (term->last_char == ENDCHAR)
+		term->ndx_cursor = block->size;
+	put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
+	term->esc_flag = 0;
+}
+
 int	escape_sequences(t_block *block)
 {
 	t_term *term;
@@ -20,15 +38,7 @@ int	escape_sequences(t_block *block)
 	}
 	else if (term->esc_flag == 2)
 	{
-		if (term->last_char == LEFTCHAR)
-			move_left(block);
-		else if (term->last_char == RIGHTCHAR)
-			move_right(block);
-		else if (term->last_char == UPCHAR)
-			move_up(block);
-		else if (term->last_char == DOWNCHAR)
-			move_down(block);
-		term->esc_flag = 0;
+		move_manage(term, block);
 		return (2);
 	}
 	return (EXIT_SUCCESS);
@@ -40,7 +50,7 @@ int	backspace(t_block *block)
 	char	*tmp;
 
 	term = (*getTerm());
-	if (block->size > 0)
+	if (block->size > 0 && term->ndx_cursor > 0)
 	{
 		tmp = ft_strdup(block->str_cmd);
 		ft_bzero(block->str_cmd, block->size);

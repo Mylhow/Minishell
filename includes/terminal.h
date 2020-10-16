@@ -31,6 +31,8 @@
 # define DOWNCHAR 'B'
 # define DELCHAR 127
 # define BACKSPACE 8
+# define ENDCHAR 'F'
+# define HOMECHAR 'H'
 
 typedef struct 		termios	t_termios;
 
