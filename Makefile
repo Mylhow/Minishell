@@ -11,11 +11,11 @@ PATH_LOG	=	logs
 PATH_LIBFT	=	lib/libft
 
 # List of sources
-SRCS_TOKEN	=	$(addprefix $(PATH_SRC)/token/, token.c token_utils.c)
-SRCS_TERM	=	$(addprefix $(PATH_SRC)/terminal/, init_term.c utils.c handle_key.c)
-# SRCS_ENV	=	$(addprefix $(PATH_SRC)/function/, ft_env.c)
-SRCS_OTHER  =   $(addprefix $(PATH_SRC)/function/, ft_echo.c ft_env.c export.c env_utils.c)
-SRCS		=	$(SRCS_TOKEN) $(SRCS_OTHER) $(SRCS_TERM) $(SRCS_ENV) $(addprefix $(PATH_SRC)/, main.c)
+SRCS_TOKEN	=	token.c token_utils.c
+SRCS_TERM	=	init_term.c utils.c handle_key.c
+SRCS_EXEC	=	exec_str.c exec_utils.c redirect.c
+SRCS_OTHER  =   ft_echo.c ft_env.c export.c env_utils.c
+SRCS		=	$(addprefix $(PATH_SRC)/exec/, $(SRCS_EXEC)) $(addprefix $(PATH_SRC)/token/, $(SRCS_TOKEN)) $(addprefix $(PATH_SRC)/builtins/, $(SRCS_OTHER)) $(addprefix $(PATH_SRC)/terminal/, $(SRCS_TERM)) $(SRCS_ENV) $(addprefix $(PATH_SRC)/, main.c)
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
 INCS		=	$(addprefix $(PATH_INC)/, minishell.h terminal.h token.h env.h)
 LOG			=	$(PATH_LOG)/minishell.log
