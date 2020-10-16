@@ -11,11 +11,13 @@ static int init_term_variables(void)
 	t_block *block;
 
 	term = (*getTerm());
+	term->nb_cols = tigetnum(T_COLUMN);
 	if (!(block = ft_blocknew()))
 		return (EXIT_FAILURE);
 	term->list_blocks = ft_hashnew("block_1", block);
 	term->current_block = term->list_blocks;
 	term->ndx_cursor = 0;
+	term->cursor_pos = PROMPT_SIZE;
 	term->ndx_line = 0;
 	term->last_char = '\0';
 	term->esc_flag = 0;

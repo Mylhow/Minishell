@@ -17,6 +17,12 @@ void     move_left(t_block *block)
 	(void)block;
     if (term->ndx_cursor > 0)
     	term->ndx_cursor--;
+	term->cursor_pos--;
+	if (term->cursor_pos < PROMPT_SIZE)
+	{
+		term->cursor_pos = term->nb_cols;
+		term->ndx_line--;	
+	}
 }
 
 void     move_up(t_block *block)
