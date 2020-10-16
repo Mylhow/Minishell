@@ -31,14 +31,14 @@ static int update()
 				return (ft_exit(EXIT_FAILURE));
 			(*getTerm())->current_block = (*getTerm())->list_blocks;
 			ft_printf("$ ");
-			fflush(stdout);
+			fflush(stdout); //TODO why stdout et pas stdin
 			put_caps(T_CLEOL, 0);
 			continue;
 		}
-		fflush(stdout);
+		fflush(stdout); //TODO why stdout et pas stdin
 
 	}
-	close(STDIN_FILENO);
+	close(STDIN_FILENO); //TODO why closing stdin_filno? you don't open it
 	return (EXIT_SUCCESS);
 }
 

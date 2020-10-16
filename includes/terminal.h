@@ -29,6 +29,8 @@
 # define RIGHTCHAR 'C'
 # define UPCHAR 'A'
 # define DOWNCHAR 'B'
+# define DELCHAR 127 //TODO autant mettre celui là aussi
+# define BACKSPACE 8 //TODO autant mettre celui là aussi
 
 typedef struct 		termios	t_termios;
 
@@ -67,6 +69,6 @@ void    move_down(t_block *block);
 void	ft_blockprint(t_block *block);
 t_block *ft_blocknew(void);
 void    debug(t_term *term);
-int	escape_sequences(t_block *block);
-int	backspace(t_block *block);
+int		escape_sequences(t_block *block);
+int		backspace(t_block *block);
 #endif

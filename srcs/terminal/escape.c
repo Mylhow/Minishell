@@ -27,12 +27,12 @@ int	escape_sequences(t_block *block)
 		else if (term->last_char == DOWNCHAR)
 			move_down(block);
 		term->esc_flag = 0;
-		return (2);
+		return (2); //TODO pourquoi toujour renvoyer une valeur identique autre que FAILURE ou SUCCESSE?
 	}
-	return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS); //TODO pourquoi EXIT_SUCCESSE? EXIT_FAILURE plutot non?
 }
 
-int	backspace(t_block *block)
+int	backspace(t_block *block)//TODO comment faire du multi-lignes si on ne passe qu'une ligen a la fonction?
 {
 	t_term *term;
 	int i;

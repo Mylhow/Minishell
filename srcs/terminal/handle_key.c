@@ -56,14 +56,14 @@ static int	check_key(t_block *block)
 {
     t_term  *term;
 
-    term = (*getTerm());
+    term = *(getTerm());
     if (term->last_char == '\033' || term->esc_flag == 1 || term->esc_flag == 2)
         return (escape_sequences(block));
-    if (term->last_char == 127 || term->last_char == 8)
+    if (term->last_char == DELCHAR || term->last_char == BACKSPACE)
         return (!backspace(block));
     if (term->last_char != '\n')
     {
-		if (block->ndx_str == STR_SIZE * block->nb_blocks)
+		if (block->ndx_str == STR_SIZE * block->nb_blocks) //TODO passer à une variable block->alloc_size
         {
 			block->nb_blocks++;
 			if (!(block->str_cmd = realloc_str(block->str_cmd, (block->nb_blocks) * STR_SIZE)))
@@ -88,7 +88,7 @@ int			handle_key()
 	block = (t_block *)(term->current_block)->value;
 	ret = check_key(block);
 	if (ret == 2)
-		return (2);
+		return (2); //TODO pourquoi un retour spécial alors que tu ne récupere que du booléen de l'autre coté?
 	if (ret == EXIT_FAILURE)
 		return (EXIT_FAILURE);
     if (block->str_cmd[0] == '\0' || term->last_char == '\n')
