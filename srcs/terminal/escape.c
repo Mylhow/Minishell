@@ -1,6 +1,8 @@
 #include "terminal.h"
 #include "libft_printf.h"
 #include "libft.h"
+#include "libft_mem.h"
+#include "libft_string.h"
 
 int	escape_sequences(t_block *block)
 {
@@ -35,21 +37,21 @@ int	escape_sequences(t_block *block)
 int	backspace(t_block *block)
 {
 	t_term *term;
-	int i;
+	char	*tmp;
 
 	term = (*getTerm());
-	i = -1;
 	if (block->ndx_str > 0)
 	{
-		block->ndx_str--;
-		while (block->ndx_str + ++i <= block->size)
-			block->str_cmd[block->ndx_str + i] = block->str_cmd[block->ndx_str + i + 1];
-		term->ndx_cursor--;
-		block->size--;
-		block->str_cmd[block->ndx_str + i + 1] = '\0';
-		put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
+		tmp = ft_strdup(block->str_cmd);
+		ft_bzero(block->str_cmd, block->ndx_str);
+		ft_memcpy(block->str_cmd, tmp, term->ndx_cursor - 1);
+		ft_strcat(block->str_cmd, tmp + term->ndx_cursor);
+		put_cursor(term->ndx_cursor + PROMPT_SIZE - 1, term->ndx_line);
 		put_caps(T_CLEOL, 0);
-		ft_printf("%s", block->str_cmd + block->ndx_str);
+		ft_printf("%s", block->str_cmd + term->ndx_cursor - 1);
+		block->ndx_str--;
+		block->size--;
+		term->ndx_cursor--;
 		put_cursor(term->ndx_cursor + PROMPT_SIZE, term->ndx_line);
 	}
 	return (EXIT_SUCCESS);
