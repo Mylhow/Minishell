@@ -26,6 +26,7 @@ static int update()
 	{
 		if (!(handle_key()))
 		{
+			dprintf(1, "str_cmd=%s", ((*getTerm())->current_block)->value->);
 			ft_hashclear(&((*getTerm())->list_blocks));
 			if (!((*getTerm())->list_blocks = ft_hashnew("block_1", ft_blocknew())))
 				return (ft_exit(EXIT_FAILURE));

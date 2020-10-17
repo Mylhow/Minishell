@@ -59,10 +59,10 @@ int	backspace(t_block *block)
 		put_cursor(term->cursor_pos - 1, term->ndx_line);
 		put_caps(T_CLEOL, 0);
 		ft_printf("%s", block->str_cmd + term->ndx_cursor - 1);
-		block->size--;
 		term->ndx_cursor--;
+		block->size--;
 		term->cursor_pos--;
-		if (term->cursor_pos == PROMPT_SIZE)
+		if (term->cursor_pos < 0)
 		{
 			term->cursor_pos = term->nb_cols;
 			term->ndx_line--;

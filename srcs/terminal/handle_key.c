@@ -28,7 +28,6 @@ static void	insert(t_block *block)
 		ft_printf("%s", block->str_cmd + block->size);
 	}
 	term->ndx_cursor++;
-
 	term->cursor_pos++;
     block->size++;
 	put_cursor(term->cursor_pos, term->ndx_line);
@@ -68,17 +67,17 @@ static int	check_key(t_block *block)
         {
 			// dprintf(1, "SIZe=%d ALLOC=%d NB_COL = %d", block->size, block->alloc_size, term->nb_cols);
 			block->nb_blocks++;
-			block->alloc_size += term->nb_cols - PROMPT_SIZE;
+			block->alloc_size += term->nb_cols;
 			if (!(block->str_cmd = realloc_str(block->str_cmd, block->alloc_size)))
 				return (EXIT_FAILURE);
 			dprintf(1, "\n");
 			term->ndx_line +=1;
-			term->cursor_pos = PROMPT_SIZE;
+			term->cursor_pos = 0;
         }
-		else if (term->cursor_pos == term->nb_cols)
+		else if (term->cursor_pos > term->nb_cols)
 		{
 			dprintf(1, "\n");
-			term->cursor_pos = PROMPT_SIZE;
+			term->cursor_pos = 0;
 			term->ndx_line++;
 		}
         insert(block);
@@ -101,7 +100,7 @@ int			handle_key()
 	term->nb_cols = tigetnum(T_COLUMN);
 	block = (t_block *)(term->current_block)->value;
 	ret = check_key(block);
-	// debug(term);
+	debug(term);
 	if (ret == 2)
 		return (2);
 	if (ret == EXIT_FAILURE)
@@ -109,7 +108,7 @@ int			handle_key()
     if (block->str_cmd[0] == '\0' || term->last_char == '\n')
         ft_printf("\n");
     term->ndx_cursor = 0;
-	term->cursor_pos = PROMPT_SIZE;
+	term->cursor_pos = 0;
     block->size = 0;
     term->ndx_line++;
 	return (EXIT_SUCCESS);
