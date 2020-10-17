@@ -74,7 +74,7 @@ static int	check_key(t_block *block)
 			term->ndx_line +=1;
 			term->cursor_pos = 0;
         }
-		else if (term->cursor_pos > term->nb_cols)
+		else if (term->cursor_pos == term->nb_cols)
 		{
 			dprintf(1, "\n");
 			term->cursor_pos = 0;

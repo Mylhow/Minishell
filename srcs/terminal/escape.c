@@ -52,22 +52,23 @@ int	backspace(t_block *block)
 	term = (*getTerm());
 	if (block->size > 0 && term->ndx_cursor > 0)
 	{
+		term->cursor_pos--;
+		term->ndx_cursor--;
 		tmp = ft_strdup(block->str_cmd);
 		ft_bzero(block->str_cmd, block->size);
-		ft_memcpy(block->str_cmd, tmp, term->ndx_cursor - 1);
-		ft_strcat(block->str_cmd, tmp + term->ndx_cursor);
-		put_cursor(term->cursor_pos - 1, term->ndx_line);
+		ft_memcpy(block->str_cmd, tmp, term->ndx_cursor);
+		ft_strcat(block->str_cmd, tmp + term->ndx_cursor + 1);
+		put_cursor(term->cursor_pos, term->ndx_line);
 		put_caps(T_CLEOL, 0);
 		ft_printf("%s", block->str_cmd + term->ndx_cursor - 1);
-		term->ndx_cursor--;
 		block->size--;
-		term->cursor_pos--;
 		if (term->cursor_pos < 0)
 		{
-			term->cursor_pos = term->nb_cols;
+			term->cursor_pos = term->nb_cols -1;
 			term->ndx_line--;
 		}
 		put_cursor(term->cursor_pos, term->ndx_line);
+		put_caps(T_CLEOL, 0);
 	}
 	return (EXIT_SUCCESS);
 }
