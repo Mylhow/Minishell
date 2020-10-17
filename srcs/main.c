@@ -18,6 +18,32 @@ t_term **getTerm(void)
 	return (&term);
 }
 
+void get_pos()
+{
+	char	mychar;
+	t_term	*term;
+
+	term = (*getTerm());
+	mychar = '\0';
+	write(1, "\e[6n", 4);
+	term->ndx_line = 0;
+	term->cursor_pos = 0;
+	while(mychar != '[')
+		read(STDIN_FILENO, &mychar, 1);
+	while(read(STDIN_FILENO, &mychar, 1) && mychar != ';')
+	{
+		term->ndx_line *= 10;
+		term->ndx_line += mychar - '0';
+	}
+	while(read(STDIN_FILENO, &mychar, 1) && mychar != 'R')
+	{
+		term->cursor_pos *= 10;
+		term->cursor_pos += mychar - '0';
+	}
+	term->ndx_line--;
+	term->cursor_pos--;
+}
+
 static int update()
 {
 	printf("$ ");
@@ -26,6 +52,7 @@ static int update()
 	{
 		if (!(handle_key()))
 		{
+			dprintf(1, "%s\n", ((t_block *)((*getTerm())->current_block)->value)->str_cmd); //debug
 			ft_hashclear(&((*getTerm())->list_blocks));
 			if (!((*getTerm())->list_blocks = ft_hashnew("block_1", ft_blocknew())))
 				return (ft_exit(EXIT_FAILURE));
@@ -33,6 +60,8 @@ static int update()
 			ft_printf("$ ");
 			fflush(stdout);
 			put_caps(T_CLEOL, 0);
+			get_pos();
+			// debug(*getTerm());
 			continue;
 		}
 		fflush(stdout);

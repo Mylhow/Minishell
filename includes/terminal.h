@@ -40,6 +40,7 @@ typedef struct		s_block
 {
 	int				nb_blocks;
 	int 			size;
+	int				alloc_size;
 	char 			*str_cmd;
 	char 			*str_put;
 	void 			(*print)(struct s_block *);
@@ -49,10 +50,12 @@ typedef struct		s_term
 {
 	t_hash	 		*list_blocks;
 	t_hash			*current_block;
+	int				cursor_pos;
 	int				ndx_cursor;
 	int				ndx_line;
 	unsigned char	last_char;
 	char 			esc_flag;
+	int				nb_cols;
 	t_termios 		termios;
 	t_termios		termios_backup;
 }					t_term;
