@@ -27,7 +27,7 @@ int put_cursor(int col, int row)
 	int ret;
 	char *caps_get;
 
-	caps_get = tigetstr("cup");
+	caps_get = tigetstr(T_POS);
 	ret = tputs(tgoto(caps_get, col, row), 1, ft_putchar_int);
 	return (ret);
 }
@@ -67,6 +67,10 @@ void    debug(t_term *term)
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %d\n", "ndx_line", term->ndx_line);
+		tmp++;
+		put_cursor(term->nb_cols / 2, tmp);
+		put_caps(T_CLEOL, 0);
+		dprintf(1, "%-18s = %d\n", "nb_col", tgetnum(T_COLUMN));
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);

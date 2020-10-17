@@ -44,7 +44,7 @@ static int ft_return_line(t_term *term, t_block *block)
 			return (EXIT_FAILURE);
 		ft_hashadd_back(&(term->list_blocks), hash);
 		term->ndx_line++;
-		term->cursor_pos = 0;
+		term->cursor_pos = PROMPT_SIZE;
 		printf("\n> ");
 		term->current_block = hash;
 		return (2);
@@ -70,17 +70,17 @@ static int	check_key(t_block *block)
 			block->alloc_size += term->nb_cols;
 			if (!(block->str_cmd = realloc_str(block->str_cmd, block->alloc_size)))
 				return (EXIT_FAILURE);
-			dprintf(1, "\n");
-			term->ndx_line +=1;
-			term->cursor_pos = 0;
+			// dprintf(1, "\n");
+			// term->ndx_line +=1;
+			// term->cursor_pos = 0;
         }
-		else if (term->cursor_pos == term->nb_cols)
+        insert(block);
+		if (term->cursor_pos == term->nb_cols)
 		{
 			dprintf(1, "\n");
 			term->cursor_pos = 0;
 			term->ndx_line++;
 		}
-        insert(block);
 		return (2);
     }
     else
@@ -100,7 +100,7 @@ int			handle_key()
 	term->nb_cols = tigetnum(T_COLUMN);
 	block = (t_block *)(term->current_block)->value;
 	ret = check_key(block);
-	debug(term);
+	// debug(term);
 	if (ret == 2)
 		return (2);
 	if (ret == EXIT_FAILURE)
@@ -110,6 +110,6 @@ int			handle_key()
     term->ndx_cursor = 0;
 	term->cursor_pos = 0;
     block->size = 0;
-    term->ndx_line++;
+    // term->ndx_line++;
 	return (EXIT_SUCCESS);
 }
