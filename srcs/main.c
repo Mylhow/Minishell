@@ -46,12 +46,16 @@ void get_pos()
 
 static int update()
 {
+	t_term *term;
+
+	term = *getTerm();
 	printf("$ ");
 	fflush(stdout);
 	while (read(STDIN_FILENO, &(*getTerm())->last_char, 1) > 0)
 	{
 		if (!(handle_key()))
 		{
+			put_cursor(term->cursor_pos, term->ndx_line);
 			dprintf(1, "%s\n", ((t_block *)((*getTerm())->current_block)->value)->str_cmd); //debug
 			ft_hashclear(&((*getTerm())->list_blocks));
 			if (!((*getTerm())->list_blocks = ft_hashnew("block_1", ft_blocknew())))

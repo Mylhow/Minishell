@@ -34,6 +34,7 @@
 # define ENDCHAR 'F'
 # define HOMECHAR 'H'
 
+
 typedef struct 		termios	t_termios;
 
 typedef struct		s_block
@@ -41,11 +42,16 @@ typedef struct		s_block
 	int				nb_blocks;
 	int 			size;
 	int				alloc_size;
+	int				delta_end_line;
 	char 			*str_cmd;
 	char 			*str_put;
 	void 			(*print)(struct s_block *);
 }					t_block;
 
+//esc_flags:
+//1- ESC char detect
+//2- [ char detect
+//3- 1  CTRL detect
 typedef struct		s_term
 {
 	t_hash	 		*list_blocks;
@@ -75,4 +81,10 @@ t_block *ft_blocknew(void);
 void    debug(t_term *term);
 int		escape_sequences(t_block *block);
 int		backspace(t_block *block);
+//CTRL
+void    ctrl_up(t_term *term, t_block *block);
+void	ctrl_down(t_term *term, t_block *block);
+void	ctrl_left(t_term *term, t_block *block);
+void	ctrl_right(t_term *term, t_block *block);
+
 #endif

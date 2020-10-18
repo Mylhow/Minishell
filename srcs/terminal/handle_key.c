@@ -57,7 +57,7 @@ static int	check_key(t_block *block)
     t_term  *term;
 
     term = *(getTerm());
-    if (term->last_char == '\033' || term->esc_flag == 1 || term->esc_flag == 2)
+    if (term->last_char == '\033' || term->esc_flag != 0)
         return (escape_sequences(block));
     if (term->last_char == DELCHAR || term->last_char == BACKSPACE)
         return (!backspace(block));
@@ -105,11 +105,13 @@ int			handle_key()
 		return (2);
 	if (ret == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	term->ndx_line += block->delta_end_line + 1;
     if (block->str_cmd[0] == '\0' || term->last_char == '\n')
         ft_printf("\n");
     term->ndx_cursor = 0;
 	term->cursor_pos = 0;
     block->size = 0;
-    // term->ndx_line++;
+	block->delta_end_line = 0;
+	// debug(term);
 	return (EXIT_SUCCESS);
 }

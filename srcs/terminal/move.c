@@ -13,6 +13,7 @@ void     move_right(t_block *block)
 		{
 			term->cursor_pos = 0;
 			term->ndx_line++;
+			block->delta_end_line--;
 		}
 	}
 }
@@ -22,7 +23,6 @@ void     move_left(t_block *block)
     t_term *term;
 
     term = (*getTerm());
-	(void)block;
     if (term->ndx_cursor > 0)
 	{
     	term->ndx_cursor--;
@@ -30,7 +30,8 @@ void     move_left(t_block *block)
 		if (term->cursor_pos < 0)
 		{
 			term->cursor_pos = term->nb_cols - 1;
-			term->ndx_line--;	
+			term->ndx_line--;
+			block->delta_end_line++;
 		}
 	}
 }

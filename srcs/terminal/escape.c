@@ -3,6 +3,8 @@
 #include "libft.h"
 #include "libft_mem.h"
 #include "libft_string.h"
+#include "unistd.h"
+
 
 static void move_manage(t_term *term, t_block *block)
 {
@@ -22,9 +24,26 @@ static void move_manage(t_term *term, t_block *block)
 	term->esc_flag = 0;
 }
 
+static void ctrl_manage(t_term *term, t_block *block, char my_char)
+{
+	// #include <stdio.h>
+	// dprintf(1, "ICIIIIIIIIIIIIIIIIIIIIIIII");
+	if (my_char == 'A')
+		ctrl_up(term, block);
+	else if (my_char == 'B')
+		ctrl_down(term, block);
+	else if (my_char == 'C')
+		ctrl_right(term, block);
+	else if (my_char == 'D')
+		ctrl_left(term, block);
+	put_cursor(term->cursor_pos, term->ndx_line);
+	term->esc_flag = 0;
+}
+
 int	escape_sequences(t_block *block)
 {
 	t_term *term;
+	char	my_char;
 
 	term = (*getTerm());
 	if (term->last_char == '\033') {
@@ -38,8 +57,23 @@ int	escape_sequences(t_block *block)
 	}
 	else if (term->esc_flag == 2)
 	{
-		move_manage(term, block);
+		if (term->last_char == '1')
+			term->esc_flag = 3;
+		else
+			move_manage(term, block);
 		return (2);
+	}
+	else if (term->esc_flag == 3)
+	{
+		read(STDIN_FILENO, &my_char, 1); //read 5
+		if (my_char == '5')
+		{
+			//TODO réécriture de la fin de la chaine de caractere;il doit y avoir un \n quelque part à catch
+			read(STDIN_FILENO, &my_char, 1);
+			ctrl_manage(term, block, my_char);
+			return (2);
+		}
+
 	}
 	return (EXIT_SUCCESS);
 }

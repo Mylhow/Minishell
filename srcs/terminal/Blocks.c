@@ -13,6 +13,7 @@ t_block *ft_blocknew(void)
 	if (!(ptr = wrmalloc(sizeof(t_block))))
 		return (0);
 	ptr->nb_blocks = 1;
+	ptr->delta_end_line = 0;
 	ptr->size = 0;
 	ptr->alloc_size = term->nb_cols + 1 - PROMPT_SIZE;
 	if ((ptr->str_cmd = (char *)wrmalloc(ptr->alloc_size)) == 0)

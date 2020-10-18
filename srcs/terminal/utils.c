@@ -86,6 +86,10 @@ void    debug(t_term *term)
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);
+		dprintf(1, "%-18s = %d\n", "delta_line", block->delta_end_line);
+		tmp++;
+		put_cursor(term->nb_cols / 2, tmp);
+		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %d\n", "cursor_pos", term->cursor_pos);
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
