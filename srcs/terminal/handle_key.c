@@ -35,18 +35,18 @@ static void	insert(t_block *block)
 
 static int ft_return_line(t_term *term, t_block *block)
 {
-	t_hash	*hash;
+	// t_hash	*hash;
 
 	if (block->str_cmd[block->size - 1] == '\\')
 	{
-		if (!(hash = ft_hashnew(ft_strjoin("block_",
-										   ft_itoa(ft_hashlen(term->list_blocks) + 1)), ft_blocknew())))
-			return (EXIT_FAILURE);
-		ft_hashadd_back(&(term->list_blocks), hash);
+		// if (!(hash = ft_hashnew(ft_strjoin("block_",
+										//    ft_itoa(ft_hashlen(term->list_blocks) + 1)), ft_blocknew())))
+			// return (EXIT_FAILURE);
+		// ft_hashadd_back(&(term->list_blocks), hash);
 		term->ndx_line++;
 		term->cursor_pos = PROMPT_SIZE;
 		printf("\n> ");
-		term->current_block = hash;
+		// term->current_block = hash;
 		return (2);
 	}
 	return (EXIT_SUCCESS);
