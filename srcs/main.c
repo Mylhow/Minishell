@@ -18,36 +18,33 @@ t_term **getTerm(void)
 	return (&term);
 }
 
-void get_pos()
+static int new_cmd(t_term *term)
 {
-	char	mychar;
-	t_term	*term;
+	char	 	*cmd;
+	t_hash		*tmp;
 
-	term = (*getTerm());
-	mychar = '\0';
-	write(1, "\e[6n", 4);
-	term->ndx_line = 0;
-	term->cursor_pos = 0;
-	while(mychar != '[')
-		read(STDIN_FILENO, &mychar, 1);
-	while(read(STDIN_FILENO, &mychar, 1) && mychar != ';')
-	{
-		term->ndx_line *= 10;
-		term->ndx_line += mychar - '0';
-	}
-	while(read(STDIN_FILENO, &mychar, 1) && mychar != 'R')
-	{
-		term->cursor_pos *= 10;
-		term->cursor_pos += mychar - '0';
-	}
-	term->ndx_line--;
-	term->cursor_pos--;
+	put_cursor(term->cursor_pos, term->ndx_line);
+	if (!(cmd = ft_retcontent(term->list_blocks)))
+		return (ft_exit(EXIT_FAILURE));
+	ft_printf("%s\n", cmd);
+	if (!(tmp = ft_hashnew("h", cmd)))
+		return (ft_exit(EXIT_FAILURE));
+	ft_hashadd_back(&term->historic, tmp);
+	term->current_historic = 0;
+	ft_hashclear(&(term->list_blocks));
+	if (!(term->list_blocks = ft_hashnew("block_1", ft_blocknew())))
+		return (ft_exit(EXIT_FAILURE));
+	term->current_block = term->list_blocks;
+	ft_printf("$ ");
+	fflush(stdout);
+	put_caps(T_CLEOL, 0);
+	get_pos();
+	return (EXIT_SUCCESS);
 }
 
 static int update()
 {
 	t_term	*term;
-	char 	*cmd;
 
 	term = *getTerm();
 	printf("$ ");
@@ -56,18 +53,8 @@ static int update()
 	{
 		if (!(handle_key()))
 		{
-			put_cursor(term->cursor_pos, term->ndx_line);
-			if (!(cmd = ft_retcontent(term->list_blocks)))
+			if (new_cmd(term))
 				return (ft_exit(EXIT_FAILURE));
-			ft_printf("%s\n", cmd);
-			ft_hashclear(&((*getTerm())->list_blocks));
-			if (!((*getTerm())->list_blocks = ft_hashnew("block_1", ft_blocknew())))
-				return (ft_exit(EXIT_FAILURE));
-			(*getTerm())->current_block = (*getTerm())->list_blocks;
-			ft_printf("$ ");
-			fflush(stdout);
-			put_caps(T_CLEOL, 0);
-			get_pos();
 			continue;
 		}
 		fflush(stdout);

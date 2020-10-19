@@ -54,6 +54,8 @@ typedef struct		s_block
 typedef struct		s_term
 {
 	t_hash	 		*list_blocks;
+	t_hash			*historic;
+	t_hash			*current_historic;
 	t_hash			*current_block;
 	int				cursor_pos;
 	int				ndx_cursor;
@@ -66,6 +68,7 @@ typedef struct		s_term
 }					t_term;
 
 t_term **getTerm(void);
+void	get_pos(void);
 int     init_term(void);
 int     put_caps(char *caps, int color);
 int     put_cursor(int col, int row);
@@ -74,7 +77,7 @@ int     handle_key(void);
 char    *realloc_str(char *str, int new_size);
 void    move_right(t_block *block);
 void    move_left(t_block *block);
-void    move_up(t_block *block);
+int 	move_up(t_term *term, t_block *block);
 void    move_down(t_block *block);
 void	ft_blockprint(t_block *block);
 t_block *ft_blocknew(void);

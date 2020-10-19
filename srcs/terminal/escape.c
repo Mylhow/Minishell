@@ -6,14 +6,16 @@
 #include "unistd.h"
 
 
-static void move_manage(t_term *term, t_block *block)
+static int move_manage(t_term *term, t_block *block)
 {
 	if (term->last_char == LEFTCHAR)
 		move_left(block);
 	else if (term->last_char == RIGHTCHAR)
 		move_right(block);
-	else if (term->last_char == UPCHAR)
-		move_up(block);
+	else if (term->last_char == UPCHAR) {
+		if (move_up(term, block))
+			return (EXIT_FAILURE);
+	}
 	else if (term->last_char == DOWNCHAR)
 		move_down(block);
 	else if (term->last_char == HOMECHAR)
@@ -22,6 +24,7 @@ static void move_manage(t_term *term, t_block *block)
 		term->ndx_cursor = block->size;
 	put_cursor(term->cursor_pos, term->ndx_line);
 	term->esc_flag = 0;
+	return (EXIT_SUCCESS);
 }
 
 static void ctrl_manage(t_term *term, t_block *block, char my_char)
@@ -60,7 +63,10 @@ int	escape_sequences(t_block *block)
 		if (term->last_char == '1')
 			term->esc_flag = 3;
 		else
-			move_manage(term, block);
+		{
+			if (move_manage(term, block))
+				return (EXIT_FAILURE);
+		}
 		return (2);
 	}
 	else if (term->esc_flag == 3)

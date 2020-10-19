@@ -15,7 +15,9 @@ static int init_term_variables(void)
 	if (!(block = ft_blocknew()))
 		return (EXIT_FAILURE);
 	term->list_blocks = ft_hashnew("block_1", block);
+	term->historic = 0;
 	term->current_block = term->list_blocks;
+	term->current_historic = 0;
 	term->ndx_cursor = 0;
 	term->cursor_pos = PROMPT_SIZE;
 	term->ndx_line = 0;

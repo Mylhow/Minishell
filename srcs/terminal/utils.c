@@ -47,6 +47,32 @@ char *realloc_str(char *str, int new_size)
     return (tmp);
 }
 
+void get_pos()
+{
+	char	mychar;
+	t_term	*term;
+
+	term = (*getTerm());
+	mychar = '\0';
+	write(1, "\e[6n", 4);
+	term->ndx_line = 0;
+	term->cursor_pos = 0;
+	while(mychar != '[')
+		read(STDIN_FILENO, &mychar, 1);
+	while(read(STDIN_FILENO, &mychar, 1) && mychar != ';')
+	{
+		term->ndx_line *= 10;
+		term->ndx_line += mychar - '0';
+	}
+	while(read(STDIN_FILENO, &mychar, 1) && mychar != 'R')
+	{
+		term->cursor_pos *= 10;
+		term->cursor_pos += mychar - '0';
+	}
+	term->ndx_line--;
+	term->cursor_pos--;
+}
+
 void    debug(t_term *term)
 {
 	t_block *block;
