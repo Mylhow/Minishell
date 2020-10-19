@@ -45,9 +45,9 @@ static int ft_return_line(t_term *term, t_block *block)
 		ft_hashadd_back(&(term->list_blocks), hash);
 		term->ndx_line++;
 		term->cursor_pos = PROMPT_SIZE;
-		term->ndx_cursor = 0;
 		printf("\n> ");
 		term->current_block = hash;
+		term->ndx_cursor = 0;
 		return (2);
 	}
 	return (EXIT_SUCCESS);
@@ -71,7 +71,6 @@ static int	check_key(t_block *block)
 			if (!(block->str_cmd = realloc_str(block->str_cmd, block->alloc_size)))
 				return (EXIT_FAILURE);
 			// term->ndx_line +=1;
-			// term->cursor_pos = 0;
         }
         insert(block);
 		if (term->cursor_pos == term->nb_cols)

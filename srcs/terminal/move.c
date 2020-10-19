@@ -23,7 +23,7 @@ void     move_left(t_block *block)
     t_term *term;
 
     term = (*getTerm());
-    if (term->ndx_cursor > 0)
+	if (term->ndx_cursor > 0)
 	{
     	term->ndx_cursor--;
 		term->cursor_pos--;
@@ -38,30 +38,10 @@ void     move_left(t_block *block)
 
 void     move_up(t_block *block)
 {
-    t_term *term;
-
-    term = (*getTerm());
-    if (term->current_block->before)
-    {
-    	term->current_block = term->current_block->before;
-    	block = term->current_block->value;
-		if (term->ndx_cursor > block->size)
-			term->ndx_cursor = block->size;
-        term->ndx_line -= 1;
-    }
+    (void)block;
 }
 
 void     move_down(t_block *block)
 {
-	t_term *term;
-
-	term = (*getTerm());
-	if (term->current_block->next)
-	{
-		term->current_block = term->current_block->next;
-		block = term->current_block->value;
-		if (term->ndx_cursor > block->size)
-			term->ndx_cursor = block->size;
-		term->ndx_line += 1;
-	}
+	(void)block;
 }
