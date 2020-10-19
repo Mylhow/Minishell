@@ -12,12 +12,13 @@ static int init_term_variables(void)
 
 	term = (*getTerm());
 	term->nb_cols = tigetnum(T_COLUMN);
+	term->nb_lines = tigetnum(T_LINE);
 	if (!(block = ft_blocknew()))
 		return (EXIT_FAILURE);
 	term->list_blocks = ft_hashnew("block_1", block);
-	term->historic = 0;
+	term->historic = NULL;
 	term->current_block = term->list_blocks;
-	term->current_historic = 0;
+	term->current_historic = NULL;
 	term->ndx_cursor = 0;
 	term->cursor_pos = PROMPT_SIZE;
 	term->ndx_line = 0;

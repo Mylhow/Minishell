@@ -78,6 +78,8 @@ static int	check_key(t_block *block)
 			ft_printf("\n");
 			term->cursor_pos = 0;
 			term->ndx_line++;
+			if (term->ndx_line > term->nb_lines - 1)
+				term->ndx_line = term->nb_lines - 1;
 		}
 		return (2);
     }
@@ -94,22 +96,24 @@ int			handle_key()
 	int 	ret;
 
     term = (*getTerm());
-    debug(term);
+    // debug(term);
 	term->nb_cols = tigetnum(T_COLUMN);
 	block = (t_block *)(term->current_block)->value;
 	ret = check_key(block);
-	debug(term);
+	// debug(term);
 	if (ret == 2)
 		return (2);
 	if (ret == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	term->ndx_line += block->delta_end_line + 1;
+	term->ndx_line += (block->size - term->ndx_cursor) / term->nb_cols + 1;
+	if (term->ndx_line > term->nb_lines - 1)
+		term->ndx_line = term->nb_lines - 1;
     if (block->str_cmd[0] == '\0' || term->last_char == '\n')
         ft_printf("\n");
     term->ndx_cursor = 0;
 	term->cursor_pos = 0;
     block->size = 0;
 	block->delta_end_line = 0;
-	debug(term);
+	// debug(term);
 	return (EXIT_SUCCESS);
 }

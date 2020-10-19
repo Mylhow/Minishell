@@ -47,6 +47,21 @@ char *realloc_str(char *str, int new_size)
     return (tmp);
 }
 
+void	clear_eos(t_term *term)
+{
+	int i;
+
+	i = 1;
+	put_caps(T_CLEOL, 0);
+	while (i + term->ndx_line < term->nb_lines)
+	{
+		put_cursor(0, term->ndx_line + i);
+		put_caps(T_CLEOL, 0);
+		i++;
+	}
+	put_cursor(term->cursor_pos, term->ndx_line);
+}
+
 void get_pos()
 {
 	char	mychar;
@@ -97,6 +112,10 @@ void    debug(t_term *term)
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);
 		dprintf(1, "%-18s = %d\n", "nb_col", tgetnum(T_COLUMN));
+		tmp++;
+		put_cursor(term->nb_cols / 2, tmp);
+		put_caps(T_CLEOL, 0);
+		dprintf(1, "%-18s = %d\n", "nb_lines", tgetnum(T_LINE));
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);

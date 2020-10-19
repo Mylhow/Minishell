@@ -63,6 +63,7 @@ typedef struct		s_term
 	unsigned char	last_char;
 	char 			esc_flag;
 	int				nb_cols;
+	int				nb_lines;
 	t_termios 		termios;
 	t_termios		termios_backup;
 }					t_term;
@@ -88,5 +89,6 @@ void    ctrl_up(t_term *term, t_block *block);
 void	ctrl_down(t_term *term, t_block *block);
 void	ctrl_left(t_term *term, t_block *block);
 void	ctrl_right(t_term *term, t_block *block);
+void	clear_eos(t_term *term);
 
 #endif

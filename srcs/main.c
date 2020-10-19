@@ -30,7 +30,7 @@ static int new_cmd(t_term *term)
 	if (!(tmp = ft_hashnew("h", cmd)))
 		return (ft_exit(EXIT_FAILURE));
 	ft_hashadd_back(&term->historic, tmp);
-	term->current_historic = 0;
+	term->current_historic = NULL;
 	ft_hashclear(&(term->list_blocks));
 	if (!(term->list_blocks = ft_hashnew("block_1", ft_blocknew())))
 		return (ft_exit(EXIT_FAILURE));
@@ -41,7 +41,7 @@ static int new_cmd(t_term *term)
 	get_pos();
 	return (EXIT_SUCCESS);
 }
-
+//TODO faire en sorte que les chaines de caracteres nulles ne s'écrive pas dans l'historique
 static int update()
 {
 	t_term	*term;
