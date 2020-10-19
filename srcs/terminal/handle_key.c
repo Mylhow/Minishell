@@ -35,18 +35,19 @@ static void	insert(t_block *block)
 
 static int ft_return_line(t_term *term, t_block *block)
 {
-	// t_hash	*hash;
+	t_hash	*hash;
 
 	if (block->str_cmd[block->size - 1] == '\\')
 	{
-		// if (!(hash = ft_hashnew(ft_strjoin("block_",
-										//    ft_itoa(ft_hashlen(term->list_blocks) + 1)), ft_blocknew())))
-			// return (EXIT_FAILURE);
-		// ft_hashadd_back(&(term->list_blocks), hash);
+		if (!(hash = ft_hashnew(ft_strjoin("block_",
+										    ft_itoa(ft_hashlen(term->list_blocks) + 1)), ft_blocknew())))
+			return (EXIT_FAILURE);
+		ft_hashadd_back(&(term->list_blocks), hash);
 		term->ndx_line++;
 		term->cursor_pos = PROMPT_SIZE;
+		term->ndx_cursor = 0;
 		printf("\n> ");
-		// term->current_block = hash;
+		term->current_block = hash;
 		return (2);
 	}
 	return (EXIT_SUCCESS);
@@ -63,21 +64,19 @@ static int	check_key(t_block *block)
         return (!backspace(block));
     if (term->last_char != '\n')
     {
-		if (block->size == block->alloc_size - 1) //TODO passer à une variable block->alloc_size
+		if (block->size == block->alloc_size - 1)
         {
-			// dprintf(1, "SIZe=%d ALLOC=%d NB_COL = %d", block->size, block->alloc_size, term->nb_cols);
 			block->nb_blocks++;
 			block->alloc_size += term->nb_cols;
 			if (!(block->str_cmd = realloc_str(block->str_cmd, block->alloc_size)))
 				return (EXIT_FAILURE);
-			// dprintf(1, "\n");
 			// term->ndx_line +=1;
 			// term->cursor_pos = 0;
         }
         insert(block);
 		if (term->cursor_pos == term->nb_cols)
 		{
-			dprintf(1, "\n");
+			ft_printf("\n");
 			term->cursor_pos = 0;
 			term->ndx_line++;
 		}
@@ -96,11 +95,11 @@ int			handle_key()
 	int 	ret;
 
     term = (*getTerm());
-    // debug(term);
+    debug(term);
 	term->nb_cols = tigetnum(T_COLUMN);
 	block = (t_block *)(term->current_block)->value;
 	ret = check_key(block);
-	// debug(term);
+	debug(term);
 	if (ret == 2)
 		return (2);
 	if (ret == EXIT_FAILURE)
@@ -112,6 +111,6 @@ int			handle_key()
 	term->cursor_pos = 0;
     block->size = 0;
 	block->delta_end_line = 0;
-	// debug(term);
+	debug(term);
 	return (EXIT_SUCCESS);
 }

@@ -18,10 +18,7 @@ t_block *ft_blocknew(void)
 	ptr->alloc_size = term->nb_cols + 1 - PROMPT_SIZE;
 	if ((ptr->str_cmd = (char *)wrmalloc(ptr->alloc_size)) == 0)
 		return (0);
-	if ((ptr->str_put = (char *)wrmalloc(ptr->alloc_size)) == 0)
-		return (0);
 	ft_bzero(ptr->str_cmd, ptr->alloc_size);
-	ft_bzero(ptr->str_put, ptr->alloc_size);
 	ptr->print = ft_blockprint;
 	return (ptr);
 }
@@ -30,5 +27,21 @@ void ft_blockprint(t_block *block)
 {
 	if (!block)
 		return;
-	ft_printf("{nbBlocks: %d} = ([%d] '%s') = ('%s')\n", block->nb_blocks, block->size, block->str_cmd, block->str_put);
+	ft_printf("{nbBlocks: %d} = ([%d] '%s')\n", block->nb_blocks, block->size, block->str_cmd);
+}
+
+char *ft_retcontent(t_hash *hash)
+{
+	char *ptr;
+	t_block *block;
+
+	ptr = 0;
+	while (hash)
+	{
+		block = (t_block *)hash->value;
+		if (!(ptr = ft_strjoin(ptr, block->str_cmd)))
+			return (0);
+		hash = hash->next;
+	}
+	return (ptr);
 }

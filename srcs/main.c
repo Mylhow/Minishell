@@ -46,7 +46,8 @@ void get_pos()
 
 static int update()
 {
-	t_term *term;
+	t_term	*term;
+	char 	*cmd;
 
 	term = *getTerm();
 	printf("$ ");
@@ -56,7 +57,9 @@ static int update()
 		if (!(handle_key()))
 		{
 			put_cursor(term->cursor_pos, term->ndx_line);
-			dprintf(1, "%s\n", ((t_block *)((*getTerm())->current_block)->value)->str_cmd); //debug
+			if (!(cmd = ft_retcontent(term->list_blocks)))
+				return (ft_exit(EXIT_FAILURE));
+			ft_printf("%s\n", cmd);
 			ft_hashclear(&((*getTerm())->list_blocks));
 			if (!((*getTerm())->list_blocks = ft_hashnew("block_1", ft_blocknew())))
 				return (ft_exit(EXIT_FAILURE));
@@ -65,11 +68,9 @@ static int update()
 			fflush(stdout);
 			put_caps(T_CLEOL, 0);
 			get_pos();
-			// debug(*getTerm());
 			continue;
 		}
 		fflush(stdout);
-
 	}
 	return (EXIT_SUCCESS);
 }
