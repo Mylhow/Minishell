@@ -5,7 +5,7 @@ void     move_right(t_block *block)
 	t_term *term;
 
 	term = (*getTerm());
-	if (term->cursor_pos < block->size + PROMPT_SIZE)
+	if (term->ndx_cursor < block->size)
 	{
 		term->ndx_cursor++;
 		term->cursor_pos++;
@@ -23,7 +23,7 @@ void     move_left(t_block *block)
     t_term *term;
 
     term = (*getTerm());
-    if (term->cursor_pos > PROMPT_SIZE)
+    if (term->ndx_cursor > 0)
 	{
     	term->ndx_cursor--;
 		term->cursor_pos--;
