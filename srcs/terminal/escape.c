@@ -17,7 +17,7 @@ static int move_manage(t_term *term, t_block *block)
 			return (EXIT_FAILURE);
 	}
 	else if (term->last_char == DOWNCHAR)
-		move_down(block);
+		return(move_down(term, block));
 	else if (term->last_char == HOMECHAR)
 		term->ndx_cursor = 0;
 	else if (term->last_char == ENDCHAR)
@@ -71,7 +71,7 @@ int	escape_sequences(t_block *block)
 	}
 	else if (term->esc_flag == 3)
 	{
-		read(STDIN_FILENO, &my_char, 1); //read 5
+		read(STDIN_FILENO, &my_char, 1); //read '5'
 		if (my_char == '5')
 		{
 			//TODO réécriture de la fin de la chaine de caractere;il doit y avoir un \n quelque part à catch
