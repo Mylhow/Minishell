@@ -2,7 +2,7 @@
 # define TERMINAL_H
 
 # include <term.h>
-#include "libft_hash.h"
+# include "libft_hash.h"
 
 # define T_CLEAR "clear"
 # define T_CLEOL "el"
@@ -80,7 +80,6 @@ void    move_right(t_block *block);
 void    move_left(t_block *block);
 int 	move_up(t_term *term, t_block *block);
 int		move_down(t_term *term, t_block *block);
-void	ft_blockprint(t_block *block);
 t_block *ft_blocknew(void);
 void    debug(t_term *term);
 int		escape_sequences(t_block *block);

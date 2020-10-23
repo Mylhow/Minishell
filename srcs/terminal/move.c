@@ -1,4 +1,6 @@
 #include "terminal.h"
+#include "libft_string.h"
+#include "libft_printf.h"
 
 void     move_right(t_block *block)
 {
@@ -35,8 +37,7 @@ void     move_left(t_block *block)
 		}
 	}
 }
-#include "libft_string.h"
-#include "libft_printf.h"
+
 int		print_historic(t_term *term, t_block *block)
 {
 	char	*current;
@@ -104,4 +105,5 @@ int     move_down(t_term *term, t_block *block)
 //TODO effacer les historiques vides
 	if (flag) //si il y a un up
 		return(print_historic(term, block));
-	return (EXIT_SUCCESS);}
+	return (EXIT_SUCCESS);
+}
