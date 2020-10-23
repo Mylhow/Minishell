@@ -47,18 +47,18 @@ char *realloc_str(char *str, int new_size)
     return (tmp);
 }
 
-void	clear_eos(t_term *term)
+void	clear_eos(t_term *term, int original_line)
 {
 	int i;
 
-	i = 1;
-	put_caps(T_CLEOL, 0);
-	while (i + term->ndx_line < term->nb_lines)
+	i = term->ndx_line;
+	while (i > original_line)
 	{
-		put_cursor(0, term->ndx_line + i);
+		put_cursor(0, i);
 		put_caps(T_CLEOL, 0);
-		i++;
+		i--;
 	}
+	term->ndx_line = term->original_line;
 	put_cursor(term->cursor_pos, term->ndx_line);
 }
 
@@ -93,7 +93,7 @@ void    debug(t_term *term)
 	t_block *block;
     int tmp;
 
-    tmp = 3;
+    tmp = 10;
     if (1) {
 		block = (t_block *) (term->current_block)->value;
 		put_caps(T_SAVE, 0);
@@ -131,7 +131,7 @@ void    debug(t_term *term)
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);
-		dprintf(1, "%-18s = %d\n", "delta_line", block->delta_end_line);
+		dprintf(1, "%-18s = %d\n", "original_line", term->original_line);
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);
@@ -139,7 +139,7 @@ void    debug(t_term *term)
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);
-		dprintf(1, "%-18s = %d\n", "str_cmd_alloc_size", block->alloc_size);
+		dprintf(1, "%-18s = %d\n", "str_cmd_alloc_size", block->alloc_size - 1);
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);

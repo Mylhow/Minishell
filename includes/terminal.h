@@ -42,7 +42,6 @@ typedef struct		s_block
 	int				nb_blocks;
 	int 			size;
 	int				alloc_size;
-	int				delta_end_line;
 	char 			*str_cmd;
 	void 			(*print)(struct s_block *);
 }					t_block;
@@ -60,6 +59,7 @@ typedef struct		s_term
 	int				cursor_pos;
 	int				ndx_cursor;
 	int				ndx_line;
+	int 			original_line;
 	unsigned char	last_char;
 	char 			esc_flag;
 	int				nb_cols;
@@ -73,13 +73,14 @@ void	get_pos(void);
 int     init_term(void);
 int     put_caps(char *caps, int color);
 int     put_cursor(int col, int row);
-char	*ft_retcontent(t_hash *hash);
+t_block *ft_blockhashdup(t_hash *hash);
+t_block *ft_blockdup(t_block *block);
 int     handle_key(void);
 char    *realloc_str(char *str, int new_size);
 void    move_right(t_block *block);
-void    move_left(t_block *block);
-int 	move_up(t_term *term, t_block *block);
-int		move_down(t_term *term, t_block *block);
+void    move_left();
+int 	move_up(t_term *term);
+int		move_down(t_term *term);
 t_block *ft_blocknew(void);
 void    debug(t_term *term);
 int		escape_sequences(t_block *block);
@@ -88,6 +89,5 @@ void    ctrl_up(t_term *term, t_block *block);
 void	ctrl_down(t_term *term, t_block *block);
 void	ctrl_left(t_term *term, t_block *block);
 void	ctrl_right(t_term *term, t_block *block);
-void	clear_eos(t_term *term);
-
+void	clear_eos(t_term *term, int original_line);
 #endif

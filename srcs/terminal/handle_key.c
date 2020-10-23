@@ -70,9 +70,8 @@ static int	check_key(t_block *block)
 			block->alloc_size += term->nb_cols;
 			if (!(block->str_cmd = realloc_str(block->str_cmd, block->alloc_size)))
 				return (EXIT_FAILURE);
-			// term->ndx_line +=1;
         }
-        insert(block);
+		insert(block);
 		if (term->cursor_pos == term->nb_cols)
 		{
 			ft_printf("\n");
@@ -96,11 +95,11 @@ int			handle_key()
 	int 	ret;
 
     term = (*getTerm());
-    // debug(term);
 	term->nb_cols = tigetnum(T_COLUMN);
 	block = (t_block *)(term->current_block)->value;
+	debug(term);
 	ret = check_key(block);
-	// debug(term);
+	debug(term);
 	if (ret == 2)
 		return (2);
 	if (ret == EXIT_FAILURE)
@@ -112,8 +111,5 @@ int			handle_key()
         ft_printf("\n");
     term->ndx_cursor = 0;
 	term->cursor_pos = 0;
-    block->size = 0;
-	block->delta_end_line = 0;
-	// debug(term);
 	return (EXIT_SUCCESS);
 }

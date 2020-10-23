@@ -16,7 +16,6 @@ t_block		*ft_blocknew(void)
 	if (!(ptr = wrmalloc(sizeof(t_block))))
 		return (0);
 	ptr->nb_blocks = 1;
-	ptr->delta_end_line = 0;
 	ptr->size = 0;
 	ptr->alloc_size = term->nb_cols + 1 - PROMPT_SIZE;
 	if ((ptr->str_cmd = (char *)wrmalloc(ptr->alloc_size)) == 0)
@@ -29,19 +28,45 @@ t_block		*ft_blocknew(void)
  ** Concatène l'ensemble des blocs
  **	return : pointeur de la chaine de caractère
 */
-
-char		*ft_retcontent(t_hash *hash)
+#include "libft_printf.h"
+t_block	*ft_blockhashdup(t_hash *hash)
 {
-	char	*ptr;
+	t_block *ptr;
 	t_block	*block;
 
-	ptr = 0;
+	if (!(ptr = ft_blocknew()))
+		return (0);
+	ptr->alloc_size = 0;
 	while (hash)
 	{
 		block = (t_block *)hash->value;
-		if (!(ptr = ft_strjoin(ptr, block->str_cmd)))
+		if (!(ptr->str_cmd = ft_strjoin(ptr->str_cmd, block->str_cmd)))
 			return (0);
+		ptr->size += block->size;
+		ptr->alloc_size += block->alloc_size;
+		ptr->nb_blocks = 1;
 		hash = hash->next;
+	}
+	return (ptr);
+}
+
+t_block *ft_blockdup(t_block *block)
+{
+	t_block *ptr;
+	int 	i;
+
+	i = -1;
+	if (!block || !(ptr = ft_blocknew()))
+		return (0);
+	ptr->size = block->size;
+	ptr->alloc_size = block->alloc_size;
+	ptr->nb_blocks = block->nb_blocks;
+	if (!(ptr->str_cmd = wrmalloc(block->alloc_size)))
+		return (0);
+	ft_bzero(ptr->str_cmd, ptr->alloc_size);
+	while (block->str_cmd[++i])
+	{
+		ptr->str_cmd[i] = block->str_cmd[i];
 	}
 	return (ptr);
 }

@@ -22,6 +22,7 @@ static int init_term_variables(void)
 	term->ndx_cursor = 0;
 	term->cursor_pos = PROMPT_SIZE;
 	term->ndx_line = 0;
+	term->original_line = 0;
 	term->last_char = '\0';
 	term->esc_flag = 0;
 	return (EXIT_SUCCESS);

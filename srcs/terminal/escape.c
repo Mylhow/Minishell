@@ -13,11 +13,11 @@ static int move_manage(t_term *term, t_block *block)
 	else if (term->last_char == RIGHTCHAR)
 		move_right(block);
 	else if (term->last_char == UPCHAR) {
-		if (move_up(term, block))
+		if (move_up(term))
 			return (EXIT_FAILURE);
 	}
 	else if (term->last_char == DOWNCHAR)
-		return(move_down(term, block));
+		return(move_down(term));
 	else if (term->last_char == HOMECHAR)
 		term->ndx_cursor = 0;
 	else if (term->last_char == ENDCHAR)

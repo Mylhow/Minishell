@@ -2,10 +2,10 @@
 
 void    ctrl_up(t_term *term, t_block *block)
 {
+	(void)block;
 	if (term->ndx_cursor >= term->nb_cols - PROMPT_SIZE)
 	{
 		term->ndx_line--;
-		block->delta_end_line++;
 		term->ndx_cursor -= term->nb_cols;
 		if (term->ndx_cursor < 0)
 			term->ndx_cursor = 0;
@@ -19,7 +19,6 @@ void    ctrl_down(t_term *term, t_block *block)
 	if (term->ndx_cursor + term->nb_cols < block->alloc_size)
 	{
 		term->ndx_line++;
-		block->delta_end_line--;
 		term->ndx_cursor += term->nb_cols;
 		if (term->ndx_cursor > block->size)
 		{

@@ -15,12 +15,11 @@ void     move_right(t_block *block)
 		{
 			term->cursor_pos = 0;
 			term->ndx_line++;
-			block->delta_end_line--;
 		}
 	}
 }
 
-void     move_left(t_block *block)
+void     move_left()
 {
     t_term *term;
 
@@ -33,36 +32,29 @@ void     move_left(t_block *block)
 		{
 			term->cursor_pos = term->nb_cols - 1;
 			term->ndx_line--;
-			block->delta_end_line++;
 		}
 	}
 }
 
-int		print_historic(t_term *term, t_block *block)
+int		print_historic(t_term *term, t_block *dup)
 {
-	char	*current;
-
-	current = (char *)term->current_historic->value;
-	term->ndx_line -= block->nb_blocks - 1;
+	if (!(term->list_blocks->value = ft_blockdup(dup)))
+		return (EXIT_FAILURE);
+	term->current_block = term->list_blocks;
 	term->cursor_pos = PROMPT_SIZE;
+	put_cursor(term->cursor_pos, term->original_line);
+	put_caps(T_CLEOL, 0);
+	clear_eos(term, term->original_line);
+	ft_printf("%s", ((t_block *)term->list_blocks->value)->str_cmd);
+	term->cursor_pos = (((t_block *)term->list_blocks->value)->size + PROMPT_SIZE) % term->nb_cols;
+	term->ndx_cursor = ((t_block *)term->list_blocks->value)->size;
+	term->ndx_line += (((t_block *)term->list_blocks->value)->size + PROMPT_SIZE) / term->nb_cols;
 	put_cursor(term->cursor_pos, term->ndx_line);
-	clear_eos(term);
-	if (!(block->str_cmd = ft_strdup(current))) //TODO leaks
-			return (EXIT_FAILURE);
-	block->size = ft_strlen(block->str_cmd);
-	block->nb_blocks = (block->size + PROMPT_SIZE) / term->nb_cols + 1;
-	block->alloc_size = (term->nb_cols * block->nb_blocks) + 1 - PROMPT_SIZE;
-	ft_printf("%s", current);
-	term->cursor_pos = (block->size + PROMPT_SIZE) % term->nb_cols;
-	term->ndx_cursor = block->size;
-	term->ndx_line += block->nb_blocks - 1;
-	if (term->ndx_line > term->nb_lines - 1)
-		term->ndx_line = term->nb_lines - 1;
-	put_cursor(term->cursor_pos, term->ndx_line);
+	debug(term);
 	return(EXIT_SUCCESS);
 }
 
-int     move_up(t_term *term, t_block *block)
+int     move_up(t_term *term)
 {
 	int		flag;
 
@@ -72,38 +64,33 @@ int     move_up(t_term *term, t_block *block)
 	else if (!term->current_historic)
 	{
 		if ((term->current_historic = term->historic->last(term->historic)))
-		{
 			flag = 1;
-		}
 	}
 	else if (term->current_historic->before)
 	{
 		term->current_historic = term->current_historic->before;
-		flag = 2;
+		flag = 1;
 	}
-//TODO tester avec un texte plus grand que le screen entier + avec défilement de l'historique
 	if (flag) //si il y a un up
-		return(print_historic(term, block));
+		return (print_historic(term, (t_block *)term->current_historic->value));
 	return (EXIT_SUCCESS);
 }
-//TODO faire move_down
-//TODO faire en sorte que move down fasse revenir au texte initial et non juste au dernier historique
-int     move_down(t_term *term, t_block *block)
-{
-	int		flag;
 
-	flag = 0;
+int     move_down(t_term *term)
+{
 	if (!term->historic)
 		return (EXIT_SUCCESS);
 	else if (term->current_historic && term->current_historic->next)
 	{
 		term->current_historic = term->current_historic->next;
-		flag = 2;
+		return(print_historic(term, (t_block *)term->current_historic->value));
 	}
-//TODO tester avec un texte plus grand que le screen entier + avec défilement de l'historique
-//TODO effacer les doublons cote a cote dans l'historiqe
-//TODO effacer les historiques vides
-	if (flag) //si il y a un up
-		return(print_historic(term, block));
+	else if (term->current_historic && !(term->current_historic->next))
+	{
+		term->current_historic = NULL;
+		if (!(term->list_blocks->value = ft_blocknew()))
+			return (EXIT_FAILURE);
+		return(print_historic(term, (t_block *)term->list_blocks->value));
+	}
 	return (EXIT_SUCCESS);
 }
