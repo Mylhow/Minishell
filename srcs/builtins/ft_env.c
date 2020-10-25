@@ -1,4 +1,6 @@
 #include "env.h"
+#include "libft_printf.h"
+#include "libft_string.h"
 
 // Okay.. Alors tu dois déjà fork() pour lancer la commande depuis un autre process, exécuter la commande avec execve(path, argv, env) dans le fork puis wait que le process soit terminé,
 // En gros :
@@ -66,21 +68,21 @@ int		parse_export(int ac, char **argv)
 	//check var
 	while (i < ac)
 	{
-		dprintf(1, "my arg = %s\n", argv[i]);
+		ft_printf("my arg = %s\n", argv[i]);
 		i++;
 	}
 	//check command
-	dprintf(1, "my command = %s\n", argv[i]);
+	ft_printf("my command = %s\n", argv[i]);
 	return 0;
 }
 
 void	lunch_utility(char **argv, int i)
 {
-	dprintf(1, "LUNCH the utility: %15s with params:\n", argv[i]);
+	ft_printf("LUNCH the utility: %15s with params:\n", argv[i]);
 	i++;
 	while (argv[i])
 	{
-		dprintf(1, "\t%s\n", argv[i]);
+		ft_printf("\t%s\n", argv[i]);
 		i++;
 	}
 }
@@ -121,7 +123,7 @@ void	ft_env(int ac, char** argv, char **environnement)
 			if (is_utility(argv[i]) == 1)
 				lunch_utility(argv, i);
 			else
-				dprintf(1, "variable syntax error\n");
+				ft_printf("variable syntax error\n");
 			return ;
 		}
 		add_env_var(env, argv[i]);
@@ -149,7 +151,7 @@ void	ft_env(int ac, char** argv, char **environnement)
 // 	util_idx = 0;
 // 	cas = parse_env_args(ac, argv, &util_idx);
 // 	env = dup_env((envir *)environnement);
-// 	dprintf(1, "CASE = %d\n", cas);
+// 	ft_printf("CASE = %d\n", cas);
 // 	if (cas == 0)
 // 		print_env(env);
 // 	else if (cas == 1)
@@ -193,7 +195,7 @@ envir	*init_env(int ac, char **environnement, char **envp)
 	{
 		if (!(first = new_var(envp[env_index])))
 		{
-			dprintf(1, "break1");
+			ft_printf("break1");
 			return(NULL);
 		}
 		env = first;
@@ -205,7 +207,7 @@ envir	*init_env(int ac, char **environnement, char **envp)
 	{
 		if (!(env = new_var(envp[env_index])))
 		{
-			dprintf(1, "break");
+			ft_printf("break");
 			return(NULL);
 		}
 		before->next = env;

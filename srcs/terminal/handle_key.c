@@ -1,196 +1,148 @@
 #include "terminal.h"
+#include "libft_mem.h"
+#include "libft_string.h"
+#include "libft_number.h"
+#include "libft_printf.h"
 
-//handle escape sequences like arrows
-int     escape_sequences(t_term *term)
-{
-	if (term->last_char == '\033')
-	{
-		term->esc_flag = 1;
-		return 1;
-	}
-	else if (term->esc_flag == 1 && term->last_char == '[')
-	{
-		term->esc_flag = 2;
-		return 1;
-	}
-	else if (term->esc_flag == 2)
-	{
-		//séquence d'échappement
-		if (term->last_char == 'A')
-		{
-			// arrow up
-			if (term->ndx_str / term->caps.column > 1)
-			{ 
-				term->ndx_str -= term->caps.column;
-				term->ndx_line -= 1;
-				tputs(term->caps.up, 1, ft_m_putchar);
-			}
-		}
-		if (term->last_char == 'B')
-		{
-			//arrow down
-			if (term->ndx_str / term->caps.column < term->str_size / term->caps.column)
-			{
-				//si nous ne somme pas sur la derniere ligne
-				tputs(term->caps.down, 1, ft_m_putchar);
-			}
-		}
-		if (term->last_char == 'C')
-		{
-			//arrow right
-			if (term->ndx_str < term->str_size)
-			{
-				if (term->ndx_cursor < term->caps.column)
-				{
-					term->ndx_cursor++;
-					tputs(term->caps.right, 1, ft_m_putchar);
-				}
-				else
-				{
-					//si on atteint le bout de la ligne
-					term->ndx_cursor = 0;
-					term->ndx_line += 1;
-					tputs(tgoto(term->caps.pos, term->ndx_cursor + PROMPT_SIZE, term->ndx_line), 1, ft_m_putchar);
-				}
-				
-				term->ndx_str++;
-			}
-		}
-		if (term->last_char == 'D')
-		{
-			//arrow left
-				// dprintf(1, "cursor =%d", term->ndx_cursor);
-			if (term->ndx_str > 0)
-			{
-				if (term->ndx_cursor > 0)
-				{
-					term->ndx_cursor--;
-					tputs(term->caps.left, 1, ft_m_putchar);
-				}
-				else
-				{
-					//si on atteint le bout de la ligne
-					term->ndx_cursor = term->caps.column;
-					term->ndx_line -= 1;
-					tputs(tgoto(term->caps.pos, term->ndx_cursor + PROMPT_SIZE, term->ndx_line), 1, ft_m_putchar);
-					// debug(term);
-				}
-				term->ndx_str--;
-			}
-		}
-		term->esc_flag = 0;
-		return 1;
-	}
-	return 0;
-}
-//handle the suppression of a caractere
-int     back_space(t_term *term)
-{
-	int i;
+/*
+ ** Insert un caractere dans le block
+ ** Return [int] Status de reussite
+ ** TODO Ajout check term-fonction
+ */
 
-	i = 0;
-	if (term->ndx_str > 0)
-	{
-		term->ndx_str--;
-		while (term->ndx_str + i <= term->str_size)
-		{
-			// dprintf(1, "char = %c\n", term->str_cmd[term->ndx_str + i]);
-			term->str_cmd[term->ndx_str + i] = term->str_cmd[term->ndx_str + i + 1];
-			i++;
-		}
-		term->ndx_cursor--;
-		term->str_size--;
-		term->str_cmd[term->ndx_str + i + 1] = '\0';
-		tputs(tgoto(term->caps.pos, term->ndx_cursor + PROMPT_SIZE, term->ndx_line), 1, ft_m_putchar);
-		tputs(term->caps.cl_eol, 1, ft_m_putchar);
-		dprintf(1, "%s", term->str_cmd + term->ndx_str);
-		tputs(tgoto(term->caps.pos, term->ndx_cursor + PROMPT_SIZE, term->ndx_line), 1, ft_m_putchar);
-	}
-	// debug(term);
-	return 1;
-}
-// insére un caractere dans str_cmd
-void	insert(t_term *term)
+static int	insert(t_block *block)
 {
-	int i;
+	t_term	*term;
+	char	*tmp;
 
-	i = 0;
-	while (term->str_size - i > term->ndx_str)
+	term = (*getterm());
+	put_cursor(term->cursor_pos, term->ndx_line);
+	if (term->ndx_cursor < block->size)
 	{
-		// dprintf(1, "i = %d", i);
-		term->str_cmd[term->str_size -i] =  term->str_cmd[term->str_size -1 - i]; //deplace un caractere d'un cran vers la droite (en memoire)
-		i++;
+		tmp = ft_strdup(block->str_cmd);
+		ft_bzero(block->str_cmd, block->size);
+		ft_memcpy(block->str_cmd, tmp, term->ndx_cursor);
+		block->str_cmd[term->ndx_cursor] = term->last_char;
+		ft_strcat(block->str_cmd, tmp + term->ndx_cursor);
+		put_caps(T_CLEOL, 0);
+		ft_printf("%s", block->str_cmd + term->ndx_cursor);
 	}
-	term->str_cmd[term->ndx_str] = term->last_char; //insere le nouveau caractere
-	if (term->ndx_cursor >= term->caps.column - PROMPT_SIZE)
+	else
 	{
-		//si on arrive a la fin du terminal
-		term->ndx_cursor = 0;
-		term->ndx_line += 1;
-		dprintf(1, "\n");
+		block->str_cmd[block->size] = term->last_char;
+		ft_printf("%s", block->str_cmd + block->size);
 	}
-	tputs(tgoto(term->caps.pos, term->ndx_cursor + PROMPT_SIZE, term->ndx_line), 1, ft_m_putchar);
-	dprintf(1, "%s", term->str_cmd + term->ndx_str);
 	term->ndx_cursor++;
-	tputs(tgoto(term->caps.pos, term->ndx_cursor + PROMPT_SIZE, term->ndx_line), 1, ft_m_putchar);
-	term->ndx_str++;
-	term->str_size++;
+	term->cursor_pos++;
+	block->size++;
+	put_cursor(term->cursor_pos, term->ndx_line);
+	return (EXIT_SUCCESS);
 }
 
-//return 1 if continue
-//return 0 if end of cmd
-int		handle_key(t_term *term)
+/*
+ ** Gere le \n dans le block. Ajoute un block dans la structure.
+ ** Return [int] Status de reussite
+*/
+
+static int	ft_return_line(t_term *term, t_block *block)
 {
+	t_hash	*hash;
 
-
-	// IDéE:: 
-	//	enlever écriture des \n sur le multilignes, save pos écrit fin de phrase, restore pos
-	//
-	// erreur: Pour chaque block, un espace de trop apparait
-	//
-	// a chaque commande récuperer de nouveau les parametres du terminal.
-	//
-	//gérer le retour a la ligne
-	// char num[25];
-
-	// dprintf(0, "\033[6n");
-	// dprintf(0, "read:%ld", read(0, num, 24));
-	// num[4] = '\0';
-	// dprintf(1, ";%d;", term->ndx_line);
-	// term->ndx_line = ft_atoi(num+2);
-	// term->ndx_line --;
-	// // dprintf(1, "ndx_line = %d", term->ndx_line);
-	// tputs(tgoto(term->caps.pos, term->ndx_cursor, term->ndx_line), 1, ft_m_putchar);
-	// debug(term);
-	// debug(term);
-	if (term->ndx_line > term->caps.line - 1)
-		term->ndx_line = term->caps.line - 1;
-	if (term->last_char == '\033' || term->esc_flag == 1 || term->esc_flag == 2)
-		return(escape_sequences(term));
-	//gestion du retour
-	else if ((term->last_char == 127 || term->last_char == 8))
-		return (back_space(term));
-	//gestion des caracteres tapés
-	else if (term->last_char != '\n' )
+	if (block->str_cmd[block->size - 1] == '\\')
 	{
-		//réalloue la string si elle est trop petite
-		if (term->ndx_str == STR_SIZE * term->nb_blocks - 1)
-		{
-			term->str_cmd = resize_str(term->str_cmd, (term->nb_blocks + 1) * STR_SIZE);
-			term->nb_blocks++;
-		}
-		//enregistrement du caractere
-		insert(term);
-		//affichage du caractere
-		return 1;
+		if (!(hash = ft_hashnew(ft_strjoin("block_",
+					ft_itoa(ft_hashlen(term->list_blocks) + 1)),
+						ft_blocknew())))
+			return (EXIT_FAILURE);
+		ft_hashadd_back(&(term->list_blocks), hash);
+		term->ndx_line++;
+		term->cursor_pos = PROMPT_SIZE;
+		ft_printf("\n> ");
+		term->current_block = hash;
+		term->ndx_cursor = 0;
+		return (2);
 	}
-	// dprintf(1, "ENTER");
-	//si on passe ici ENTER a été pressé
-	if (term->str_cmd[0] != '\0' && term->last_char == '\n')
-		dprintf(1, "\n");
+	return (EXIT_SUCCESS);
+}
+
+/*
+ ** Manage toutes les touches tape
+ ** Return [int] Status de reussite
+ ** TODO Reduire la fonction
+ ** TODO Check return insert
+*/
+
+static int	check_key(t_block *block)
+{
+	t_term	*term;
+
+	term = *(getterm());
+	if (term->last_char == '\033' || term->esc_flag != 0)
+		return (escape_sequences(block));
+	if (term->last_char == DELCHAR || term->last_char == BACKSPACE)
+		return (!backspace(block));
+	if (term->last_char != '\n')
+	{
+		if (block->size == block->alloc_size - 1)
+		{
+			block->nb_blocks++;
+			block->alloc_size += term->nb_cols;
+			if (!(block->str_cmd = realloc_str(block->str_cmd,
+									block->alloc_size)))
+				return (EXIT_FAILURE);
+		}
+		if (term->last_char == '\t')
+		{
+			term->last_char = ' ';
+			insert(block);
+			insert(block);
+			insert(block);
+		}
+		insert(block);
+		if (term->cursor_pos == term->nb_cols)
+		{
+			ft_printf("\n");
+			term->cursor_pos = 0;
+			term->ndx_line++;
+			if (term->ndx_line > term->nb_lines - 1)
+				term->ndx_line = term->nb_lines - 1;
+		}
+		return (2);
+	}
+	else if (term->last_char == '\n')
+		return (ft_return_line(term, block));
+	return (EXIT_FAILURE);
+}
+
+/*
+ ** Manage le key control
+ ** Return [int] Status de reussite
+ ** TODO Gerer le nombre max de lignes
+ ** TODO En prod, supprimer les debug
+*/
+
+int			handle_key(void)
+{
+	t_term	*term;
+	t_block *block;
+	int		ret;
+
+	term = (*getterm());
+	term->nb_cols = tigetnum(T_COLUMN);
+	block = (t_block *)(term->current_block)->value;
+	debug(term);
+	ret = check_key(block);
+	debug(term);
+	if (ret == 2)
+		return (2);
+	if (ret == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	term->ndx_line += (block->size - term->ndx_cursor) / term->nb_cols + 1;
+	if (term->ndx_line > term->nb_lines - 1)
+		term->ndx_line = term->nb_lines - 1;
+	if (block->str_cmd[0] == '\0' || term->last_char == '\n')
+		ft_printf("\n");
 	term->ndx_cursor = 0;
-	term->ndx_str = 0;
-	term->str_size = 0;
-	term->ndx_line += 1;
-	return 0;
+	term->cursor_pos = 0;
+	return (EXIT_SUCCESS);
 }

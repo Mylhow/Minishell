@@ -1,5 +1,7 @@
+/cmake-build-debug/
+/.idea/
 *.a
 *.o
 *.log
 minishell
-.idea
+CMakeLists.txt

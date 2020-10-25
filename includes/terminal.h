@@ -1,76 +1,96 @@
-#ifndef TERM_H
- #define TERM_H
-    #include "libft_string.h"
-    #include "libft_put.h"
-    #include "libft_mem.h"
-    #include "libft_number.h"
-    
-    #include <term.h>
-    #include <unistd.h>
-    #include <stdio.h>
-    #include <stdlib.h>
-    
-    #define STR_SIZE 64
-    #define PROMPT_SIZE 2
-    
-    //tparm colors
-    #define COLOR_BLACK	0
-    #define COLOR_RED	1
-    #define COLOR_GREEN	2
-    #define COLOR_YELLOW	3
-    #define COLOR_BLUE	4
-    #define COLOR_MAGENTA	5
-    #define COLOR_CYAN	6
-    #define COLOR_WHITE	7
-    // dprintf(1, "\033[6n"); //affiche la position du curseur
+#ifndef TERMINAL_H
+# define TERMINAL_H
 
-    typedef struct termios t_termios;
-    typedef struct  s_caps
-    {
-        char *clear;
-        char *cl_eol;
+# include <term.h>
+# include "libft_hash.h"
 
-        char *fcolor;
-        char *bcolor;
-        char *blink;
-        char *bold;
-        char *under;
-        char *reset;
+# define T_CLEAR "clear"
+# define T_CLEOL "el"
+# define T_FCOLOR "setaf"
+# define T_BCOLOR "setab"
+# define T_RESET "sgr0"
+# define T_POS "cup"
+# define T_SAVE "sc"
+# define T_RESTORE "rc"
+# define T_COLUMN "cols"
+# define T_LINE "lines"
 
-        char *pos;
-        char *save;
-        char *restore;
-        char *up;
-        char *down;
-        char *right;
-        char *left;
-        int column;
-        int line;
-    }               t_caps;
-    typedef struct  s_term
-    {
-        int         nb_blocks; //nb_block * STR_SIZE = taille alloué pour la commande
-        int         ndx_cursor; //indice du curseur sur une ligne
-        int         ndx_line; //indique la ligne du curseur
-        int         ndx_str; //indice du curseur sur la str_cmd``
-        int         str_size; //taille de la commande tapé (en octets)
-        unsigned char        last_char; //dernier caractere tapé
-        char        *str_cmd; //commande
-        char        esc_flag;
-        t_caps      caps;
-        t_termios   termios;
-        t_termios   termios_backup;
-    }               t_term;
+# define PROMPT_SIZE 2
 
-    //init_term.c
-    int     init_term(t_term *term);
-    int     config_term(t_term *term);
-    //handle_key.c
-    int		handle_key(t_term *term);
-    // utils.c
-    void    debug(t_term *term);
-    int     ft_m_putchar(int c);
-    char    *resize_str(char *str, int new_size);
+# define LEFTCHAR 'D'
+# define RIGHTCHAR 'C'
+# define UPCHAR 'A'
+# define DOWNCHAR 'B'
+# define DELCHAR 127
+# define BACKSPACE 8
+# define ENDCHAR 'F'
+# define HOMECHAR 'H'
 
+# define DEBUG 1
 
-#endif //TERM_H
+typedef struct termios	t_termios;
+
+/*
+ ** Structure d un bloc. Bloc = une commande
+*/
+
+typedef struct			s_block
+{
+	int					nb_blocks;
+	int					size;
+	int					alloc_size;
+	char				*str_cmd;
+}						t_block;
+
+/*
+ ** Structure du temrinal. (ESC char 1. [ char 2. CTRL char 3)
+*/
+
+typedef struct			s_term
+{
+	t_hash				*list_blocks;
+	t_hash				*historic;
+	t_hash				*current_historic;
+	t_hash				*current_block;
+	int					cursor_pos;
+	int					ndx_cursor;
+	int					ndx_line;
+	int					original_line;
+	unsigned char		last_char;
+	char				esc_flag;
+	int					nb_cols;
+	int					nb_lines;
+	t_termios			termios;
+	t_termios			termios_backup;
+}						t_term;
+
+t_term					**getterm(void);
+
+void					get_pos(void);
+int						put_caps(char *caps, int color);
+int						put_cursor(int col, int row);
+int						clear_eos(t_term *term, int original_line);
+
+int						init_term(void);
+
+t_block					*ft_blockhashdup(t_hash *hash);
+t_block					*ft_blockdup(t_block *block);
+t_block					*ft_blocknew(void);
+
+int						handle_key(void);
+int						escape_sequences(t_block *block);
+int						backspace(t_block *block);
+
+void					move_right(t_block *block);
+void					move_left(void);
+int						move_up(t_term *term);
+int						move_down(t_term *term);
+
+void					ctrl_up(t_term *term);
+void					ctrl_down(t_term *term, t_block *block);
+int						ctrl_left(t_term *term, t_block *block);
+int						ctrl_right(t_term *term, t_block *block);
+
+char					*realloc_str(char *str, int new_size);
+void					debug(t_term *term);
+#endif

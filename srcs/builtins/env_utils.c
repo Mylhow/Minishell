@@ -1,4 +1,7 @@
 #include "env.h"
+#include "libft_printf.h"
+#include "libft_string.h"
+#include "libft_mem.h"
 
 envir   *dup_env_var(envir *var)
 {
@@ -54,7 +57,7 @@ void	add_env_var(envir *env, char *var)
 	tmp = env;
 	while (tmp->next)
 		tmp = tmp->next;
-	dprintf(1, "ADDING_VAR: %s\n", var);
+	ft_printf("ADDING_VAR: %s\n", var);
 	tmp->next = new_var(var);
 }
 
@@ -67,10 +70,10 @@ void	print_env(envir *env)
 	tmp = env;
 	while (tmp->next)
 	{
-		dprintf(1, "%s=%s\n", tmp->key, tmp->value);
+		ft_printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	dprintf(1, "%s=%s\n", tmp->key, tmp->value);
+	ft_printf("%s=%s\n", tmp->key, tmp->value);
 }
 
 envir	*new_var(char *var)

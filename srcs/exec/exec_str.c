@@ -74,14 +74,20 @@ int				handle_redirection(t_list *l_redir)
 	{
 		redirect = (t_redirect *)l_redir->content;
 		if (ft_strcmp(redirect->type, ">") == 0)
+		{
 			if (redirect_stdout(redirect->file) < 0)
 				return (-1);
+		}
 		else if (ft_strcmp(redirect->type, ">>") == 0)
+		{
 			if (append_stdout(redirect->file) < 0)
 				return (-1);
+		}
 		else if (ft_strcmp(redirect->type, "<") == 0)
+		{
 			if (redirect_stdin(redirect->file) == -2)
 				return (NO_FILE);
+		}
 		l_redir = l_redir->next;
 	}
 	return (1);

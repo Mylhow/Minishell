@@ -1,4 +1,5 @@
 #include "env.h"
+#include "libft_printf.h"
 
 int check_var(char *variable)
 {
@@ -50,11 +51,11 @@ int    export(int ac, char **argv, char **environnment)
 		env = env->next;
 	while (argv[i])
 	{
-		// dprintf(1, "var = %s\n", argv[i]);
+		// ft_printf("var = %s\n", argv[i]);
 		ret = check_var(argv[i]);
 		if ( ret < 0) //ici check validite de parametre
 		{
-			dprintf(1, "Syntax error.\n");
+			ft_printf("Syntax error.\n");
 			return -1; 
 		}
 		add_env_var(env, argv[i]);
