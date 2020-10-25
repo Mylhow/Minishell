@@ -28,7 +28,7 @@ static int	move_manage(t_term *term, t_block *block)
 	}
 	else if (term->last_char == ENDCHAR)
 	{
-		term->ndx_line = (block->size / term->nb_cols);
+		term->ndx_line = (block->size / term->nb_cols) + term->original_line;
 		term->ndx_cursor = block->size;
 		term->cursor_pos = block->size % term->nb_cols + PROMPT_SIZE;
 	}
