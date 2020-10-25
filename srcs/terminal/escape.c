@@ -21,10 +21,17 @@ static int move_manage(t_term *term, t_block *block)
 		if (move_down(term))
 			return (EXIT_FAILURE);
 	}
-	else if (term->last_char == HOMECHAR)
+	else if (term->last_char == HOMECHAR) {
+		term->ndx_line = term->original_line;
 		term->ndx_cursor = 0;
+		term->cursor_pos = PROMPT_SIZE;
+	}
 	else if (term->last_char == ENDCHAR)
+	{
+		term->ndx_line = (block->size / term->nb_cols);
 		term->ndx_cursor = block->size;
+		term->cursor_pos = block->size % term->nb_cols + PROMPT_SIZE;
+	}
 	put_cursor(term->cursor_pos, term->ndx_line);
 	term->esc_flag = 0;
 	return (EXIT_SUCCESS);
@@ -73,7 +80,7 @@ int	escape_sequences(t_block *block)
 	else if (term->esc_flag == 3)
 	{
 		read(STDIN_FILENO, &my_char, 1); //read '5'
-		if (my_char == '5')
+		if (my_char == '2') //TODO 2 pour mac 5 pour linux
 		{
 			//TODO: réécriture de la fin de la chaine de caractere; il doit y avoir un \n quelque part à catch
 			read(STDIN_FILENO, &my_char, 1);
@@ -111,5 +118,6 @@ int	backspace(t_block *block)
 		}
 		put_caps(T_CLEOL, 0);
 	}
+	put_cursor(term->cursor_pos, term->ndx_line);
 	return (EXIT_SUCCESS);
 }
