@@ -85,7 +85,8 @@ int		clear_eos(t_term *term, int original_line)
 }
 
 /*
- ** TODO Attente d une description
+ ** Definie les positions exacte en fonction du curseur
+ ** Return [void]
 */
 
 void	get_pos(void)
