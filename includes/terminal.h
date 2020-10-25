@@ -34,6 +34,8 @@
 # define ENDCHAR 'F'
 # define HOMECHAR 'H'
 
+# define DEBUG 1
+
 
 typedef struct 		termios	t_termios;
 

@@ -32,11 +32,12 @@ static int new_cmd(t_term *term)
 			return (ft_exit(EXIT_FAILURE));
 		ft_hashadd_back(&term->historic, tmp);
 		term->current_historic = NULL;
+		ft_printf("%s\n", copy->str_cmd); //TODO: Rendu debug
 		ft_hashclear(&(term->list_blocks));
 		if (!(term->list_blocks = ft_hashnew("block_1", ft_blocknew())))
 			return (ft_exit(EXIT_FAILURE));
 		term->current_block = term->list_blocks;
-		term->original_line = term->ndx_line;
+		term->original_line = term->ndx_line + (copy->size / term->nb_cols) + 1; //TODO: Calcul a changer, en fonction du nombre de ligne prompt
 	}
 	else
 	{

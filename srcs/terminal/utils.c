@@ -94,12 +94,15 @@ void    debug(t_term *term)
     int tmp;
 
     tmp = 10;
-    if (1) {
+    if (DEBUG) {
 		block = (t_block *) (term->current_block)->value;
 		put_caps(T_SAVE, 0);
 		put_cursor(2 * tgetnum(T_COLUMN) / 4, tmp);
 		put_caps(T_CLEOL, 0);
-		dprintf(1, "%-18s = '%c' code:%d\n", "last_char", term->last_char, (int) term->last_char);
+		if (term->last_char != '\n')
+			dprintf(1, "%-18s = '%c' code:%d\n", "last_char", term->last_char, (int) term->last_char);
+		else
+			dprintf(1, "%-18s = '\\n' code:%d\n", "last_char", (int) term->last_char);
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);

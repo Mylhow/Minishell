@@ -1,9 +1,9 @@
 #include "terminal.h"
-#include <stdio.h>
 #include "libft_mem.h"
 #include "libft_string.h"
 #include "libft_number.h"
 #include "libft_printf.h"
+#include "libft_ctype.h"
 
 static void	insert(t_block *block)
 {
@@ -45,7 +45,7 @@ static int ft_return_line(t_term *term, t_block *block)
 		ft_hashadd_back(&(term->list_blocks), hash);
 		term->ndx_line++;
 		term->cursor_pos = PROMPT_SIZE;
-		printf("\n> ");
+		ft_printf("\n> ");
 		term->current_block = hash;
 		term->ndx_cursor = 0;
 		return (2);
@@ -62,7 +62,7 @@ static int	check_key(t_block *block)
         return (escape_sequences(block));
     if (term->last_char == DELCHAR || term->last_char == BACKSPACE)
         return (!backspace(block));
-    if (term->last_char != '\n')
+    if (ft_isprint(term->last_char))
     {
 		if (block->size == block->alloc_size - 1)
         {
@@ -82,11 +82,11 @@ static int	check_key(t_block *block)
 		}
 		return (2);
     }
-    else
+    else if (term->last_char == '\n')
 		return (ft_return_line(term, block));
+    return (EXIT_FAILURE);
 }
 
-//TODO gerer fleche de droite pour multi-lignes
 //TODO gerer le nombre max de lignes
 int			handle_key()
 {

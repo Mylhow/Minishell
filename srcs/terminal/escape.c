@@ -1,6 +1,5 @@
 #include "terminal.h"
 #include "libft_printf.h"
-#include "libft.h"
 #include "libft_mem.h"
 #include "libft_string.h"
 #include "unistd.h"
@@ -33,8 +32,6 @@ static int move_manage(t_term *term, t_block *block)
 
 static void ctrl_manage(t_term *term, t_block *block, char my_char)
 {
-	// #include <stdio.h>
-	// dprintf(1, "ICIIIIIIIIIIIIIIIIIIIIIIII");
 	if (my_char == 'A')
 		ctrl_up(term, block);
 	else if (my_char == 'B')
@@ -78,7 +75,7 @@ int	escape_sequences(t_block *block)
 		read(STDIN_FILENO, &my_char, 1); //read '5'
 		if (my_char == '5')
 		{
-			//TODO réécriture de la fin de la chaine de caractere;il doit y avoir un \n quelque part à catch
+			//TODO: réécriture de la fin de la chaine de caractere; il doit y avoir un \n quelque part à catch
 			read(STDIN_FILENO, &my_char, 1);
 			ctrl_manage(term, block, my_char);
 			return (2);
