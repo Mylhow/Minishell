@@ -70,6 +70,7 @@ static int	ft_return_line(t_term *term, t_block *block)
  ** Return [int] Status de reussite
  ** TODO Reduire la fonction
  ** TODO Check return insert
+ ** TODO \t bug sur changement de ligne
 */
 
 static int	check_key(t_block *block)
