@@ -3,7 +3,6 @@
 #include "libft_string.h"
 #include "libft_number.h"
 #include "libft_printf.h"
-#include "libft_ctype.h"
 
 static void	insert(t_block *block)
 {
@@ -71,6 +70,13 @@ static int	check_key(t_block *block)
 			if (!(block->str_cmd = realloc_str(block->str_cmd, block->alloc_size)))
 				return (EXIT_FAILURE);
         }
+		if (term->last_char == '\t')
+		{
+			term->last_char = ' ';
+			insert(block);
+			insert(block);
+			insert(block);
+		}
 		insert(block);
 		if (term->cursor_pos == term->nb_cols)
 		{
