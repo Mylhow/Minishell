@@ -4,12 +4,18 @@
 #include "libft_number.h"
 #include "libft_printf.h"
 
-static void	insert(t_block *block)
-{
-    t_term	*term;
-    char	*tmp;
+/*
+ ** Insert un caractere dans le block
+ ** Return [int] Status de reussite
+ ** TODO Ajout check term-fonction
+ */
 
-    term = (*getTerm());
+static int	insert(t_block *block)
+{
+	t_term	*term;
+	char	*tmp;
+
+	term = (*getterm());
 	put_cursor(term->cursor_pos, term->ndx_line);
 	if (term->ndx_cursor < block->size)
 	{
@@ -19,7 +25,7 @@ static void	insert(t_block *block)
 		block->str_cmd[term->ndx_cursor] = term->last_char;
 		ft_strcat(block->str_cmd, tmp + term->ndx_cursor);
 		put_caps(T_CLEOL, 0);
-		ft_printf("%s", block->str_cmd + term->ndx_cursor );
+		ft_printf("%s", block->str_cmd + term->ndx_cursor);
 	}
 	else
 	{
@@ -28,18 +34,25 @@ static void	insert(t_block *block)
 	}
 	term->ndx_cursor++;
 	term->cursor_pos++;
-    block->size++;
+	block->size++;
 	put_cursor(term->cursor_pos, term->ndx_line);
+	return (EXIT_SUCCESS);
 }
 
-static int ft_return_line(t_term *term, t_block *block)
+/*
+ ** Gere le \n dans le block. Ajoute un block dans la structure.
+ ** Return [int] Status de reussite
+*/
+
+static int	ft_return_line(t_term *term, t_block *block)
 {
 	t_hash	*hash;
 
 	if (block->str_cmd[block->size - 1] == '\\')
 	{
 		if (!(hash = ft_hashnew(ft_strjoin("block_",
-										    ft_itoa(ft_hashlen(term->list_blocks) + 1)), ft_blocknew())))
+					ft_itoa(ft_hashlen(term->list_blocks) + 1)),
+						ft_blocknew())))
 			return (EXIT_FAILURE);
 		ft_hashadd_back(&(term->list_blocks), hash);
 		term->ndx_line++;
@@ -52,24 +65,32 @@ static int ft_return_line(t_term *term, t_block *block)
 	return (EXIT_SUCCESS);
 }
 
+/*
+ ** Manage toutes les touches tape
+ ** Return [int] Status de reussite
+ ** TODO Reduire la fonction
+ ** TODO Check return insert
+*/
+
 static int	check_key(t_block *block)
 {
-    t_term  *term;
+	t_term	*term;
 
-    term = *(getTerm());
-    if (term->last_char == '\033' || term->esc_flag != 0)
-        return (escape_sequences(block));
-    if (term->last_char == DELCHAR || term->last_char == BACKSPACE)
-        return (!backspace(block));
-    if (term->last_char != '\n')
-    {
+	term = *(getterm());
+	if (term->last_char == '\033' || term->esc_flag != 0)
+		return (escape_sequences(block));
+	if (term->last_char == DELCHAR || term->last_char == BACKSPACE)
+		return (!backspace(block));
+	if (term->last_char != '\n')
+	{
 		if (block->size == block->alloc_size - 1)
-        {
+		{
 			block->nb_blocks++;
 			block->alloc_size += term->nb_cols;
-			if (!(block->str_cmd = realloc_str(block->str_cmd, block->alloc_size)))
+			if (!(block->str_cmd = realloc_str(block->str_cmd,
+									block->alloc_size)))
 				return (EXIT_FAILURE);
-        }
+		}
 		if (term->last_char == '\t')
 		{
 			term->last_char = ' ';
@@ -87,20 +108,26 @@ static int	check_key(t_block *block)
 				term->ndx_line = term->nb_lines - 1;
 		}
 		return (2);
-    }
-    else if (term->last_char == '\n')
+	}
+	else if (term->last_char == '\n')
 		return (ft_return_line(term, block));
-    return (EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
 
-//TODO gerer le nombre max de lignes
-int			handle_key()
-{
-    t_term	*term;
-    t_block *block;
-	int 	ret;
+/*
+ ** Manage le key control
+ ** Return [int] Status de reussite
+ ** TODO Gerer le nombre max de lignes
+ ** TODO En prod, supprimer les debug
+*/
 
-    term = (*getTerm());
+int			handle_key(void)
+{
+	t_term	*term;
+	t_block *block;
+	int		ret;
+
+	term = (*getterm());
 	term->nb_cols = tigetnum(T_COLUMN);
 	block = (t_block *)(term->current_block)->value;
 	debug(term);
@@ -113,9 +140,9 @@ int			handle_key()
 	term->ndx_line += (block->size - term->ndx_cursor) / term->nb_cols + 1;
 	if (term->ndx_line > term->nb_lines - 1)
 		term->ndx_line = term->nb_lines - 1;
-    if (block->str_cmd[0] == '\0' || term->last_char == '\n')
-        ft_printf("\n");
-    term->ndx_cursor = 0;
+	if (block->str_cmd[0] == '\0' || term->last_char == '\n')
+		ft_printf("\n");
+	term->ndx_cursor = 0;
 	term->cursor_pos = 0;
 	return (EXIT_SUCCESS);
 }

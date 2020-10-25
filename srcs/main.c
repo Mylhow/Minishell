@@ -6,20 +6,35 @@
 #include "libft_printf.h"
 #include "libft_string.h"
 
-int ft_exit(int exit_status)
+/*
+ ** Vide la memoire et renvoie le status
+ ** Return [int] Status
+*/
+
+int			ft_exit(int exit_status)
 {
 	wrdestroy();
 	return (exit_status);
 }
 
-t_term **getTerm(void)
+/*
+ ** Renvoie un pointeur sur la structure du terminal
+ ** Return [**t_term] structure du terminal
+*/
+
+t_term		**getterm(void)
 {
 	static t_term *term;
 
 	return (&term);
 }
 
-static int new_cmd(t_term *term)
+/*
+ ** Instancie une nouvelle ligne de commande
+ ** Return [int] Status de reussite
+*/
+
+static int	new_cmd(t_term *term)
 {
 	t_block		*copy;
 	t_hash		*tmp;
@@ -47,14 +62,20 @@ static int new_cmd(t_term *term)
 	return (EXIT_SUCCESS);
 }
 
-static int update()
+/*
+ ** Gere la mise a jour du programme
+ ** Return [int] Status de reussite
+ ** TODO Check return term-fonction
+*/
+
+static int	update(void)
 {
 	t_term	*term;
 
-	term = *getTerm();
+	term = *getterm();
 	ft_printf("$ ");
 	fflush(stdout);
-	while (read(STDIN_FILENO, &(*getTerm())->last_char, 1) > 0)
+	while (read(STDIN_FILENO, &(*getterm())->last_char, 1) > 0)
 	{
 		if (!(handle_key()))
 		{
@@ -71,19 +92,23 @@ static int update()
 	return (EXIT_SUCCESS);
 }
 
-int main(int ac, char **av, char **environment)
-{
-	(void) ac;
-	(void) av;
-	(void) environment;
+/*
+ ** Fonctionne principal
+ ** Return [int] Status de reussite
+*/
 
-	if (!((*getTerm()) = wrmalloc(sizeof(t_term))))
+int			main(int ac, char **av, char **environment)
+{
+	(void)ac;
+	(void)av;
+	(void)environment;
+	if (!((*getterm()) = wrmalloc(sizeof(t_term))))
 		return (ft_exit(EXIT_FAILURE));
 	if (init_term())
 		return (ft_exit(EXIT_FAILURE));
 	if (update())
 		return (ft_exit(EXIT_FAILURE));
-	if (tcsetattr(0, 0, &(*getTerm())->termios_backup) == -1)
+	if (tcsetattr(0, 0, &(*getterm())->termios_backup) == -1)
 		return (ft_exit(EXIT_FAILURE));
 	return (ft_exit(EXIT_SUCCESS));
 }

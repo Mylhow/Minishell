@@ -2,26 +2,26 @@
 #include "libft_printf.h"
 #include "libft_mem.h"
 #include "libft_string.h"
-#include "unistd.h"
+#include <unistd.h>
 
+/*
+ ** Manage les sequences des fleches
+ ** Return [int] Status de reussite
+ ** TODO Check return term-fonction
+*/
 
-static int move_manage(t_term *term, t_block *block)
+static int	move_manage(t_term *term, t_block *block)
 {
 	if (term->last_char == LEFTCHAR)
-		move_left(block);
+		move_left();
 	else if (term->last_char == RIGHTCHAR)
 		move_right(block);
-	else if (term->last_char == UPCHAR)
+	else if (term->last_char == UPCHAR && move_up(term))
+		return (EXIT_FAILURE);
+	else if (term->last_char == DOWNCHAR && move_down(term))
+		return (EXIT_FAILURE);
+	else if (term->last_char == HOMECHAR)
 	{
-		if (move_up(term))
-			return (EXIT_FAILURE);
-	}
-	else if (term->last_char == DOWNCHAR)
-	{
-		if (move_down(term))
-			return (EXIT_FAILURE);
-	}
-	else if (term->last_char == HOMECHAR) {
 		term->ndx_line = term->original_line;
 		term->ndx_cursor = 0;
 		term->cursor_pos = PROMPT_SIZE;
@@ -37,10 +37,16 @@ static int move_manage(t_term *term, t_block *block)
 	return (EXIT_SUCCESS);
 }
 
-static void ctrl_manage(t_term *term, t_block *block, char my_char)
+/*
+ ** Manage les sequences CTRL
+ ** Return [int] Statue de reussite
+ ** TODO Ajoute les check de ctrl_right et ctrl_left
+*/
+
+static int	ctrl_manage(t_term *term, t_block *block, char my_char)
 {
 	if (my_char == 'A')
-		ctrl_up(term, block);
+		ctrl_up(term);
 	else if (my_char == 'B')
 		ctrl_down(term, block);
 	else if (my_char == 'C')
@@ -49,15 +55,24 @@ static void ctrl_manage(t_term *term, t_block *block, char my_char)
 		ctrl_left(term, block);
 	put_cursor(term->cursor_pos, term->ndx_line);
 	term->esc_flag = 0;
+	return (EXIT_SUCCESS);
 }
 
-int	escape_sequences(t_block *block)
+/*
+ ** Manage la sequence d'echappement
+ ** Return [int] Status de reussite
+ ** TODO Reduire la taille de cette fonction
+ ** TODO Ajout de return check ctrl_manage
+*/
+
+int			escape_sequences(t_block *block)
 {
-	t_term *term;
+	t_term	*term;
 	char	my_char;
 
-	term = (*getTerm());
-	if (term->last_char == '\033') {
+	term = (*getterm());
+	if (term->last_char == '\033')
+	{
 		term->esc_flag = 1;
 		return (2);
 	}
@@ -79,25 +94,31 @@ int	escape_sequences(t_block *block)
 	}
 	else if (term->esc_flag == 3)
 	{
-		read(STDIN_FILENO, &my_char, 1); //read '5'
+		read(STDIN_FILENO, &my_char, 1);
 		if (my_char == '2') //TODO 2 pour mac 5 pour linux
 		{
-			//TODO: réécriture de la fin de la chaine de caractere; il doit y avoir un \n quelque part à catch
+			// TODO: réécriture de la fin de la chaine de caractere
+			// TODO: il doit y avoir un \n quelque part à catch
 			read(STDIN_FILENO, &my_char, 1);
 			ctrl_manage(term, block, my_char);
 			return (2);
 		}
-
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	backspace(t_block *block)
+/*
+ ** Permet de supprimer un caractere avec backspace
+ ** Return [int] Status de reussite
+ ** TODO Check return term-fonction
+*/
+
+int			backspace(t_block *block)
 {
-	t_term *term;
+	t_term	*term;
 	char	*tmp;
 
-	term = (*getTerm());
+	term = (*getterm());
 	if (block->size > 0 && term->ndx_cursor > 0)
 	{
 		term->cursor_pos--;
@@ -112,9 +133,8 @@ int	backspace(t_block *block)
 		block->size--;
 		if (term->cursor_pos < 0)
 		{
-			term->cursor_pos = term->nb_cols -1;
+			term->cursor_pos = term->nb_cols - 1;
 			term->ndx_line--;
-			put_cursor(term->cursor_pos, term->ndx_line);
 		}
 		put_caps(T_CLEOL, 0);
 	}

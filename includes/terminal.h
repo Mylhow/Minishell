@@ -8,21 +8,13 @@
 # define T_CLEOL "el"
 # define T_FCOLOR "setaf"
 # define T_BCOLOR "setab"
-# define T_BLINK "blink"
-# define T_BOLD "bold"
-# define T_UNDER "smul"
 # define T_RESET "sgr0"
 # define T_POS "cup"
 # define T_SAVE "sc"
 # define T_RESTORE "rc"
-# define T_UP "cuu1"
-# define T_DOWN "cud1"
-# define T_RIGHT "cuf1"
-# define T_LEFT "cub1"
 # define T_COLUMN "cols"
 # define T_LINE "lines"
 
-# define STR_SIZE 64
 # define PROMPT_SIZE 2
 
 # define LEFTCHAR 'D'
@@ -36,60 +28,69 @@
 
 # define DEBUG 1
 
+typedef struct termios	t_termios;
 
-typedef struct 		termios	t_termios;
+/*
+ ** Structure d un bloc. Bloc = une commande
+*/
 
-typedef struct		s_block
+typedef struct			s_block
 {
-	int				nb_blocks;
-	int 			size;
-	int				alloc_size;
-	char 			*str_cmd;
-	void 			(*print)(struct s_block *);
-}					t_block;
+	int					nb_blocks;
+	int					size;
+	int					alloc_size;
+	char				*str_cmd;
+}						t_block;
 
-//esc_flags:
-//1- ESC char detect
-//2- [ char detect
-//3- 1  CTRL detect
-typedef struct		s_term
+/*
+ ** Structure du temrinal. (ESC char 1. [ char 2. CTRL char 3)
+*/
+
+typedef struct			s_term
 {
-	t_hash	 		*list_blocks;
-	t_hash			*historic;
-	t_hash			*current_historic;
-	t_hash			*current_block;
-	int				cursor_pos;
-	int				ndx_cursor;
-	int				ndx_line;
-	int 			original_line;
-	unsigned char	last_char;
-	char 			esc_flag;
-	int				nb_cols;
-	int				nb_lines;
-	t_termios 		termios;
-	t_termios		termios_backup;
-}					t_term;
+	t_hash				*list_blocks;
+	t_hash				*historic;
+	t_hash				*current_historic;
+	t_hash				*current_block;
+	int					cursor_pos;
+	int					ndx_cursor;
+	int					ndx_line;
+	int					original_line;
+	unsigned char		last_char;
+	char				esc_flag;
+	int					nb_cols;
+	int					nb_lines;
+	t_termios			termios;
+	t_termios			termios_backup;
+}						t_term;
 
-t_term **getTerm(void);
-void	get_pos(void);
-int     init_term(void);
-int     put_caps(char *caps, int color);
-int     put_cursor(int col, int row);
-t_block *ft_blockhashdup(t_hash *hash);
-t_block *ft_blockdup(t_block *block);
-int     handle_key(void);
-char    *realloc_str(char *str, int new_size);
-void    move_right(t_block *block);
-void    move_left();
-int 	move_up(t_term *term);
-int		move_down(t_term *term);
-t_block *ft_blocknew(void);
-void    debug(t_term *term);
-int		escape_sequences(t_block *block);
-int		backspace(t_block *block);
-void    ctrl_up(t_term *term, t_block *block);
-void	ctrl_down(t_term *term, t_block *block);
-void	ctrl_left(t_term *term, t_block *block);
-void	ctrl_right(t_term *term, t_block *block);
-void	clear_eos(t_term *term, int original_line);
+t_term					**getterm(void);
+
+void					get_pos(void);
+int						put_caps(char *caps, int color);
+int						put_cursor(int col, int row);
+int						clear_eos(t_term *term, int original_line);
+
+int						init_term(void);
+
+t_block					*ft_blockhashdup(t_hash *hash);
+t_block					*ft_blockdup(t_block *block);
+t_block					*ft_blocknew(void);
+
+int						handle_key(void);
+int						escape_sequences(t_block *block);
+int						backspace(t_block *block);
+
+void					move_right(t_block *block);
+void					move_left(void);
+int						move_up(t_term *term);
+int						move_down(t_term *term);
+
+void					ctrl_up(t_term *term);
+void					ctrl_down(t_term *term, t_block *block);
+int						ctrl_left(t_term *term, t_block *block);
+int						ctrl_right(t_term *term, t_block *block);
+
+char					*realloc_str(char *str, int new_size);
+void					debug(t_term *term);
 #endif
