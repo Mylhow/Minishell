@@ -77,7 +77,6 @@ int		print_historic(t_term *term, t_block *dup)
 /*
  ** Gere le mouvement du haut et affiche l'historique - 1
  ** Return [int] Status de reussite
- ** TODO Lorsque nous sommes sur plusieurs ligne '\n', ne pas supprimer commande
 */
 
 int		move_up(t_term *term)
