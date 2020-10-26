@@ -60,9 +60,9 @@ static int	check_key(t_block *block)
 
 	term = *(getterm());
 	if (term->last_char == '\033' || term->esc_flag != 0)
-		return (escape_sequences(block));
+		return (escape_sequences(term, block));
 	if (term->last_char == DELCHAR || term->last_char == BACKSPACE)
-		return (!backspace(block));
+		return (!backspace(term, block));
 	if (term->last_char != '\n')
 	{
 		if (term->last_char == '\t')

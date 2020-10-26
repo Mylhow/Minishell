@@ -26,6 +26,8 @@
 # define ENDCHAR 'F'
 # define HOMECHAR 'H'
 
+# define PROCESS_SUCCESS 2
+
 # define DEBUG 1
 
 typedef struct termios	t_termios;
@@ -79,14 +81,16 @@ t_block					*ft_blocknew(void);
 
 int						handle_key(void);
 int						insert(t_block *block);
-int						escape_sequences(t_block *block);
-int						backspace(t_block *block);
+int						escape_sequences(t_term *term, t_block *block);
+int						backspace(t_term *term, t_block *block);
 
+int						move_manage(t_term *term, t_block *block);
 void					move_right(t_block *block);
 void					move_left(void);
 int						move_up(t_term *term);
 int						move_down(t_term *term);
 
+int						ctrl_manage(t_term *term, t_block *block, char my_char);
 void					ctrl_up(t_term *term);
 void					ctrl_down(t_term *term, t_block *block);
 void					ctrl_left(t_term *term, t_block *block);
