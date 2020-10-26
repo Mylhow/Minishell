@@ -78,6 +78,7 @@ t_block					*ft_blockdup(t_block *block);
 t_block					*ft_blocknew(void);
 
 int						handle_key(void);
+int						insert(t_block *block);
 int						escape_sequences(t_block *block);
 int						backspace(t_block *block);
 

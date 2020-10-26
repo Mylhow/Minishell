@@ -5,37 +5,21 @@
 #include "libft_printf.h"
 
 /*
- ** Insert un caractere dans le block
+ ** Imprime les espaces pour une tabulation (4 espaces)
  ** Return [int] Status de reussite
- ** TODO Ajout check term-fonction
- */
+*/
 
-static int	insert(t_block *block)
+static int	ft_tabulation(t_term *term, t_block *block)
 {
-	t_term	*term;
-	char	*tmp;
+	int i;
 
-	term = (*getterm());
-	put_cursor(term->cursor_pos, term->ndx_line);
-	if (term->ndx_cursor < block->size)
+	i = -1;
+	term->last_char = ' ';
+	while (++i < 4)
 	{
-		tmp = ft_strdup(block->str_cmd);
-		ft_bzero(block->str_cmd, block->size);
-		ft_memcpy(block->str_cmd, tmp, term->ndx_cursor);
-		block->str_cmd[term->ndx_cursor] = term->last_char;
-		ft_strcat(block->str_cmd, tmp + term->ndx_cursor);
-		put_caps(T_CLEOL, 0);
-		ft_printf("%s", block->str_cmd + term->ndx_cursor);
+		if (insert(block))
+			return (EXIT_FAILURE);
 	}
-	else
-	{
-		block->str_cmd[block->size] = term->last_char;
-		ft_printf("%s", block->str_cmd + block->size);
-	}
-	term->ndx_cursor++;
-	term->cursor_pos++;
-	block->size++;
-	put_cursor(term->cursor_pos, term->ndx_line);
 	return (EXIT_SUCCESS);
 }
 
@@ -68,9 +52,6 @@ static int	ft_return_line(t_term *term, t_block *block)
 /*
  ** Manage toutes les touches tape
  ** Return [int] Status de reussite
- ** TODO Reduire la fonction
- ** TODO Check return insert
- ** TODO \t bug sur changement de ligne
 */
 
 static int	check_key(t_block *block)
@@ -84,29 +65,15 @@ static int	check_key(t_block *block)
 		return (!backspace(block));
 	if (term->last_char != '\n')
 	{
-		if (block->size == block->alloc_size - 1)
-		{
-			block->nb_blocks++;
-			block->alloc_size += term->nb_cols;
-			if (!(block->str_cmd = realloc_str(block->str_cmd,
-									block->alloc_size)))
-				return (EXIT_FAILURE);
-		}
 		if (term->last_char == '\t')
 		{
-			term->last_char = ' ';
-			insert(block);
-			insert(block);
-			insert(block);
+			if (ft_tabulation(term, block))
+				return (EXIT_FAILURE);
 		}
-		insert(block);
-		if (term->cursor_pos == term->nb_cols)
+		else
 		{
-			ft_printf("\n");
-			term->cursor_pos = 0;
-			term->ndx_line++;
-			if (term->ndx_line > term->nb_lines - 1)
-				term->ndx_line = term->nb_lines - 1;
+			if (insert(block))
+				return (EXIT_FAILURE);
 		}
 		return (2);
 	}
