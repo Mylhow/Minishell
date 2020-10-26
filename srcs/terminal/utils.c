@@ -65,7 +65,6 @@ char	*realloc_str(char *str, int new_size)
 /*
  ** Nettoie toutes les lignes utilise par la commande en cours d'ecriture
  ** Return [int] Status de reussite
- ** TODO Check return term-fonction
 */
 
 int		clear_eos(t_term *term, int original_line)
@@ -75,12 +74,15 @@ int		clear_eos(t_term *term, int original_line)
 	i = term->ndx_line;
 	while (i > original_line)
 	{
-		put_cursor(0, i);
-		put_caps(T_CLEOL, 0);
+		if (put_cursor(0, i) != 0)
+			return (EXIT_FAILURE);
+		if (put_caps(T_CLEOL, 0) != 0)
+			return (EXIT_FAILURE);
 		i--;
 	}
 	term->ndx_line = term->original_line;
-	put_cursor(term->cursor_pos, term->ndx_line);
+	if (put_cursor(term->cursor_pos, term->ndx_line) != 0)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
