@@ -49,8 +49,6 @@ void	move_left(void)
 /*
  ** Gere le rendu de l'historique
  ** Return [int] Status de reussite
- ** TODO Check return term-fonction
- ** TODO Check return clear_eos
 */
 
 int		print_historic(t_term *term, t_block *dup)
@@ -59,16 +57,20 @@ int		print_historic(t_term *term, t_block *dup)
 		return (EXIT_FAILURE);
 	term->current_block = term->list_blocks;
 	term->cursor_pos = PROMPT_SIZE;
-	put_cursor(term->cursor_pos, term->original_line);
-	put_caps(T_CLEOL, 0);
-	clear_eos(term, term->original_line);
+	if (put_cursor(term->cursor_pos, term->original_line) != 0)
+		return (EXIT_FAILURE);
+	if (put_caps(T_CLEOL, 0) != 0)
+		return (EXIT_FAILURE);
+	if (clear_eos(term, term->original_line))
+		return (EXIT_FAILURE);
 	ft_printf("%s", ((t_block *)term->list_blocks->value)->str_cmd);
 	term->cursor_pos = (((t_block *)term->list_blocks->value)->size +
 			PROMPT_SIZE) % term->nb_cols;
 	term->ndx_cursor = ((t_block *)term->list_blocks->value)->size;
 	term->ndx_line += (((t_block *)term->list_blocks->value)->size +
 			PROMPT_SIZE) / term->nb_cols;
-	put_cursor(term->cursor_pos, term->ndx_line);
+	if (put_cursor(term->cursor_pos, term->ndx_line) != 0)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
