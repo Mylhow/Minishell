@@ -8,7 +8,6 @@
 /*
  ** Initialise les variables de la structure du terminal
  ** Return [int] Status de reussite
- ** TODO Check return term-fonction
 */
 
 static int	init_term_variables(void)
@@ -38,7 +37,6 @@ static int	init_term_variables(void)
 /*
  ** Initialise la structure du terminal
  ** Return [int] Status de reussite
- ** TODO Check return term-fonction
 */
 
 int			init_term(void)
@@ -48,9 +46,11 @@ int			init_term(void)
 	if (init_term_variables() == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (tigetflag("os") != 0)
-		ft_printf("os error\n");
-	put_caps(T_CLEAR, 0);
-	put_caps(T_RESET, 0);
+		return (EXIT_FAILURE);
+	if (put_caps(T_CLEAR, 0) != 0)
+		return (EXIT_FAILURE);
+	if (put_caps(T_RESET, 0) != 0)
+		return (EXIT_FAILURE);
 	if (tcgetattr(0, &(*getterm())->termios) == -1)
 		return (EXIT_FAILURE);
 	(*getterm())->termios.c_lflag &= ~(ICANON);
