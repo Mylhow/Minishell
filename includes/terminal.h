@@ -88,8 +88,8 @@ int						move_down(t_term *term);
 
 void					ctrl_up(t_term *term);
 void					ctrl_down(t_term *term, t_block *block);
-int						ctrl_left(t_term *term, t_block *block);
-int						ctrl_right(t_term *term, t_block *block);
+void					ctrl_left(t_term *term, t_block *block);
+void					ctrl_right(t_term *term, t_block *block);
 
 char					*realloc_str(char *str, int new_size);
 void					debug(t_term *term);
