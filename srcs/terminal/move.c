@@ -59,16 +59,21 @@ int		print_historic(t_term *term, t_block *dup)
 	term->cursor_pos = PROMPT_SIZE;
 	if (put_cursor(term->cursor_pos, term->original_line) != 0)
 		return (EXIT_FAILURE);
-	if (put_caps(T_CLEOL, 0) != 0)
-		return (EXIT_FAILURE);
+	if (put_caps(T_CLEOL, 0) != 0) 
+		return (EXIT_FAILURE); 
 	if (clear_eos(term, term->original_line))
 		return (EXIT_FAILURE);
-	ft_printf("%s", ((t_block *)term->list_blocks->value)->str_cmd);
-	term->cursor_pos = (((t_block *)term->list_blocks->value)->size +
-			PROMPT_SIZE) % term->nb_cols;
-	term->ndx_cursor = ((t_block *)term->list_blocks->value)->size;
-	term->ndx_line += (((t_block *)term->list_blocks->value)->size +
-			PROMPT_SIZE) / term->nb_cols;
+	t_block *mBlock = term->list_blocks->value;
+	ft_printf("%s", mBlock->str_cmd);
+	mBlock->nb_blocks = (mBlock->size + PROMPT_SIZE) / term->nb_cols + 1;
+	term->cursor_pos = (mBlock->size + PROMPT_SIZE) % term->nb_cols;
+	term->ndx_cursor = mBlock->size;
+	term->ndx_line = term->original_line + (mBlock->nb_blocks - 1);
+	if (term->ndx_line > term->nb_lines - 1)
+	{
+		term->ndx_line = term->nb_lines - 1;
+		term->original_line = term->ndx_line - (mBlock->nb_blocks - 1);
+	}
 	if (put_cursor(term->cursor_pos, term->ndx_line) != 0)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

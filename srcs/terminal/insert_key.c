@@ -16,7 +16,10 @@ static void	new_line(t_term *term)
 		term->cursor_pos = 0;
 		term->ndx_line++;
 		if (term->ndx_line > term->nb_lines - 1)
+		{
+			term->original_line -= term->ndx_line - (term->nb_lines - 1);
 			term->ndx_line = term->nb_lines - 1;
+		}
 	}
 }
 
