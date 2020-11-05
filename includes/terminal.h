@@ -28,7 +28,7 @@
 
 # define PROCESS_SUCCESS 2
 
-# define DEBUG 1
+# define DEBUG 0
 
 typedef struct termios	t_termios;
 

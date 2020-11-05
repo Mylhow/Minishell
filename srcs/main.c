@@ -35,31 +35,25 @@ t_term		**getterm(void)
  ** Return [int] Status de reussite
 */
 
-static int	new_cmd(t_term *term)
+static int	new_cmd(t_term *term, t_block *copy)
 {
-	t_block		*copy;
 	t_hash		*tmp;
 
-	if (!(copy = ft_blockhashdup(term->list_blocks)))
-		return (ft_exit(EXIT_FAILURE));
 	if (ft_strlen(copy->str_cmd) != 0)
 	{
 		if (!(tmp = ft_hashnew("h", copy)))
 			return (ft_exit(EXIT_FAILURE));
 		ft_hashadd_back(&term->historic, tmp);
 		term->current_historic = NULL;
-		put_cursor(term->cursor_pos, term->ndx_line);
-		ft_printf("%s\n", copy->str_cmd); //TODO: Rendu debug
 		ft_hashclear(&(term->list_blocks));
 		if (!(term->list_blocks = ft_hashnew("block_1", ft_blocknew())))
 			return (ft_exit(EXIT_FAILURE));
 		term->current_block = term->list_blocks;
-		term->original_line = term->ndx_line + (copy->size / term->nb_cols) + 1; //TODO: Calcul a changer, en fonction du nombre de ligne prompt
+		term->original_line = term->ndx_line;
 	}
 	else
 	{
-		term->ndx_line--;
-		term->original_line = term->ndx_line + 1;
+		term->original_line += 1;
 		term->cursor_pos = 0;
 	}
 	return (EXIT_SUCCESS);
@@ -73,6 +67,7 @@ static int	new_cmd(t_term *term)
 
 static int	update(void)
 {
+	t_block		*copy;
 	t_term	*term;
 
 	term = *getterm();
@@ -82,12 +77,18 @@ static int	update(void)
 	{
 		if (!(handle_key()))
 		{
-			if (new_cmd(term))
+			put_cursor(term->cursor_pos, term->ndx_line);
+			if (!(copy = ft_blockhashdup(term->list_blocks)))
 				return (ft_exit(EXIT_FAILURE));
-			ft_printf("$ ");
-			fflush(stdout);
-			put_caps(T_CLEOL, 0);
+			ft_printf("%s", copy->str_cmd);
+			(copy->str_cmd[0] != '\0') ? ft_printf("\n") : 0;
 			get_pos();
+			ft_printf("$ ");
+			if (new_cmd(term, copy))
+				return (ft_exit(EXIT_FAILURE));
+			term->cursor_pos = PROMPT_SIZE;
+			fflush(stdout);
+			clear_eos(term, term->ndx_line);
 			continue;
 		}
 		fflush(stdout);

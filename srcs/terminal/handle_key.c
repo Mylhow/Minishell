@@ -105,10 +105,14 @@ int			handle_key(void)
 		return (2);
 	if (ret == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	term->ndx_line += (block->size - term->ndx_cursor) / term->nb_cols + 1;
+	term->ndx_line = term->original_line + (block->nb_blocks); //(block->size - term->ndx_cursor) / term->nb_cols + 1;
 	if (term->ndx_line > term->nb_lines - 1)
+	{
 		term->ndx_line = term->nb_lines - 1;
-	if (block->str_cmd[0] == '\0' || term->last_char == '\n')
+		term->original_line = term->ndx_line - (block->nb_blocks - 1);
+		put_cursor(term->cursor_pos, term->ndx_line);
+	}
+	if (term->last_char == '\n')
 		ft_printf("\n");
 	term->ndx_cursor = 0;
 	term->cursor_pos = 0;
