@@ -48,6 +48,7 @@ static int	new_cmd(t_term *term)
 			return (ft_exit(EXIT_FAILURE));
 		ft_hashadd_back(&term->historic, tmp);
 		term->current_historic = NULL;
+		put_cursor(term->cursor_pos, term->ndx_line);
 		ft_printf("%s\n", copy->str_cmd); //TODO: Rendu debug
 		ft_hashclear(&(term->list_blocks));
 		if (!(term->list_blocks = ft_hashnew("block_1", ft_blocknew())))
