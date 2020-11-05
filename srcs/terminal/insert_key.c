@@ -7,6 +7,8 @@
  ** Deplace le curseur, si ont depasse le nombre de colonne
  ** Return [void]
 */
+//TODO Lors de l'édition, lorsqu'on a un texte + grand que le terminal, pouvoir remonter dans les lignes au dessus du début du terminal
+//TODO a peut pres le meme probleme que lors de l'insertion mais cet fois ci apres un \ final
 
 static void	new_line(t_term *term)
 {
@@ -22,9 +24,9 @@ static void	new_line(t_term *term)
 			term->ndx_line = term->nb_lines - 1;
 		}
 	}
-	else if ((term->cursor_pos + ( ( (t_block *)term->current_block->value)->size - term->ndx_cursor)) > term->nb_cols) // si on insére du texte à l'interieur
+	else if ((term->cursor_pos + ( ( (t_block *)term->current_block->value)->size - term->ndx_cursor)) > term->nb_cols) // si nouvelle ligne lors de l'insertion du texte à l'interieur de str_cmd
 	{
-		if (term->original_line + ((t_block *)term->current_block->value)->nb_blocks - 1 > term->nb_lines - 1)	// si on ajoute une ligne a la fin du terminal
+		if (term->original_line + ((t_block *)term->current_block->value)->nb_blocks - 1 > term->nb_lines - 1)	// si on a atteint la fin du terminal
 		{
 			term->original_line -= 1;
 			term->ndx_line -= 1;
