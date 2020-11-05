@@ -59,6 +59,7 @@ static int	new_cmd(t_term *term)
 	else
 	{
 		term->ndx_line--;
+		term->original_line = term->ndx_line + 1;
 		term->cursor_pos = 0;
 	}
 	return (EXIT_SUCCESS);
