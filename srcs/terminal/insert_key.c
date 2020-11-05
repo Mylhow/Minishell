@@ -10,16 +10,27 @@
 
 static void	new_line(t_term *term)
 {
-	if (term->cursor_pos == term->nb_cols)
+	if (term->cursor_pos == term->nb_cols) // si on écrite à la fin de la chaine
 	{
 		ft_printf("\n");
+		term->ndx_line++;	
 		term->cursor_pos = 0;
-		term->ndx_line++;
-		if (term->ndx_line > term->nb_lines - 1)
+
+		if (term->ndx_line > term->nb_lines - 1) //si on ajoute une ligne a la fin du terminal
 		{
 			term->original_line -= term->ndx_line - (term->nb_lines - 1);
 			term->ndx_line = term->nb_lines - 1;
 		}
+	}
+	else if ((term->cursor_pos + ( ( (t_block *)term->current_block->value)->size - term->ndx_cursor)) > term->nb_cols) // si on insére du texte à l'interieur
+	{
+		if (term->original_line + ((t_block *)term->current_block->value)->nb_blocks - 1 > term->nb_lines - 1)	// si on ajoute une ligne a la fin du terminal
+		{
+			term->original_line -= 1;
+			term->ndx_line -= 1;
+			put_cursor(term->cursor_pos, term->ndx_line);	
+		}
+
 	}
 }
 
