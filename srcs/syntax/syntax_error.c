@@ -6,15 +6,29 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 15:07:14 by abourbou          #+#    #+#             */
-/*   Updated: 2020/11/06 16:18:11 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/11/07 10:52:14 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mem.h"
+#include "libft_string.h"
 #include "parsing.h"
 char	recursion_parenth(char *input, int length)
 {
-	
+	int		i;
+	char	*str_parenth;
+	char	return_value;
+
+	if (!(str_parenth = wrmalloc((length + 1) * sizeof(char))))
+		return (1);
+	ft_strlcpy(str_parenth, input, length + 1);
+	i = length - 2;
+	while (i > 0 && (str_parenth[i] == ' ' || str_parenth[i] == '\t'))
+		i--;
+	str_parenth[length - 1] = (str_parenth[i] != ';') ? ';' : '\0';
+	return_value = syntax_error(str_parenth);
+	wrfree(str_parenth);
+	return(return_value);
 }
 
 char	syntax_parenth(char *input, int type, int *index)
@@ -31,24 +45,23 @@ char	syntax_parenth(char *input, int type, int *index)
 	{
 		if (ft_memchr("\'\"", input[i], 2))
 		{
-			if ((return_value = pass_quotes(input + i, &i)))
+			if ((return_value = pass_quotes(input, &i)))
 				return (return_value);
 		}
 		else if (input[i] = '(')
 			nbr_parenth++;
 		else if (input[i] = ')')
 			nbr_parenth--;
-		i++;
+		i += (nbr_parenth) ? 1 : 0;
 	}
-	if (nbr_parenth)
+	if (nbr_parenth ||i == 1)
 		return ('(');
-	*index = i - 1;
-	if (return_value = recursion_syntax(input, i - 1))
-		return (return_value);
-	return (0);
+	*index += i;
+	return (return_value = recursion_syntax(input + 1, i));
 }
 
-//check syntax error, return 0 if no error found or the char if there is an error
+// check syntax error, return 0 if no error found, 1 if malloc error
+// or the char if there is an error
 // type : 0 WORD, 1 OPERATOR, 2 PARENTHESIS
 char	syntax_error(char *input)
 {
@@ -68,6 +81,7 @@ char	syntax_error(char *input)
 				return (return_value);
 			type = 2;
 		}
+		i++;
 	}
 	return (0);
 }
