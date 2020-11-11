@@ -44,7 +44,7 @@ static int	ft_return_line(t_term *term, t_block *block)
 		ft_printf("\n> ");
 		term->current_block = hash;
 		term->ndx_cursor = 0;
-		return (2);
+		return (PROCESS_SUCCESS);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -75,7 +75,7 @@ static int	check_key(t_block *block)
 			if (insert(block))
 				return (EXIT_FAILURE);
 		}
-		return (2);
+		return (PROCESS_SUCCESS);
 	}
 	else if (term->last_char == '\n')
 		return (ft_return_line(term, block));
@@ -85,7 +85,6 @@ static int	check_key(t_block *block)
 /*
  ** Manage le key control
  ** Return [int] Status de reussite
- ** TODO Gerer le nombre max de lignes
  ** TODO En prod, supprimer les debug
 */
 
@@ -101,19 +100,17 @@ int			handle_key(void)
 	debug(term);
 	ret = check_key(block);
 	debug(term);
-	if (ret == 2)
-		return (2);
+	if (ret == PROCESS_SUCCESS)
+		return (PROCESS_SUCCESS);
 	if (ret == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	term->ndx_line = term->original_line + (block->nb_blocks); //(block->size - term->ndx_cursor) / term->nb_cols + 1;
+	term->ndx_line = term->original_line + (block->nb_blocks);
 	if (term->ndx_line > term->nb_lines - 1)
 	{
 		term->ndx_line = term->nb_lines - 1;
 		term->original_line = term->ndx_line - (block->nb_blocks - 1);
-		put_cursor(term->cursor_pos, term->ndx_line);
 	}
-	if (term->last_char == '\n')
-		ft_printf("\n");
+	(term->last_char == '\n') ? ft_printf("\n") : 0;
 	term->ndx_cursor = 0;
 	term->cursor_pos = 0;
 	return (EXIT_SUCCESS);

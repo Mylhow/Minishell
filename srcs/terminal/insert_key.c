@@ -13,12 +13,25 @@ static void	new_line(t_term *term)
 	if (term->cursor_pos == term->nb_cols)
 	{
 		ft_printf("\n");
-		term->cursor_pos = 0;
 		term->ndx_line++;
+		term->cursor_pos = 0;
 		if (term->ndx_line > term->nb_lines - 1)
 		{
 			term->original_line -= term->ndx_line - (term->nb_lines - 1);
 			term->ndx_line = term->nb_lines - 1;
+		}
+	}
+	else if ((term->cursor_pos +
+	(((t_block *)term->current_block->value)->size - term->ndx_cursor))
+	> term->nb_cols)
+	{
+		if (term->original_line +
+		((t_block *)term->current_block->value)->nb_blocks - 1
+		> term->nb_lines - 1)
+		{
+			term->original_line -= 1;
+			term->ndx_line -= 1;
+			put_cursor(term->cursor_pos, term->ndx_line);
 		}
 	}
 }
