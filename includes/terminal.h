@@ -25,10 +25,11 @@
 # define BACKSPACE 8
 # define ENDCHAR 'F'
 # define HOMECHAR 'H'
+# define _EOF 4
 
 # define PROCESS_SUCCESS 2
 
-# define DEBUG 0
+# define DEBUG 1
 
 typedef struct termios	t_termios;
 

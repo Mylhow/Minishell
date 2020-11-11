@@ -63,7 +63,7 @@ static int	check_key(t_block *block)
 		return (escape_sequences(term, block));
 	if (term->last_char == DELCHAR || term->last_char == BACKSPACE)
 		return (!backspace(term, block));
-	if (term->last_char != '\n')
+	if (term->last_char != '\n' && term->last_char != _EOF)
 	{
 		if (term->last_char == '\t')
 		{
