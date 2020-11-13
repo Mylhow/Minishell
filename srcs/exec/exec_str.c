@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/10/16 17:37:18 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/11/12 13:10:22 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,36 +61,6 @@ static bool		get_location(char *file, char **file_path)
 		locations++;
 	}
 	return (false);
-}
-
-/*
-**	Handles list of I/O redirections as t_list ( must have: t_list.content: typeof(t_redirect *) )
-*/
-int				handle_redirection(t_list *l_redir)
-{
-	t_redirect	*redirect;
-
-	while (l_redir)
-	{
-		redirect = (t_redirect *)l_redir->content;
-		if (ft_strcmp(redirect->type, ">") == 0)
-		{
-			if (redirect_stdout(redirect->file) < 0)
-				return (-1);
-		}
-		else if (ft_strcmp(redirect->type, ">>") == 0)
-		{
-			if (append_stdout(redirect->file) < 0)
-				return (-1);
-		}
-		else if (ft_strcmp(redirect->type, "<") == 0)
-		{
-			if (redirect_stdin(redirect->file) == -2)
-				return (NO_FILE);
-		}
-		l_redir = l_redir->next;
-	}
-	return (1);
 }
 
 /*

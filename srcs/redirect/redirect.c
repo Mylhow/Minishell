@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -10,7 +11,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "redirect.h"
 
 int		redirect_stdout(char *file)
 {
@@ -40,7 +41,7 @@ int		redirect_stdin(char *file)
 
 	if ((fd = open(file, O_RDONLY, DEFAULT_PERM)) <= 0)
 	{
-		printf("minishell: %s: No such file or directory\n", file);
+		ft_printf("minishell: %s: No such file or directory\n", file);
 		return (NO_FILE);
 	}
 	dup2(fd, STDIN_FILENO);

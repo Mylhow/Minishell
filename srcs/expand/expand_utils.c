@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:05:40 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/09 18:11:57 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/11/12 16:29:21 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,37 @@ char	*replace_section
 char	get_quotes(char *current)
 {
 	static char current_quote = QUOTE_NONE;
+	static int	last_is_bslash = 0;
 
-	if (current_quote == QUOTE_NONE &&
-		(*current == QUOTE_SINGLE || *current == QUOTE_DOUBLE))
+	if (*current == '\\')
+		last_is_bslash = 1;
+
+	if (ft_strcmp(QUOTE_RESET, current) == 0)
+		return (current_quote = QUOTE_NONE);
+
+	if (current_quote == QUOTE_NONE && !last_is_bslash
+		&& (*current == QUOTE_SINGLE || *current == QUOTE_DOUBLE))
 		current_quote = *current;
-	else if (*current == current_quote && *(current - 1) != '\\')
+	else if (*current == current_quote && !last_is_bslash)
 		current_quote = QUOTE_NONE;
+
+	if (last_is_bslash && *current != '\\')
+		last_is_bslash = 0;
 	return (current_quote);
+}
+
+char	is_redirect(char *c)
+{
+	return (ft_strncmp(c, ">>", 2) == 0 || ft_strncmp(c, ">", 1) == 0
+        || ft_strncmp(c, "<", 1) == 0);
+}
+
+/*
+**	IS_IFS
+**	Checks if c is an Input Field Separator
+**	Bash default is: $IFS=" \t\n"
+*/
+char	is_ifs(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n');
 }

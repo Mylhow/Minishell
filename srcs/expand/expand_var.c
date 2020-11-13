@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:23:45 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/09 18:41:19 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/11/11 13:00:05 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,14 @@ int				expand_var(char **dst, const char *str)
 	char		*dst_buffer;
 	size_t		var_len;
 
+	quotes = get_quotes(QUOTE_RESET);
 	*dst = ft_strdup(str);
 	i = 0;
+	var_buffer = NULL;
 	while ((*dst)[i])
 	{
-		if ((*dst)[i] == '$' && is_valid_bash_char((*dst)[i + 1])
-		&& quotes != QUOTE_SINGLE)
+		if ((*dst)[i] == '$' && (i == 0 || (i > 0 && (*dst)[i-1] != '\\')) &&
+		is_valid_bash_char((*dst)[i + 1]) && quotes != QUOTE_SINGLE)
 		{
 			parse_var(&var_buffer, *dst + i);
 			var_len = ft_strlen(get_var_name(*dst + i));
@@ -113,8 +115,13 @@ int				expand_var(char **dst, const char *str)
 			*dst = replace_section(*dst, i, var_buffer, var_len + 1);
 			free(dst_buffer);
 		}
-		quotes = get_quotes(*dst + i);
-		i++;
+		if (var_buffer && var_buffer[0] == '\0')
+			var_buffer = NULL;
+		else
+		{
+			quotes = get_quotes(*dst + i);
+			i++;
+		}
 	}
 	return (0);
 }
