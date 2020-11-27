@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 15:45:19 by abourbou          #+#    #+#             */
-/*   Updated: 2020/11/26 16:07:56 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/11/27 12:21:47 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@ char	pass_quotes(char *str, int *index)
 	return (0);
 }
 
-//! Not sure about this function
 void	pass_blank(char *str, int *index)
 {
 	int i;
 
 	i = *index;
-	while (str[i] == ' ' || str[i] == '\t')
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
 		i++;
 	*index = i;
 }

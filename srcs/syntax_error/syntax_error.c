@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 15:07:14 by abourbou          #+#    #+#             */
-/*   Updated: 2020/11/26 16:24:28 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/11/27 14:06:16 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	syntax_parenth(char *input, int type, int *index)
 	int		i;
 	int		nbr_parenth;
 
-	if (type == 0)
+	if (type == WORD)
 		return (print_syntax_err());
 	i = 1;
 	nbr_parenth = 1;
@@ -98,14 +98,14 @@ char	check_end_line(char *input)
 //  3 if need to ask a new command
 //
 // type : 0 WORD, 1 OPERATOR, 2 PARENTHESIS
-char	syntax_error(char *input)
+short	syntax_error(char *input)
 {
 	int		i;
 	int		type;
 	char	return_value;
 
 	i = 0;
-	type = 1;
+	type = OPERAT;
 	if (check_empty_line(input))
 		return (NEW_COMMAND);
 	while (input[i])
@@ -116,37 +116,37 @@ char	syntax_error(char *input)
 		{
 			if ((return_value = syntax_parenth(input + i, type, &i)))
 				return (return_value);
-			type = 2;
+			type = PARENTH;
 		}
 		else if (!ft_strncmp(">>", input + i, 2) || !ft_strncmp("&&", input + i, 2)
 				|| !ft_strncmp("||", input + i, 2))
 		{
-			if (type == 1)
+			if (type == OPERAT)
 				return (print_syntax_err());
-			type = 1;
+			type = OPERAT;
 			i += 2;
 		}
 		else if (ft_memchr("<>|;", input[i], 4))
 		{
-			if (type == 1)
+			if (type == OPERAT)
 				return (print_syntax_err());
-			type = 1;
+			type = OPERAT;
 			i++;
 		}
 		else if (ft_memchr("\'\"", input[i], 2))
 		{
 			if (pass_quotes(input, &i))
 				return (NEW_LINE);
-			type = 0;
+			type = WORD;
 			i++;
 		}
-		else if (ft_memchr(" \t", input[i], 2))
+		else if (ft_memchr(" \t\n", input[i], 3))
 			pass_blank(input, &i);
 		else
 		{
-			if (type == 2)
+			if (type == PARENTH)
 				return (print_syntax_err());
-			type = 0;
+			type = WORD;
 			i++;
 		}
 	}
