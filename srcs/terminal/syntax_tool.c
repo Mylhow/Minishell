@@ -1,5 +1,6 @@
 #include "syntax_error.h"
 #include "libft_printf.h"
+#include "terminal.h"
 
 /*
  ** Definie l'index de la chaine a la derniere quote
@@ -44,5 +45,6 @@ void	pass_blank(char *str, int *index)
  */
 char	print_syntax_err(void)
 {
-	return (NEW_COMMAND);
+
+	return (4);
 }

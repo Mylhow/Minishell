@@ -111,6 +111,7 @@ static char	check_end_line(char *input)
 ** Return [short] 1 - Error malloc
 ** Return [short] 2 - Add a new line
 ** Return [short] 3 - Ask a new command
+** Return [short] 4 - Syntax error. New command
 ** Type : 0 Word, 1 Operator, 2 Parenthesis
 */
 

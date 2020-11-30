@@ -28,7 +28,7 @@
 # define _EOF 4
 
 # define PROCESS_SUCCESS 2
-# define EXIT_SYNTAX_ERROR 3
+# define EXIT_SYNTAX_ERROR 4
 
 # define DEBUG 0
 
@@ -80,6 +80,7 @@ int						init_term(void);
 t_block					*ft_blockhashdup(t_hash *hash);
 t_block					*ft_blockdup(t_block *block);
 t_block					*ft_blocknew(void);
+int						new_cmd(t_term *term, int sig, int ret_handle);
 
 int						handle_key(void);
 int						insert(t_block *block);

@@ -84,9 +84,10 @@ static int	check_key(t_block *block)
 			return (EXIT_FAILURE);
 		else if (ret == 2)
 			return (ft_return_line(term));
-		else if (ret == 3) {
+		else if (ret == 3)
+			return (NEW_COMMAND);
+		else if (ret == 4)
 			return (EXIT_SYNTAX_ERROR);
-		}
 	}
 	return (EXIT_FAILURE);
 }
