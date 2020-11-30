@@ -46,7 +46,7 @@ static int	clear_new_cmd(t_term *term, t_block *copy, int sig)
  ** Return [int] Status de reussite
 */
 
-static int	new_cmd(t_term *term, int sig)
+static int	new_cmd(t_term *term, int sig, int ret_handle)
 {
 	t_block		*copy;
 
@@ -56,8 +56,11 @@ static int	new_cmd(t_term *term, int sig)
 		return (ft_exit(0, 0, 0));
 	if (sig == SIGINT)
 		ft_printf("^C");
-	else
+	else if (ret_handle != EXIT_SYNTAX_ERROR){
 		ft_printf("%s", copy->str_cmd);
+	}
+	else
+		ft_printf("%s", "our bash : syntax error");
 	(sig == SIGINT || copy->str_cmd[0] != '\0') ? ft_printf("\n") : 0;
 	get_pos();
 	ft_printf("$ ");
@@ -79,7 +82,7 @@ void signal_manager(int signal)
 	}
 	else if (signal == SIGINT)
 	{
-		if (new_cmd(*getterm(), signal))
+		if (new_cmd(*getterm(), signal, 0))
 		{
 			ft_exit(0, 0, 0);
 		}
@@ -95,6 +98,7 @@ void signal_manager(int signal)
 static int	update(void)
 {
 	t_term	*term;
+	int		ret;
 
 	term = *getterm();
 	ft_printf("$ ");
@@ -102,9 +106,10 @@ static int	update(void)
 	while (read(STDIN_FILENO, &term->last_char, 1) > 0)
 	{
 		(term->last_char == _EOF) ? signal_manager(_EOF) : 0;
-		if (!(handle_key()))
+		ret = handle_key();
+		if (!(ret) || ret == 3)
 		{
-			if (new_cmd(term, 0))
+			if (new_cmd(term, 0, ret))
 				return (EXIT_FAILURE);
 			continue;
 		}

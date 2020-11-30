@@ -3,6 +3,7 @@
 #include "libft_string.h"
 #include "libft_number.h"
 #include "libft_printf.h"
+#include "syntax_error.h"
 
 /*
  ** Imprime les espaces pour une tabulation (4 espaces)
@@ -28,25 +29,21 @@ static int	ft_tabulation(t_term *term, t_block *block)
  ** Return [int] Status de reussite
 */
 
-static int	ft_return_line(t_term *term, t_block *block)
+static int	ft_return_line(t_term *term)
 {
 	t_hash	*hash;
 
-	if (block->str_cmd[block->size - 1] == '\\')
-	{
-		if (!(hash = ft_hashnew(ft_strjoin("block_",
-					ft_itoa(ft_hashlen(term->list_blocks) + 1)),
-						ft_blocknew())))
-			return (EXIT_FAILURE);
-		ft_hashadd_back(&(term->list_blocks), hash);
-		term->ndx_line++;
-		term->cursor_pos = PROMPT_SIZE;
-		ft_printf("\n> ");
-		term->current_block = hash;
-		term->ndx_cursor = 0;
-		return (PROCESS_SUCCESS);
-	}
-	return (EXIT_SUCCESS);
+	if (!(hash = ft_hashnew(ft_strjoin("block_",
+									   ft_itoa(ft_hashlen(term->list_blocks) + 1)),
+							ft_blocknew())))
+		return (EXIT_FAILURE);
+	ft_hashadd_back(&(term->list_blocks), hash);
+	term->ndx_line++;
+	term->cursor_pos = PROMPT_SIZE;
+	ft_printf("\n> ");
+	term->current_block = hash;
+	term->ndx_cursor = 0;
+	return (PROCESS_SUCCESS);
 }
 
 /*
@@ -57,6 +54,7 @@ static int	ft_return_line(t_term *term, t_block *block)
 static int	check_key(t_block *block)
 {
 	t_term	*term;
+	int 	ret;
 
 	term = *(getterm());
 	if (term->last_char == '\033' || term->esc_flag != 0)
@@ -78,7 +76,18 @@ static int	check_key(t_block *block)
 		return (PROCESS_SUCCESS);
 	}
 	else if (term->last_char == '\n')
-		return (ft_return_line(term, block));
+	{
+		ret = syntax_error(block->str_cmd);
+		if (ret == 0)
+			return (EXIT_SUCCESS);
+		else if (ret == 1)
+			return (EXIT_FAILURE);
+		else if (ret == 2)
+			return (ft_return_line(term));
+		else if (ret == 3) {
+			return (EXIT_SYNTAX_ERROR);
+		}
+	}
 	return (EXIT_FAILURE);
 }
 
@@ -104,7 +113,7 @@ int			handle_key(void)
 		return (PROCESS_SUCCESS);
 	if (ret == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	term->ndx_line = term->original_line + (block->nb_blocks);
+	term->ndx_line = term->ndx_line + 1;
 	if (term->ndx_line > term->nb_lines - 1)
 	{
 		term->ndx_line = term->nb_lines - 1;
@@ -113,5 +122,7 @@ int			handle_key(void)
 	(term->last_char == '\n') ? ft_printf("\n") : 0;
 	term->ndx_cursor = 0;
 	term->cursor_pos = 0;
+	if (ret == EXIT_SYNTAX_ERROR)
+		return (EXIT_SYNTAX_ERROR);
 	return (EXIT_SUCCESS);
 }
