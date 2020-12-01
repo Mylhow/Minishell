@@ -56,7 +56,7 @@ static char	syntax_parenth(char *input, int type, int *index)
 	int		i;
 	int		nbr_parenth;
 
-	if (type == WORD)
+	if (type == WORD || type == REDIRECT)
 		return (print_syntax_err());
 	i = 1;
 	nbr_parenth = 1;
@@ -86,22 +86,25 @@ static char	syntax_parenth(char *input, int type, int *index)
 ** Return [char] 0 - To execute
 */
 
-static char	check_end_line(char *input)
+static char	check_end_line(char *input, int type)
 {
 	int i;
 
-	i = 0;
-	while (input[i])
-		i++;
-	i--;
-	while (input[i] == ' ' || input[i] == '\t')
+	if (type == WORD)
+	{
+		i = 0;
+		while (input[i])
+			i++;
 		i--;
-	if (input[i] == '>' || input[i] == '<')
+		while (input[i] == ' ' || input[i] == '\t' || input[i] == '\n')
+			i--;
+		if (input[i] == '\\')
+			return (NEW_LINE);
+	}
+	else if (type == OPERAT)
+		return (NEW_LINE);
+	else if (type == REDIRECT)
 		return (print_syntax_err());
-	else if (input[i] == '\\' || input[i] == '|')
-		return (NEW_LINE);
-	else if (i > 0 && (!ft_strncmp("&&", input + i - 1, 2)))
-		return (NEW_LINE);
 	return (TO_EXECUTE);
 }
 
@@ -112,7 +115,7 @@ static char	check_end_line(char *input)
 ** Return [short] 2 - Add a new line
 ** Return [short] 3 - Ask a new command
 ** Return [short] 4 - Syntax error. New command
-** Type : 0 Word, 1 Operator, 2 Parenthesis
+** Type : 0 Word, 1 Operator, 2 Parenthesis, 3 redirection
 */
 
 short		syntax_error(char *input)
@@ -139,16 +142,16 @@ short		syntax_error(char *input)
 		|| !ft_strncmp("&&", input + i, 2)
 		|| !ft_strncmp("||", input + i, 2))
 		{
-			if (type == OPERAT)
+			if (type == OPERAT || type == REDIRECT)
 				return (print_syntax_err());
-			type = OPERAT;
+			type = (!ft_strncmp(">>", input + i, 2)) ? REDIRECT : OPERAT;
 			i += 2;
 		}
 		else if (ft_memchr("<>|;", input[i], 4))
 		{
-			if (type == OPERAT)
+			if (type == OPERAT || type == REDIRECT)
 				return (print_syntax_err());
-			type = OPERAT;
+			type = (ft_memchr("<>", input[i], 2)) ? REDIRECT : OPERAT;
 			i++;
 		}
 		else if (ft_memchr("\'\"", input[i], 2))
@@ -168,5 +171,5 @@ short		syntax_error(char *input)
 			i++;
 		}
 	}
-	return (check_end_line(input));
+	return (check_end_line(input, type));
 }
