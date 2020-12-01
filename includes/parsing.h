@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 09:19:58 by abourbou          #+#    #+#             */
-/*   Updated: 2020/11/16 17:03:38 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/11/30 11:44:45 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,27 @@
 typedef struct	s_pretype
 {
 	int		type;
-	char	*content;
+	void	*content;
 }				t_pretype;
+
+typedef struct	s_btree
+{
+	void			*content;
+	struct s_btree	*l_child;
+	struct s_btree	*r_child;
+}				t_btree;
 
 
 //SPLIT_OP_TOK_C
-t_list	*split_operator(char *input);
+t_list	*split_op_tok(char *input);
 
 //PARSING_TOOLS_C
-int	add_pretype(t_list **l_op_tok, int type, char *content);
+t_pretype	*create_pretype(int type, void *content);
+int			add_pretype(t_list **l_op_tok, int type, void *content);
 
+//BTREE_TOOL_C
+t_btree		*node_new(void *content);
+
+//CREATION_BTREE_C
+int		creation_btree(t_list *list, t_btree **node);
 #endif
