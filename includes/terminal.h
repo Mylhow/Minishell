@@ -28,7 +28,6 @@
 # define _EOF 4
 
 # define PROCESS_SUCCESS 2
-# define EXIT_SYNTAX_ERROR 4
 
 # define DEBUG 0
 
@@ -56,6 +55,7 @@ typedef struct			s_term
 	t_hash				*historic;
 	t_hash				*current_historic;
 	t_hash				*current_block;
+	char 				*str_ccmd;
 	int					cursor_pos;
 	int					ndx_cursor;
 	int					ndx_line;
@@ -77,7 +77,7 @@ int						clear_eos(t_term *term, int original_line);
 
 int						init_term(void);
 
-t_block					*ft_blockhashdup(t_hash *hash);
+char					*ft_strjoinblock(t_hash *hash);
 t_block					*ft_blockdup(t_block *block);
 t_block					*ft_blocknew(void);
 int						new_cmd(t_term *term, int sig, int ret_handle);

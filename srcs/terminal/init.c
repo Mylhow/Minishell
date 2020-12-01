@@ -31,6 +31,7 @@ static int	init_term_variables(void)
 	term->original_line = 0;
 	term->last_char = '\0';
 	term->esc_flag = 0;
+	term->str_ccmd = 0;
 	return (EXIT_SUCCESS);
 }
 

@@ -33,9 +33,7 @@ static int	ft_return_line(t_term *term)
 {
 	t_hash	*hash;
 
-	if (!(hash = ft_hashnew(ft_strjoin("block_",
-									   ft_itoa(ft_hashlen(term->list_blocks) + 1)),
-							ft_blocknew())))
+	if (!(hash = ft_hashnew(ft_strjoin("block_", ft_itoa(ft_hashlen(term->list_blocks) + 1)), ft_blocknew())))
 		return (EXIT_FAILURE);
 	ft_hashadd_back(&(term->list_blocks), hash);
 	term->ndx_line++;
@@ -77,7 +75,12 @@ static int	check_key(t_block *block)
 	}
 	else if (term->last_char == '\n')
 	{
-		ret = syntax_error(block->str_cmd);
+		if (term->str_ccmd)
+			wrfree(term->str_ccmd);
+
+		if (!(term->str_ccmd = ft_strjoinblock(term->list_blocks)))
+			return (EXIT_FAILURE);
+		ret = syntax_error(term->str_ccmd);
 		if (ret == 0)
 			return (EXIT_SUCCESS);
 		else if (ret == 1)
@@ -86,7 +89,7 @@ static int	check_key(t_block *block)
 			return (ft_return_line(term));
 		else if (ret == 3)
 			return (NEW_COMMAND);
-		else if (ret == 4)
+		else if (ret == EXIT_SYNTAX_ERROR)
 			return (EXIT_SYNTAX_ERROR);
 	}
 	return (EXIT_FAILURE);

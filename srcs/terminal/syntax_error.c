@@ -57,7 +57,7 @@ static char	syntax_parenth(char *input, int type, int *index)
 	int		nbr_parenth;
 
 	if (type == WORD)
-		return (print_syntax_err());
+		return (EXIT_SYNTAX_ERROR);
 	i = 1;
 	nbr_parenth = 1;
 	while (input[i] && nbr_parenth)
@@ -97,7 +97,7 @@ static char	check_end_line(char *input)
 	while (input[i] == ' ' || input[i] == '\t')
 		i--;
 	if (input[i] == '>' || input[i] == '<')
-		return (print_syntax_err());
+		return (EXIT_SYNTAX_ERROR);
 	else if (input[i] == '\\' || input[i] == '|')
 		return (NEW_LINE);
 	else if (i > 0 && (!ft_strncmp("&&", input + i - 1, 2)))
@@ -128,7 +128,7 @@ short		syntax_error(char *input)
 	while (input[i])
 	{
 		if (input[i] == ')')
-			return (print_syntax_err());
+			return (EXIT_SYNTAX_ERROR);
 		else if (input[i] == '(')
 		{
 			if ((return_value = syntax_parenth(input + i, type, &i)))
@@ -140,14 +140,14 @@ short		syntax_error(char *input)
 		|| !ft_strncmp("||", input + i, 2))
 		{
 			if (type == OPERAT)
-				return (print_syntax_err());
+				return (EXIT_SYNTAX_ERROR);
 			type = OPERAT;
 			i += 2;
 		}
 		else if (ft_memchr("<>|;", input[i], 4))
 		{
 			if (type == OPERAT)
-				return (print_syntax_err());
+				return (EXIT_SYNTAX_ERROR);
 			type = OPERAT;
 			i++;
 		}
@@ -163,7 +163,7 @@ short		syntax_error(char *input)
 		else
 		{
 			if (type == PARENTH)
-				return (print_syntax_err());
+				return (EXIT_SYNTAX_ERROR);
 			type = WORD;
 			i++;
 		}

@@ -38,13 +38,3 @@ void	pass_blank(char *str, int *index)
 		i++;
 	*index = i;
 }
-
-/*
- ** Affiche un message d'erreur
- ** Return [char] 3 - NEW_COMMAND
- */
-char	print_syntax_err(void)
-{
-
-	return (4);
-}

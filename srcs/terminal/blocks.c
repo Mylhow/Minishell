@@ -29,25 +29,20 @@ t_block	*ft_blocknew(void)
  **	Return [*t_block] Pointeur du nouveau bloc ou NULL
 */
 
-t_block	*ft_blockhashdup(t_hash *hash)
+char	*ft_strjoinblock(t_hash *hash)
 {
-	t_block *ptr;
 	t_block	*block;
+	char 	*str;
 
-	if (!(ptr = ft_blocknew()))
-		return (NULL);
-	ptr->alloc_size = 0;
+	str = 0;
 	while (hash)
 	{
 		block = (t_block *)hash->value;
-		if (!(ptr->str_cmd = ft_strjoin(ptr->str_cmd, block->str_cmd)))
+		if (!(str = ft_strjoin(str, block->str_cmd)))
 			return (NULL);
-		ptr->size += block->size;
-		ptr->alloc_size += block->alloc_size;
-		ptr->nb_blocks = 1;
 		hash = hash->next;
 	}
-	return (ptr);
+	return (str);
 }
 
 /*
