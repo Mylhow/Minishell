@@ -11,6 +11,7 @@
 # define WORD 0
 # define OPERAT 1
 # define PARENTH 2
+# define REDIRECT 3
 
 //SYNTAX_TOOLS_C
 char	pass_quotes(char *str, int *index);
