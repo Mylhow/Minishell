@@ -5,7 +5,7 @@
 # define MALLOC_ERROR 1
 # define NEW_LINE 2
 # define NEW_COMMAND 3
-# define EXIT_SYNTAX_ERROR 4
+# define NCMD_SYNTAX_ERROR 4
 
 # define MALLOC
 # define WORD 0

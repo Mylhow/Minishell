@@ -57,7 +57,7 @@ static char	syntax_parenth(char *input, int type, int *index)
 	int		nbr_parenth;
 
 	if (type == WORD || type == REDIRECT)
-		return (EXIT_SYNTAX_ERROR);
+		return (NCMD_SYNTAX_ERROR);
 	i = 1;
 	nbr_parenth = 1;
 	while (input[i] && nbr_parenth)
@@ -104,7 +104,7 @@ static char	check_end_line(char *input, int type)
 	else if (type == OPERAT)
 		return (NEW_LINE);
 	else if (type == REDIRECT)
-		return (EXIT_SYNTAX_ERROR);
+		return (NCMD_SYNTAX_ERROR);
 	return (TO_EXECUTE);
 }
 
@@ -131,7 +131,7 @@ short		syntax_error(char *input)
 	while (input[i])
 	{
 		if (input[i] == ')')
-			return (EXIT_SYNTAX_ERROR);
+			return (NCMD_SYNTAX_ERROR);
 		else if (input[i] == '(')
 		{
 			if ((return_value = syntax_parenth(input + i, type, &i)))
@@ -143,14 +143,14 @@ short		syntax_error(char *input)
 		|| !ft_strncmp("||", input + i, 2))
 		{
 			if (type == OPERAT || type == REDIRECT)
-				return (EXIT_SYNTAX_ERROR);
+				return (NCMD_SYNTAX_ERROR);
 			type = (!ft_strncmp(">>", input + i, 2)) ? REDIRECT : OPERAT;
 			i += 2;
 		}
 		else if (ft_memchr("<>|;", input[i], 4))
 		{
 			if (type == OPERAT || type == REDIRECT)
-				return (EXIT_SYNTAX_ERROR);
+				return (NCMD_SYNTAX_ERROR);
 			type = (ft_memchr("<>", input[i], 2)) ? REDIRECT : OPERAT;
 			i++;
 		}
@@ -166,7 +166,7 @@ short		syntax_error(char *input)
 		else
 		{
 			if (type == PARENTH)
-				return (EXIT_SYNTAX_ERROR);
+				return (NCMD_SYNTAX_ERROR);
 			type = WORD;
 			i++;
 		}

@@ -53,7 +53,7 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
 		return (EXIT_FAILURE);
 	if (sig == SIGINT)
 		ft_printf("^C");
-	else if (ret_handle != EXIT_SYNTAX_ERROR){
+	else if (ret_handle != NCMD_SYNTAX_ERROR){
 		ft_printf("%s", term->str_ccmd);
 	}
 	else
@@ -104,7 +104,7 @@ static int	update(void)
 	{
 		(term->last_char == _EOF) ? signal_manager(_EOF) : 0;
 		ret = handle_key();
-		if (!(ret) || ret == EXIT_SYNTAX_ERROR)
+		if (!(ret) || ret == NCMD_SYNTAX_ERROR)
 		{
 			if (new_cmd(term, 0, ret))
 				return (EXIT_FAILURE);
