@@ -20,4 +20,6 @@ void	pass_blank(char *str, int *index);
 //SYNTAX_ERROR_C
 short	syntax_error(char *input, int flagantislash);
 
+//SYNTAX_ERROR2_C
+char		syntax_parenth(char *input, int type, int *index);
 #endif
