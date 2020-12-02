@@ -65,7 +65,7 @@ static char	syntax_parenth(char *input, int type, int *index)
 		if (ft_memchr("\'\"", input[i], 2))
 		{
 			if (pass_quotes(input, &i))
-				return (NEW_LINE);
+				return (NCMD_SYNTAX_ERROR);
 		}
 		else if (input[i] == '(')
 			nbr_parenth++;
@@ -86,12 +86,24 @@ static char	syntax_parenth(char *input, int type, int *index)
 ** Return [char] 0 - To execute
 */
 
-static char	check_end_line(int type, int flagantislash)
+static char	check_end_line(char *input, int type, int flagantislash)
 {
+	int i;
+
 	if (flagantislash)
 		return (NEW_LINE);
 	else if (type == OPERAT)
+	{
+		i = 0;
+		while (input[i])
+			i++;
+		i--;
+		while(ft_memchr("\t\n ", input[i], 3))
+			i--;
+		if (input[i] == ';')
+			return (TO_EXECUTE);
 		return (NEW_LINE);
+	}
 	else if (type == REDIRECT)
 		return (NCMD_SYNTAX_ERROR);
 	return (TO_EXECUTE);
@@ -146,7 +158,7 @@ short		syntax_error(char *input, int flagantislash)
 		else if (ft_memchr("\'\"", input[i], 2))
 		{
 			if (pass_quotes(input, &i))
-				return (NEW_LINE);
+				return (NCMD_SYNTAX_ERROR);
 			type = WORD;
 			i++;
 		}
@@ -160,5 +172,5 @@ short		syntax_error(char *input, int flagantislash)
 			i++;
 		}
 	}
-	return (check_end_line(type, flagantislash));
+	return (check_end_line(input, type, flagantislash));
 }
