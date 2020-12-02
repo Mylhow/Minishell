@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax_tool.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/02 16:14:42 by abourbou          #+#    #+#             */
+/*   Updated: 2020/12/02 16:14:57 by abourbou         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "syntax_error.h"
 #include "libft_printf.h"
 #include "terminal.h"
 
 /*
- ** Definie l'index de la chaine a la derniere quote
- ** Return [char] 0 - Success
- ** Return [char] Failed
+** Definie l'index de la chaine a la derniere quote
+** Return [char] 0 - Success
+** Return [char] Failed
 */
 
 char	pass_quotes(char *str, int *index)
