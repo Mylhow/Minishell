@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:54:37 by abourbou          #+#    #+#             */
-/*   Updated: 2020/11/30 10:31:27 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/02 13:35:32 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft_mem.h"
 #include "parsing.h"
 
-t_pretype	*create_pretype(int type, void *content)
+static t_pretype	*create_pretype(int type, void *content)
 {
 	t_pretype	*new_pret;
 
@@ -22,12 +22,15 @@ t_pretype	*create_pretype(int type, void *content)
 		return (0);
 	new_pret->type = type;
 	new_pret->content = content;
-	return(new_pret);
+	return (new_pret);
 }
 
-//create a t_pretype and add it on the list
-//return 1 if it works and 0 if malloc error
-int	add_pretype(t_list **l_op_tok, int type, void *content)
+/*
+**create a t_pretype and add it on the list
+**return 1 if it works and 0 if malloc error
+*/
+
+int					add_pretype(t_list **l_op_tok, int type, void *content)
 {
 	t_list		*new_elem;
 	t_pretype	*new_pret;
