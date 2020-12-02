@@ -39,7 +39,7 @@ static char	recursion_parenth(char *input, int length)
 	while (i > 0 && (str_parenth[i] == ' ' || str_parenth[i] == '\t'))
 		i--;
 	str_parenth[length - 1] = (str_parenth[i] != ';') ? ';' : '\0';
-	return_value = syntax_error(str_parenth);
+	return_value = syntax_error(str_parenth, 0);
 	wrfree(str_parenth);
 	return (return_value);
 }
@@ -86,21 +86,10 @@ static char	syntax_parenth(char *input, int type, int *index)
 ** Return [char] 0 - To execute
 */
 
-static char	check_end_line(char *input, int type)
+static char	check_end_line(int type, int flagantislash)
 {
-	int i;
-
-	if (type == WORD)
-	{
-		i = 0;
-		while (input[i])
-			i++;
-		i--;
-		while (input[i] == ' ' || input[i] == '\t' || input[i] == '\n')
-			i--;
-		if (input[i] == '\\')
-			return (NEW_LINE);
-	}
+	if (flagantislash)
+		return (NEW_LINE);
 	else if (type == OPERAT)
 		return (NEW_LINE);
 	else if (type == REDIRECT)
@@ -118,7 +107,7 @@ static char	check_end_line(char *input, int type)
 ** Type : 0 Word, 1 Operator, 2 Parenthesis, 3 redirection
 */
 
-short		syntax_error(char *input)
+short		syntax_error(char *input, int flagantislash)
 {
 	int		i;
 	int		type;
@@ -171,5 +160,5 @@ short		syntax_error(char *input)
 			i++;
 		}
 	}
-	return (check_end_line(input, type));
+	return (check_end_line(type, flagantislash));
 }

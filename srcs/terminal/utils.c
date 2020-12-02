@@ -162,7 +162,7 @@ void	debug(t_term *term)
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);
-		ft_printf("%-18s = %s\n", "str_cmd", block->str_cmd);
+		ft_printf("%-18s = [%s]\n", "str_cmd", block->str_cmd);
 		tmp++;
 		put_cursor(term->nb_cols / 2, tmp);
 		put_caps(T_CLEOL, 0);

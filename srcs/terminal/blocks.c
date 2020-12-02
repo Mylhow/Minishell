@@ -25,14 +25,14 @@ t_block	*ft_blocknew(void)
 }
 
 /*
- ** Duplique l'ensemble des blocs en un seul.
- **	Return [*t_block] Pointeur du nouveau bloc ou NULL
+ ** Cree une chaine de caractere avec tout les blocks
+ **	Return [*t_block] Pointeur de la chaine ou NULL
 */
 
 char	*ft_strjoinblock(t_hash *hash)
 {
 	t_block	*block;
-	char 	*str;
+	char	*str;
 
 	str = 0;
 	while (hash)
@@ -67,6 +67,32 @@ t_block	*ft_blockdup(t_block *block)
 	while (block->str_cmd[++i])
 	{
 		ptr->str_cmd[i] = block->str_cmd[i];
+	}
+	return (ptr);
+}
+
+/*
+ ** Duplique l'ensemble des blocs en un seul.
+ **	Return [*t_block] Pointeur du nouveau bloc ou NULL
+*/
+
+t_block	*ft_blockhashdup(t_hash *hash)
+{
+	t_block *ptr;
+	t_block	*block;
+
+	if (!(ptr = ft_blocknew()))
+		return (NULL);
+	ptr->alloc_size = 0;
+	while (hash)
+	{
+		block = (t_block *)hash->value;
+		if (!(ptr->str_cmd = ft_strjoin(ptr->str_cmd, block->str_cmd)))
+			return (NULL);
+		ptr->size += block->size;
+		ptr->alloc_size += block->alloc_size;
+		ptr->nb_blocks = 1;
+		hash = hash->next;
 	}
 	return (ptr);
 }
