@@ -68,7 +68,7 @@ char		syntax_parenth(char *input, int type, int *index)
 		i += (nbr_parenth) ? 1 : 0;
 	}
 	if (nbr_parenth)
-		return (NEW_LINE);
+		return (NLINE_COMMA);
 	*index += i + 1;
 	return (recursion_parenth(input + 1, i));
 }

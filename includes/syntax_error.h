@@ -18,6 +18,7 @@
 # define NEW_LINE 2
 # define NEW_COMMAND 3
 # define NCMD_SYNTAX_ERROR 4
+# define NLINE_COMMA 5
 
 # define WORD 0
 # define OPERAT 1

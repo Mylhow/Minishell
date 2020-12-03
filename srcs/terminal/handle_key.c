@@ -44,6 +44,31 @@ static int	ft_return_line(t_term *term)
 	return (PROCESS_SUCCESS);
 }
 
+static int ft_checkop(t_term *term)
+{
+	int i;
+	int max;
+	t_block *current;
+
+	current = (t_block *)term->current_block->value;
+	max = ft_strlen(current->str_cmd);
+	i = max;
+	while (current->str_cmd[i])
+	{
+		if (current->str_cmd[i] == '\t' || current->str_cmd[i] == ' ')
+		{
+			i--;
+		}
+	}
+	i--;
+	if (current->str_cmd[i] == '&'
+	|| current->str_cmd[i] == '|'
+	|| current->str_cmd[i] == '<'
+	|| current->str_cmd[i] == '>')
+		return (0);
+	return (1);
+}
+
 /*
 ** Check la syntax de chaque ligne et renvoie un code basé sur syntax_error
 ** Return [int] 0 - Success (Exit_success)
@@ -55,14 +80,27 @@ static int	ft_return_line(t_term *term)
 static int	ft_checksyntax(t_term *term, int flagantislash)
 {
 	int	ret;
+	int index;
+	int len;
 
 	if (term->str_ccmd)
 		wrfree(term->str_ccmd);
 	if (!(term->str_ccmd = ft_strjoinblock(term->list_blocks)))
 		return (EXIT_FAILURE);
 	ret = syntax_error(term->str_ccmd, flagantislash);
-	if (ret == 2)
+	if (ret == NEW_LINE)
 		return (ft_return_line(term));
+	if (ret == NLINE_COMMA)
+	{
+		len = ft_strlen(((t_block *) (*getterm())->current_block->value)->str_cmd);
+		index = ft_checkop(term);
+		if (index) {
+			((t_block *) (*getterm())->current_block->value)->str_cmd[len] = ';';
+			((t_block *) (*getterm())->current_block->value)->str_cmd[len + 1] = ' ';
+		} else
+			((t_block *) (*getterm())->current_block->value)->str_cmd[len] = ' ';
+		return (ft_return_line(term));
+	}
 	return (ret);
 }
 
