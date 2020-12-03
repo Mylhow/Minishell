@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:18:59 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/13 15:11:26 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/03 17:33:50 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ typedef struct  s_cmd
     t_list      *l_redir; // <t_redirect>
 }               t_cmd;
 
-/*  Shell quotes handler.
+/*
+**	Shell quotes handler.
 */
+
 # define QUOTE_NONE     '\0'
 # define QUOTE_SINGLE   '\''
 # define QUOTE_DOUBLE   '\"'

@@ -10,11 +10,19 @@ void  free_all(char **dst, char *simple_cmd)
 
 
 
-/** ORDER:
- *  - bash variables
- *  - word splitting
- *  - quote removal
- *  - backslash removal
+/**  EXPAND_CMD
+ *   description: expands a simple command into a command struct
+ *   
+ *   cmd: points to the destination of the expansion.
+ *   simple_command: the simple command string that needs to be expanded.
+ * 
+ *   returns: 0 if everything has gone well, -1 if some expansion has failed.
+ * 
+ *   ORDER OF EXPANSION :
+ *      - bash variables
+ *      - word splitting
+ *      - quote removal
+ *      - backslash removal
  */
 
 int     expand_cmd(t_cmd **cmd, char *simple_command)
@@ -28,18 +36,14 @@ int     expand_cmd(t_cmd **cmd, char *simple_command)
         free_all(dst, NULL);
         return (-1);
     }
-	printf ("- Expanded vars\n");
     simple_command = *dst;
     if (expand_word(cmd, *dst) != 0)
     {
         free_all(dst, simple_command);
         return (-1);
     }
-    printf ("- Expanded words\n");
     free_all(dst, simple_command);
     expand_quotes(*cmd);
-    printf ("- Expanded quotes\n");
     expand_bslash(*cmd);
-    printf ("- Expanded backslash\n");
     return (0);
 }

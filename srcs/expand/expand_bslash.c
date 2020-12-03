@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:18:16 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/10 18:32:11 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/03 17:28:55 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ static int  expand_bslash_str(char **dst, char *str)
     return (0);
 }
 
+/*
+**  EXPAND_BSLASH
+**  Performs the backslash shell expansion
+*/
 int				expand_bslash(t_cmd *src)
 {
 	t_list	*argv;

@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:05:40 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/13 15:20:36 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/03 17:08:47 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	is_redirect(char *c)
 
 /*
 **	IS_IFS
-**	Checks if c is an Input Field Separator
+**	Checks if c is an Input Field Separator character
 **	Bash default is: $IFS=" \t\n"
 */
 char	is_ifs(char c)
@@ -101,6 +101,11 @@ char	is_ifs(char c)
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
+/*
+**	IS_IFS
+**	Checks if str is made of IFS characters
+**	Bash default is: $IFS=" \t\n"
+*/
 int		contains_ifs(char *str)
 {
 	while (str && *str)

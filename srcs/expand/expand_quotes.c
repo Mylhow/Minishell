@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 11:17:33 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/11 11:42:06 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/03 17:29:30 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ static int		expand_quotes_str(char **dst, char *str)
 	return (0);
 }
 
+/*
+**	EXPAND_QUOTES
+**	Performs the quote removal shell expansion
+*/
 int				expand_quotes(t_cmd *src)
 {
 	t_list	*argv;

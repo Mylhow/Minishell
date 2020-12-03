@@ -6,12 +6,16 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:15:06 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/13 15:22:17 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/03 16:57:18 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirect.h"
 
+/*
+**  CREATE_REDIRECTION
+**  creates redirection based on type ("<" ">" ">>") to a filename
+*/
 
 static t_redirect   *create_redirection(char *type, char *filename)
 {
@@ -27,6 +31,11 @@ static t_redirect   *create_redirection(char *type, char *filename)
     }
     return (NULL);
 }
+
+/*
+**  PARSE_REDIRECTIONS
+**  Parses redirections in argv of cmd
+*/
 
 int     parse_redirections(t_cmd *cmd)
 {

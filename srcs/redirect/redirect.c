@@ -6,14 +6,22 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 14:29:15 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/13 19:20:15 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/03 16:54:25 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirect.h"
 
-int	g_stdin_backup;
-int	g_stdout_backup;
+/*
+**	Backup variables used to store stdin/stdout original fds
+*/
+int	g_stdin_backup = 0;
+int	g_stdout_backup = 1;
+
+/*
+**	BACKUP_IO
+**	Backups the stdin/stdout
+*/
 
 int		backup_io(void)
 {
@@ -21,6 +29,11 @@ int		backup_io(void)
 	g_stdout_backup = dup(STDOUT_FILENO);
 	return (0);
 }
+
+/*
+**	RESTORE_IO
+**	Restore the stdin/stdout based on previously backuped ones using backup_io()
+*/
 
 int		restore_io(void)
 {
@@ -31,6 +44,11 @@ int		restore_io(void)
 	backup_io();
 	return (0);
 }
+
+/*
+**	REDIRECT_STDOUT
+**	Opens file and redirects stdout into its fd.
+*/
 
 int		redirect_stdout(char *file)
 {
@@ -44,6 +62,11 @@ int		redirect_stdout(char *file)
 	return (EXIT_SUCCESS);
 }
 
+/*
+**	APPEND_STDOUT
+**	Opens file with flag O_APPEND and redirects stdout into its fd with.
+*/
+
 int		append_stdout(char *file)
 {
 	int		fd;
@@ -55,6 +78,11 @@ int		append_stdout(char *file)
 	close(fd);
 	return (EXIT_SUCCESS);
 }
+
+/*
+**	REDIRECT_STDIN
+**	Opens file and redirects stdin into its fd.
+*/
 
 int		redirect_stdin(char *file)
 {

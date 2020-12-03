@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/13 19:16:53 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/03 16:40:00 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int				exec_str(char *str, char **envp)
 
 	argv = NULL;
 	cmd = NULL;
+	backup_io();
 	printf ("Starting expansions\n");
 	if (expand_cmd(&cmd, str) != 0)
 	{

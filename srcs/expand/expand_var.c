@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:23:45 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/13 15:40:33 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/03 17:30:56 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 **  IS_VALID_BASH_CHAR
-**  Checks if char c is a valid variable name character, it
+**  Checks if char c is a valid bash variable name character, it
 **  follows the rule :
 **  [0-9][a-z][A-Z][_]
 */
@@ -35,10 +35,6 @@ static int		is_valid_bash_char(char c)
 **	Returns: the name of the next valid bash variable
 **  name.
 */
-
-#define VAR_AMBIGUOUS	2
-#define VAR_VALID 		1
-#define VAR_NONE  		0
 
 static char		*get_var_name(char *unparsed_var)
 {
