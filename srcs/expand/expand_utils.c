@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:05:40 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/12 16:29:21 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/11/13 15:20:36 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,15 @@ char	is_redirect(char *c)
 char	is_ifs(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n');
+}
+
+int		contains_ifs(char *str)
+{
+	while (str && *str)
+	{
+		if (is_ifs(*str))
+			return (1);
+		str++;
+	}
+	return (0);
 }

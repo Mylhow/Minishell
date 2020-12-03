@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:18:59 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/12 15:39:24 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/11/13 15:11:26 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ char    get_quotes(char *current);
 char	*replace_section
 	(char *str, int index, const char *replace, size_t pattern_len);
 
+int		parse_argv(char ***argv, t_list	*l_argv);
+
 char	is_redirect(char *c);
 char	is_ifs(char c);
+int		contains_ifs(char *str);
 
 #endif

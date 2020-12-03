@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:08:04 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/12 12:42:17 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/11/13 13:08:23 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ bool			file_exists(char *name);
 /*
 **  EXEC
 */
-int				exec_str(char **argv, t_list *l_redir, char **envp);
+int				exec_str(char *cmd, char **envp);
+
 
 #endif

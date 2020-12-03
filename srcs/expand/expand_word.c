@@ -6,14 +6,14 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 15:55:21 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/12 22:19:58 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/11/13 14:49:41 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 #include <stdio.h>
 
-int     add_argv(t_cmd **cmd, char *str, int start_point, int i)
+int     append_word(t_cmd **cmd, char *str, int start_point, int i)
 {
     if (start_point != i)
     {
@@ -39,11 +39,12 @@ int     expand_word(t_cmd **cmd, char *str)
     if (!(*cmd = malloc(sizeof (**cmd))))
         return (1);
     (*cmd)->l_argv = NULL;
+    (*cmd)->l_redir = NULL;
     while (str[i])
     {
         while ((str[i] == '\0' || is_ifs(str[i])) && quotes == QUOTE_NONE && !is_redirect(str+i))
         {
-            add_argv(cmd, str, start_point, i);
+            append_word(cmd, str, start_point, i);
             i++;
             start_point = i;
             quotes = get_quotes(str + i);
@@ -51,7 +52,7 @@ int     expand_word(t_cmd **cmd, char *str)
         if (is_redirect(str + i) && quotes == QUOTE_NONE && !last_redirect)
         {
             last_redirect = 1;
-            add_argv(cmd, str, start_point, i);
+            append_word(cmd, str, start_point, i);
             int r_len =  is_redirect(str + i + 1) ? 2 : 1;
             ft_lstadd_back(&((*cmd)->l_argv), ft_lstnew(ft_strndup(str + i, is_redirect(str + i + 1) ? 2 : 1)));
             start_point = i + r_len;
@@ -62,6 +63,6 @@ int     expand_word(t_cmd **cmd, char *str)
         i++;
         quotes = get_quotes(str + i);
     }
-    add_argv(cmd, str, start_point, i);
+    append_word(cmd, str, start_point, i);
     return (0);
 }

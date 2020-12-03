@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:23:45 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/11 13:00:05 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/11/13 15:40:33 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ static int		is_valid_bash_char(char c)
 **  name.
 */
 
-#define VAR_VALID 1
-#define VAR_NONE  0
+#define VAR_AMBIGUOUS	2
+#define VAR_VALID 		1
+#define VAR_NONE  		0
 
 static char		*get_var_name(char *unparsed_var)
 {
@@ -80,8 +81,34 @@ static int		parse_var(char **dst, char *unparsed_var)
 		return (VAR_NONE);
 	}
 	// TODO REPLACE getenv by our own implementation of it !
-	if (!(*dst = getenv(var_name)))
+	if (!(*dst = getenv(var_name)) || *dst[0] == '\0')
+	{
+		*dst = NULL;
 		return (VAR_NONE);
+	}
+	return (VAR_VALID);
+}
+
+/*
+**	CHECK_AMBIGUOUS
+**
+**	Checks for a variable if its preceded by a redirection character,
+**	this function should be call only for vaiable that are determined null.
+**	It will return VAR_AMBIGUOUS if preceded by redirection or VAR_VALID if
+**	it is not.
+*/
+static int		check_ambiguous(char *var, char *var_buffer, int index)
+{
+	int		i;
+
+	i = index;
+	while (index > 1 && (is_ifs(var[index]) || var[index] == '$'))
+		index--;
+	if (is_redirect(var + index) && (var_buffer == NULL || contains_ifs(var_buffer)))
+	{
+		printf ("minishell: $%s: ambiguous redirection\n", get_var_name(var + i));
+		return (VAR_AMBIGUOUS);
+	}
 	return (VAR_VALID);
 }
 
@@ -89,7 +116,7 @@ static int		parse_var(char **dst, char *unparsed_var)
 **  Expands environement variables from str in dst
 **  (following bash Quoting rules)
 */
-
+#include <stdio.h>
 int				expand_var(char **dst, const char *str)
 {
 	int			i;
@@ -108,6 +135,10 @@ int				expand_var(char **dst, const char *str)
 		is_valid_bash_char((*dst)[i + 1]) && quotes != QUOTE_SINGLE)
 		{
 			parse_var(&var_buffer, *dst + i);
+			if (check_ambiguous(*dst, var_buffer, i) == VAR_AMBIGUOUS)
+			{
+				return (-1);
+			}
 			var_len = ft_strlen(get_var_name(*dst + i));
 			if (!var_buffer)
 				var_buffer = "";

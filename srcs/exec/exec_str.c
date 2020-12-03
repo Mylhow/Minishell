@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/12 13:10:22 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/11/13 19:16:53 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ static bool		get_location(char *file, char **file_path)
 }
 
 /*
-**	Executes a simple command by string
+**	EXEC_PROCESS
+**	Executes a process builtin or by location using default arguments
 */
-
-int				exec_str(char **argv, t_list *redir, char **envp)
+int				exec_process(char **argv, t_list *redir, char **envp)
 {
 	pid_t	pid;
 	int		status;
@@ -91,5 +91,40 @@ int				exec_str(char **argv, t_list *redir, char **envp)
 	}
 	else
 		printf("%s : command not found\n", argv[0]);
+	free(argv[0]);
+	free(argv);
+	argv = NULL;
+	return (0);
+}
+
+
+/*
+**	Executes a simple command by string
+*/
+
+int				exec_str(char *str, char **envp)
+{
+	t_cmd	*cmd;
+	char	**argv;
+
+	argv = NULL;
+	cmd = NULL;
+	printf ("Starting expansions\n");
+	if (expand_cmd(&cmd, str) != 0)
+	{
+		free(cmd);
+		return (1);
+	}
+	printf ("Parsed expansions\n");
+    if (parse_redirections(cmd) != 0)
+		return (1);
+	printf ("Parsed redirections\n");
+	if (parse_argv(&argv, cmd->l_argv) != 0)
+		return (1);
+	printf ("Parsed argv\n");
+	if (exec_process(argv, cmd->l_redir, envp) != 0)
+		return (1);
+	printf ("Executed command\n");
+	free(cmd);
 	return (0);
 }
