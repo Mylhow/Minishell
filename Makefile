@@ -11,7 +11,7 @@ PATH_LOG	=	logs
 PATH_LIBFT	=	lib/libft
 
 # List of sources
-SRCS_TERM	=	move.c handle_key.c utils.c init.c blocks.c escape.c ctrl.c insert_key.c backspace.c syntax_error.c syntax_tool.c
+SRCS_TERM	=	move.c handle_key.c utils.c init.c blocks.c escape.c ctrl.c insert_key.c backspace.c syntax_error.c syntax_error2.c syntax_tool.c
 SRCS_EXEC	=	exec_str.c exec_utils.c redirect.c
 SRCS_OTHER  =   ft_echo.c ft_env.c export.c env_utils.c ft_exit.c
 SRCS		=	$(addprefix $(PATH_SRC)/exec/, $(SRCS_EXEC)) $(addprefix $(PATH_SRC)/builtins/, $(SRCS_OTHER)) $(addprefix $(PATH_SRC)/terminal/, $(SRCS_TERM)) $(SRCS_ENV) $(addprefix $(PATH_SRC)/, main.c utilities.c)
