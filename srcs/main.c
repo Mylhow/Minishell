@@ -15,15 +15,15 @@
  ** Return [int] Status de reussite
 */
 
-static int	clear_new_cmd(t_term *term, int sig)
+static int	clear_new_cmd(t_term *term, t_block *copy, int sig)
 {
 	t_hash		*tmp;
 
-	if (ft_strlen(term->str_ccmd) != 0)
+	if (ft_strlen(copy->str_cmd) != 0)
 	{
 		if (sig != SIGINT)
 		{
-			if (!(tmp = ft_hashnew("h", term->str_ccmd)))
+			if (!(tmp = ft_hashnew("h", copy)))
 				return (ft_exit(0, 0, 0));
 			ft_hashadd_back(&term->historic, tmp);
 		}
@@ -49,8 +49,12 @@ static int	clear_new_cmd(t_term *term, int sig)
 
 int	new_cmd(t_term *term, int sig, int ret_handle)
 {
+	t_block *copy;
+
 	if (put_cursor(term->cursor_pos, term->ndx_line) != 0)
 		return (EXIT_FAILURE);
+	if (!(copy = ft_blockhashdup(term->list_blocks)))
+		return (ft_exit(0, 0, 0));
 	if (sig == SIGINT)
 		ft_printf("^C");
 	else if (ret_handle != NCMD_SYNTAX_ERROR){
@@ -61,7 +65,7 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
 	(sig == SIGINT || term->str_ccmd[0] != '\0') ? ft_printf("\n") : 0;
 	get_pos();
 	ft_printf("$ ");
-	if (clear_new_cmd(term, sig))
+	if (clear_new_cmd(term, copy, sig))
 		return (ft_exit(0, 0, 0));
 	term->cursor_pos = PROMPT_SIZE;
 	fflush(stdout);

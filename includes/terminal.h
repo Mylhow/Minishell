@@ -29,7 +29,7 @@
 
 # define PROCESS_SUCCESS 2
 
-# define DEBUG 0
+# define DEBUG 1
 
 typedef struct termios	t_termios;
 
@@ -79,6 +79,7 @@ int						init_term(void);
 
 char					*ft_strjoinblock(t_hash *hash);
 t_block					*ft_blockdup(t_block *block);
+t_block					*ft_blockhashdup(t_hash *hash);
 t_block					*ft_blocknew(void);
 int						new_cmd(t_term *term, int sig, int ret_handle);
 

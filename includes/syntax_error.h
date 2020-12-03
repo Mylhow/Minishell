@@ -29,6 +29,6 @@ char	pass_quotes(char *str, int *index);
 void	pass_blank(char *str, int *index);
 
 //SYNTAX_ERROR_C
-short	syntax_error(char *input);
+short	syntax_error(char *input, int flagantislash);
 
 #endif

@@ -52,7 +52,7 @@ static int	ft_return_line(t_term *term)
 ** Return [int] 4 - Ask new command on syntax_error (Ncmd_syntax_error)
 */
 
-static int	ft_checksyntax(t_term *term)
+static int	ft_checksyntax(t_term *term, int flagantislash)
 {
 	int	ret;
 
@@ -60,7 +60,7 @@ static int	ft_checksyntax(t_term *term)
 		wrfree(term->str_ccmd);
 	if (!(term->str_ccmd = ft_strjoinblock(term->list_blocks)))
 		return (EXIT_FAILURE);
-	ret = syntax_error(term->str_ccmd);
+	ret = syntax_error(term->str_ccmd, flagantislash);
 	if (ret == 2)
 		return (ft_return_line(term));
 	return (ret);
@@ -94,8 +94,15 @@ static int	check_key(t_block *block)
 		}
 		return (PROCESS_SUCCESS);
 	}
-	else if (term->last_char == '\n')
-		return (ft_checksyntax(term));
+	else if (term->last_char == '\n') {
+		if (block->str_cmd[ft_strlen(block->str_cmd) - 1] == '\\')
+		{
+			block->str_cmd[ft_strlen(block->str_cmd) - 1] = '\0';
+			block->size--;
+			return (ft_checksyntax(term, 1));
+		}
+		return (ft_checksyntax(term, 0));
+	}
 	return (EXIT_FAILURE);
 }
 
