@@ -12,9 +12,19 @@ PATH_LIBFT	=	lib/libft
 
 # List of sources
 SRCS_TERM	=	move.c handle_key.c utils.c init.c blocks.c escape.c ctrl.c insert_key.c backspace.c syntax_error.c syntax_error2.c syntax_tool.c
-SRCS_EXEC	=	exec_str.c exec_utils.c redirect.c
+SRCS_EXEC	=	exec_str.c exec_utils.c exec_tree.c
+SRCS_EXPAND	=	expander.c expand_word.c expand_var.c expand_utils.c expand_quotes.c expand_bslash.c
+SRCS_REDIR	=	redirect.c redirect_handler.c
 SRCS_OTHER  =   ft_echo.c ft_env.c export.c env_utils.c ft_exit.c
-SRCS		=	$(addprefix $(PATH_SRC)/exec/, $(SRCS_EXEC)) $(addprefix $(PATH_SRC)/builtins/, $(SRCS_OTHER)) $(addprefix $(PATH_SRC)/terminal/, $(SRCS_TERM)) $(SRCS_ENV) $(addprefix $(PATH_SRC)/, main.c utilities.c)
+SRCS_PARS	=	creation_btree.c parsing_tools.c split_op_tok.c
+SRCS		=	$(addprefix $(PATH_SRC)/expand/, $(SRCS_EXPAND)) \
+				$(addprefix $(PATH_SRC)/redirect/, $(SRCS_REDIR)) \
+				$(addprefix $(PATH_SRC)/parsing/, $(SRCS_PARS)) \
+				$(addprefix $(PATH_SRC)/exec/, $(SRCS_EXEC)) \
+				$(addprefix $(PATH_SRC)/builtins/, $(SRCS_OTHER)) \
+				$(addprefix $(PATH_SRC)/terminal/, $(SRCS_TERM)) \
+				$(addprefix $(PATH_SRC)/, main.c utilities.c)
+		
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
 INCS		=	$(addprefix $(PATH_INC)/, minishell.h terminal.h env.h exec.h syntax_error.h)
 LOG			=	$(PATH_LOG)/minishell.log

@@ -6,11 +6,13 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/10/16 17:37:18 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/04 19:11:21 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+
+int	g_exit_status = 0;
 
 /*
 **	Concatenates a location with some file
@@ -64,62 +66,69 @@ static bool		get_location(char *file, char **file_path)
 }
 
 /*
-**	Handles list of I/O redirections as t_list ( must have: t_list.content: typeof(t_redirect *) )
+**	EXEC_PROCESS
+**	Executes a process builtin or by location using default arguments
 */
-int				handle_redirection(t_list *l_redir)
-{
-	t_redirect	*redirect;
-
-	while (l_redir)
-	{
-		redirect = (t_redirect *)l_redir->content;
-		if (ft_strcmp(redirect->type, ">") == 0)
-		{
-			if (redirect_stdout(redirect->file) < 0)
-				return (-1);
-		}
-		else if (ft_strcmp(redirect->type, ">>") == 0)
-		{
-			if (append_stdout(redirect->file) < 0)
-				return (-1);
-		}
-		else if (ft_strcmp(redirect->type, "<") == 0)
-		{
-			if (redirect_stdin(redirect->file) == -2)
-				return (NO_FILE);
-		}
-		l_redir = l_redir->next;
-	}
-	return (1);
-}
-
-/*
-**	Executes a simple command by string
-*/
-
-int				exec_str(char **argv, t_list *redir, char **envp)
+int				exec_process(char **argv, t_list *redir, char **envp)
 {
 	pid_t	pid;
-	int		status;
 
 	if (redir && (handle_redirection(redir)) == NO_FILE)
 		return (NO_FILE);
-	if (argv && argv[0] && is_builtin(argv[0]))
+	/*if (argv && argv[0] && is_builtin(argv[0]))
 	{
 		//	TODO builtin support (need to implement execbi(typedef int t_builtin builtin, char **argv, char **envp) )
 		printf("Builtin support not implemented yet.\n");
 	}
-	else if (argv && argv[0] && get_location(argv[0], &argv[0]))
+	else*/ if (argv && argv[0] && get_location(argv[0], &argv[0]))
 	{
 		if ((pid = fork()) == -1)
 			return (-1);
 		if (pid == 0)
 			execve(argv[0], argv, envp);
-		status = -1;
-		if (waitpid(pid, &status, 0) == -1)
+		if (waitpid(pid, &g_exit_status, 0) == -1)
 			return (-1);
 	}
 	else
-		printf("%s : command not found\n", argv[0]);
+	{
+		ft_fprintf(2, "%s : command not found\n", argv[0]);
+		g_exit_status = 127;
+	}
+	free(argv[0]);
+	free(argv);
+	argv = NULL;
+	return (0);
+}
+
+
+/*
+**	Executes a simple command by string
+*/
+
+int				exec_str(char *str, char **envp)
+{
+	t_cmd	*cmd;
+	char	**argv;
+
+	argv = NULL;
+	cmd = NULL;
+	backup_io();
+	//printf ("Starting expansions\n");
+	if (expand_cmd(&cmd, str) != 0)
+	{
+		free(cmd);
+		return (1);
+	}
+	//printf ("Parsed expansions\n");
+    if (parse_redirections(cmd) != 0)
+		return (1);
+	//printf ("Parsed redirections\n");
+	if (parse_argv(&argv, cmd->l_argv) != 0)
+		return (1);
+	fflush(stdout);
+	if (exec_process(argv, cmd->l_redir, envp) != 0)
+		return (1);
+	//printf ("Executed command\n");
+	free(cmd);
 	return (0);
 }

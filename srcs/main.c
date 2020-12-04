@@ -9,7 +9,6 @@
 #include "syntax_error.h"
 #include <signal.h>
 
-
 /*
  ** Prepare une nouvelle ligne de commande
  ** Return [int] Status de reussite
