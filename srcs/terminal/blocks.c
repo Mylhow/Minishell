@@ -24,6 +24,22 @@ t_block	*ft_blocknew(void)
 	return (ptr);
 }
 
+t_block	*ft_blockstrnew(char *s)
+{
+	t_block	*ptr;
+	t_term	*term;
+
+	term = (*getterm());
+	if (!(ptr = wrmalloc(sizeof(t_block))))
+		return (NULL);
+	if (!(ptr->str_cmd = ft_strdup(s)))
+		return 0;
+	ptr->size = ft_strlen(ptr->str_cmd);
+	ptr->nb_blocks = ptr->size / term->nb_cols + 1;
+	ptr->alloc_size = term->nb_cols * ptr->nb_blocks + 1 - PROMPT_SIZE;
+	return (ptr);
+}
+
 /*
  ** Cree une chaine de caractere avec tout les blocks
  **	Return [*t_block] Pointeur de la chaine ou NULL

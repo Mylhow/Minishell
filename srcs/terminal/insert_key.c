@@ -8,7 +8,7 @@
  ** Return [void]
 */
 
-static void	new_line(t_term *term)
+static void	ft_overflow_nline(t_term *term)
 {
 	if (term->cursor_pos == term->nb_cols)
 	{
@@ -34,6 +34,25 @@ static void	new_line(t_term *term)
 			put_cursor(term->cursor_pos, term->ndx_line);
 		}
 	}
+}
+
+/*
+ ** Imprime les espaces pour une tabulation (4 espaces)
+ ** Return [int] Status de reussite
+*/
+
+static int	ft_tabulation(t_term *term, t_block *block)
+{
+	int i;
+
+	i = -1;
+	term->last_char = ' ';
+	while (++i < 4)
+	{
+		if (insert(term, block))
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -73,11 +92,12 @@ static int	insert_key(t_term *term, t_block *block)
  ** Return [int] Status de reussite
 */
 
-int			insert(t_block *block)
+int			insert(t_term *term, t_block *block)
 {
-	t_term	*term;
-
-	term = (*getterm());
+	if (term->last_char == '\t')
+	{
+		return (ft_tabulation(term, block));
+	}
 	if (put_cursor(term->cursor_pos, term->ndx_line) != 0)
 		return (EXIT_FAILURE);
 	if (block->size == block->alloc_size - 1)
@@ -94,6 +114,6 @@ int			insert(t_block *block)
 	block->size++;
 	if (put_cursor(term->cursor_pos, term->ndx_line) != 0)
 		return (EXIT_FAILURE);
-	new_line(term);
+	ft_overflow_nline(term);
 	return (EXIT_SUCCESS);
 }
