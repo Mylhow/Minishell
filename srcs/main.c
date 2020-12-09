@@ -1,76 +1,11 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <term.h>
 #include "terminal.h"
-#include "libft_mem.h"
-#include "libft_printf.h"
-#include "libft_string.h"
 #include "minishell.h"
+#include "libft_printf.h"
+#include "libft_mem.h"
 #include "syntax_error.h"
 #include <signal.h>
-
-/*
- ** Prepare une nouvelle ligne de commande
- ** Return [int] Status de reussite
-*/
-
-static int	clear_new_cmd(t_term *term, t_block *copy, int sig)
-{
-	t_hash		*tmp;
-
-	if (ft_strlen(copy->str_cmd) != 0)
-	{
-		if (sig != SIGINT)
-		{
-			if (!(tmp = ft_hashnew("h", copy)))
-				return (ft_exit(0, 0, 0));
-			ft_hashadd_back(&term->historic, tmp);
-		}
-		term->current_historic = NULL;
-		ft_hashclear(&(term->list_blocks));
-		if (!(term->list_blocks = ft_hashnew("block_1", ft_blocknew())))
-			return (ft_exit(0, 0, 0));
-		term->current_block = term->list_blocks;
-		term->original_line = term->ndx_line;
-	}
-	else
-	{
-		term->original_line += 1;
-		term->cursor_pos = 0;
-	}
-	return (EXIT_SUCCESS);
-}
-
-/*
- ** Instancie une nouvelle ligne de commande
- ** Return [int] Status de reussite
-*/
-
-int	new_cmd(t_term *term, int sig, int ret_handle)
-{
-	t_block *copy;
-
-	if (put_cursor(term->cursor_pos, term->ndx_line) != 0)
-		return (EXIT_FAILURE);
-	if (!(copy = ft_blockhashdup(term->list_blocks)))
-		return (ft_exit(0, 0, 0));
-	if (sig == SIGINT)
-		ft_printf("^C");
-	else if (ret_handle != NCMD_SYNTAX_ERROR){
-		ft_printf("%s", term->str_ccmd);
-	}
-	else
-		ft_printf("our bash : syntax error");
-	(sig == SIGINT || term->str_ccmd[0] != '\0') ? ft_printf("\n") : 0;
-	get_pos();
-	ft_printf("$ ");
-	if (clear_new_cmd(term, copy, sig))
-		return (ft_exit(0, 0, 0));
-	term->cursor_pos = PROMPT_SIZE;
-	fflush(stdout);
-	clear_eos(term, term->ndx_line);
-	return (EXIT_SUCCESS);
-}
+#include <stdio.h>
+#include <unistd.h>
 
 void signal_manager(int signal)
 {
@@ -83,9 +18,7 @@ void signal_manager(int signal)
 	else if (signal == SIGINT)
 	{
 		if (new_cmd(*getterm(), signal, 0))
-		{
 			ft_exit(0, 0, 0);
-		}
 	}
 }
 

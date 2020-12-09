@@ -81,10 +81,13 @@ char					*ft_strjoinblock(t_hash *hash);
 t_block					*ft_blockdup(t_block *block);
 t_block					*ft_blockhashdup(t_hash *hash);
 t_block					*ft_blocknew(void);
+t_block					*ft_blockstrnew(char *s);
+
+int						ft_newline(t_term *term);
 int						new_cmd(t_term *term, int sig, int ret_handle);
 
 int						handle_key(void);
-int						insert(t_block *block);
+int						insert(t_term *term, t_block *block);
 int						escape_sequences(t_term *term, t_block *block);
 int						backspace(t_term *term, t_block *block);
 
@@ -99,6 +102,9 @@ void					ctrl_up(t_term *term);
 void					ctrl_down(t_term *term, t_block *block);
 void					ctrl_left(t_term *term, t_block *block);
 void					ctrl_right(t_term *term, t_block *block);
+
+int						ft_histo_add(t_term *term, char *key, void *value);
+int						print_historic(t_term *term, t_block *dup);
 
 char					*realloc_str(char *str, int new_size);
 void					debug(t_term *term);
