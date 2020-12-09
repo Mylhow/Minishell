@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/04 19:11:21 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/09 16:27:17 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static bool		get_location(char *file, char **file_path)
 	char		**locations;
 	char		*cat_tmp;
 
+	if (!*file)
+		return (false);
 	if (file_exists(file))
 	{
 		*file_path	= file;
@@ -75,6 +77,8 @@ int				exec_process(char **argv, t_list *redir, char **envp)
 
 	if (redir && (handle_redirection(redir)) == NO_FILE)
 		return (NO_FILE);
+	
+	
 	/*if (argv && argv[0] && is_builtin(argv[0]))
 	{
 		//	TODO builtin support (need to implement execbi(typedef int t_builtin builtin, char **argv, char **envp) )
@@ -91,7 +95,7 @@ int				exec_process(char **argv, t_list *redir, char **envp)
 	}
 	else
 	{
-		ft_fprintf(2, "%s : command not found\n", argv[0]);
+		ft_fprintf(2, "minishell: %s: command not found\n", argv[0]);
 		g_exit_status = 127;
 	}
 	wrfree(argv[0]);
