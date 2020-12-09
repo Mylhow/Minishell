@@ -35,5 +35,6 @@ bool			file_exists(char *name);
 */
 int				exec_str(char *cmd, char **envp);
 
+int exec_cmd(char *cmd);
 
 #endif

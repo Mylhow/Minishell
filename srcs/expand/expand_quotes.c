@@ -42,7 +42,7 @@ static int		expand_quotes_str(char **dst, char *str)
 
 	quotes = get_quotes(QUOTE_RESET);
 	out_len = get_trimmed_quotes_len(str);
-	if (!(*dst = malloc(sizeof(char) * (out_len + 1))))
+	if (!(*dst = wrmalloc(sizeof(char) * (out_len + 1))))
 		return (1);
 	i = 0;
 	j = 0;
@@ -73,7 +73,7 @@ int				expand_quotes(t_cmd *src)
 	{
 		buff = argv->content;
 		expand_quotes_str((char **)&argv->content, (char *)argv->content);
-		free(buff);
+		wrfree(buff);
 		argv = argv->next;
 	}
 	return (0);

@@ -32,6 +32,7 @@ static int	clear_new_cmd(t_term *term, t_block *copy, int sig)
 	}
 	return (EXIT_SUCCESS);
 }
+#include "exec.h"
 
 /*
  ** Instancie une nouvelle ligne de commande
@@ -47,13 +48,11 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
 	if (!(copy = ft_blockhashdup(term->list_blocks)))
 		return (EXIT_FAILURE);
 	if (sig == SIGINT)
-		ft_printf("^C");
-	else if (ret_handle != NCMD_SYNTAX_ERROR){
-		ft_printf("%s", term->str_ccmd);
-	}
+		ft_printf("^C\n");
+	else if (ret_handle != NCMD_SYNTAX_ERROR)
+		exec_cmd(term->str_ccmd);
 	else
-		ft_printf("our bash : syntax error");
-	(sig == SIGINT || term->str_ccmd[0] != '\0') ? ft_printf("\n") : 0;
+		ft_printf("our bash : syntax error\n");
 	get_pos();
 	ft_printf("$ ");
 	if (clear_new_cmd(term, copy, sig))

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "redirect.h"
+#include "libft_mem.h"
 
 /*
 **  CREATE_REDIRECTION
@@ -23,7 +24,7 @@ static t_redirect   *create_redirection(char *type, char *filename)
 
     if (is_redirect(type))
     {
-        if (!(redir = malloc(sizeof(*redir))))
+        if (!(redir = wrmalloc(sizeof(*redir))))
             return (NULL);
         redir->file = filename;
         redir->type = type;
@@ -61,8 +62,8 @@ int     parse_redirections(t_cmd *cmd)
             else
                 ft_lstadd_back(&cmd->l_redir, ft_lstnew(redirect_buff));
             next_tok = argv->next->next->next;
-            free(argv->next->next);
-            free(argv->next);
+            wrfree(argv->next->next);
+            wrfree(argv->next);
             argv->next = next_tok;
         }
         else

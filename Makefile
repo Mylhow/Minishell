@@ -12,7 +12,7 @@ PATH_LIBFT	=	lib/libft
 
 # List of sources
 SRCS_TERM	=	move.c handle_key.c utils.c init.c blocks.c escape.c ctrl.c insert_key.c backspace.c syntax_error.c syntax_error2.c syntax_tool.c commands.c historic.c
-SRCS_EXEC	=	exec_str.c exec_utils.c
+SRCS_EXEC	=	exec_str.c exec_utils.c exec_tree.c
 SRCS_EXPAND	=	expander.c expand_word.c expand_var.c expand_utils.c expand_quotes.c expand_bslash.c
 SRCS_REDIR	=	redirect.c redirect_handler.c
 SRCS_OTHER  =   ft_echo.c ft_env.c export.c env_utils.c ft_exit.c

@@ -91,7 +91,7 @@ int		redirect_stdin(char *file)
 	restore_io();
 	if ((fd = open(file, O_RDONLY, DEFAULT_PERM)) <= 0)
 	{
-		ft_printf("minishell: %s: No such file or directory\n", file);
+		ft_fprintf(STDERR_FILENO , "minishell: %s: No such file or directory\n", file);
 		return (NO_FILE);
 	}
 	dup2(fd, STDIN_FILENO);

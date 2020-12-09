@@ -24,6 +24,7 @@
 #include "sh_utils.h"
 
 int				backup_io(void);
+int				restore_io(void);
 int				redirect_stdout(char *file);
 int				redirect_stdin(char *file);
 int				append_stdout(char *file);

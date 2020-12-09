@@ -10,6 +10,8 @@ typedef struct ENV
 	void	*next;
 } envir;
 
+extern char	**g_env;
+
 envir	*init_env(int ac, char **environnement, char **envp);
 //      initialise l'environnement sous une forme de
 //      liste chainé de structures ENV comportant chacun

@@ -24,7 +24,7 @@ static char		*path_cat(char *location, char *file)
 	char			*cat;
 	char			*c;
 
-	if (!(cat = malloc(len * sizeof(char))))
+	if (!(cat = wrmalloc(len * sizeof(char))))
 		return (NULL);
 	c = cat;
 	while (*location)
@@ -55,11 +55,11 @@ static bool		get_location(char *file, char **file_path)
 	{
 		if (file_exists((cat_tmp = path_cat(*locations, file))))
 		{
-			free(file);
+			wrfree(file);
 			*file_path = cat_tmp;
 			return (true);
 		}
-		free(cat_tmp);
+		wrfree(cat_tmp);
 		locations++;
 	}
 	return (false);
@@ -94,8 +94,8 @@ int				exec_process(char **argv, t_list *redir, char **envp)
 		ft_fprintf(2, "%s : command not found\n", argv[0]);
 		g_exit_status = 127;
 	}
-	free(argv[0]);
-	free(argv);
+	wrfree(argv[0]);
+	wrfree(argv);
 	argv = NULL;
 	return (0);
 }
@@ -116,7 +116,7 @@ int				exec_str(char *str, char **envp)
 	//printf ("Starting expansions\n");
 	if (expand_cmd(&cmd, str) != 0)
 	{
-		free(cmd);
+		wrfree(cmd);
 		return (1);
 	}
 	//printf ("Parsed expansions\n");
@@ -129,6 +129,7 @@ int				exec_str(char *str, char **envp)
 	if (exec_process(argv, cmd->l_redir, envp) != 0)
 		return (1);
 	//printf ("Executed command\n");
-	free(cmd);
+	wrfree(cmd);
+	restore_io();
 	return (0);
 }

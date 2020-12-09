@@ -109,13 +109,13 @@ int		creation_btree(t_list *list, t_btree **node)
 	{
 		wrfree(list);
 		if(!(*node = node_new(pretype)))
-			return(1);
-		return (0);
+			return(EXIT_FAILURE);
+		return (EXIT_SUCCESS);
 	}
 	else if (pretype->type == PARENTH)
 	{
 		wrfree(list);
 		return (creation_btree(pretype->content, node));
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

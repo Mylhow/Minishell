@@ -62,7 +62,7 @@ int				expand_bslash(t_cmd *src)
 	{
 		buff = argv->content;
 		expand_bslash_str((char **)&argv->content, (char *)argv->content);
-		free(buff);
+		wrfree(buff);
 		argv = argv->next;
 	}
 	return (0);

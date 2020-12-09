@@ -40,7 +40,7 @@ int     	expand_word(t_cmd **cmd, char *str)
 	start_point = 0;
 	last_redirect = 0;
 	quotes = get_quotes(QUOTE_RESET);
-	if (!(*cmd = malloc(sizeof (**cmd))))
+	if (!(*cmd = wrmalloc(sizeof (**cmd))))
 		return (1);
 	(*cmd)->l_argv = NULL;
 	(*cmd)->l_redir = NULL;

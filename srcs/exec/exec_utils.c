@@ -47,7 +47,7 @@ int		parse_argv(char ***argv, t_list	*l_argv)
 	int		size;
 
 	size = ft_lstsize(l_argv);
-	if (!(*argv = (char **)malloc(sizeof (char **) * (size + 1))))
+	if (!(*argv = (char **)wrmalloc(sizeof (char **) * (size + 1))))
 		return (1);
 	(*argv)[size] = NULL;
 	index = 0;

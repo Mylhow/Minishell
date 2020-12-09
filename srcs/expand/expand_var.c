@@ -72,7 +72,6 @@ static int		parse_var(char **dst, char *unparsed_var)
 
 	if (unparsed_var[1] == '?')
 	{
-		ft_printf ("var expand exit: %d\n", g_exit_status);
 		*dst = ft_itoa(g_exit_status);
 		return (VAR_VALID);
 	}
@@ -143,7 +142,7 @@ int				expand_var(char **dst, const char *str)
 				var_buffer = "";
 			dst_buffer = *dst;
 			*dst = replace_section(*dst, i, var_buffer, var_len + 1);
-			free(dst_buffer);
+			wrfree(dst_buffer);
 		}
 		if (var_buffer && var_buffer[0] == '\0')
 			var_buffer = NULL;

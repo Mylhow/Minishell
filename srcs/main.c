@@ -60,13 +60,14 @@ static int	update(void)
  ** Fonctionne principal
  ** Return [int] Status de reussite
 */
+
+char **g_env;
+
 int			main(int ac, char **av, char **environment)
 {
-	envir       *env;
-
 	signal(SIGINT, signal_manager);
-	if (!(env = init_env(ac, av, environment)))
-		return (EXIT_FAILURE);
+	//(*getenvironment()) = environment;
+	g_env = environment;
 	if (!((*getterm()) = wrmalloc(sizeof(t_term))))
 		return (ft_exit(ac, av, environment));
 	if (init_term())

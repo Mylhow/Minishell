@@ -34,7 +34,7 @@ char	*replace_section
 
 	replace_len = ft_strlen(replace);
 	out_len = ft_strlen(str) - pattern_len + replace_len;
-	if (!(out = (char *)malloc(sizeof(char) * (out_len + 1))))
+	if (!(out = (char *)wrmalloc(sizeof(char) * (out_len + 1))))
 		return (NULL);
 	j = -1;
 	while (++j < index)

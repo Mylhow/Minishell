@@ -1,6 +1,7 @@
 #include "exec.h"
 #include "parsing.h"
 #include "syntax_error.h"
+#include "env.h"
 
 int exec_tree(t_btree *node, char **envp);
 
@@ -80,4 +81,16 @@ int exec_tree(t_btree *node, char **envp)
         return (0);
     }
     return (0);
+}
+
+int exec_cmd(char *cmd)
+{
+	t_list *op_tok;
+	t_btree *tree;
+
+	if (!(op_tok = split_op_tok(cmd)))
+		return EXIT_FAILURE;
+	if ((creation_btree(op_tok, &tree)) == EXIT_FAILURE)
+		return EXIT_FAILURE;
+	return exec_tree(tree, g_env);
 }
