@@ -103,7 +103,7 @@ void					ctrl_down(t_term *term, t_block *block);
 void					ctrl_left(t_term *term, t_block *block);
 void					ctrl_right(t_term *term, t_block *block);
 
-int						ft_histo_add(t_term *term, void *value);
+int						ft_histo_add(t_term *term, char *key, void *value);
 int						print_historic(t_term *term, t_block *dup);
 
 char					*realloc_str(char *str, int new_size);

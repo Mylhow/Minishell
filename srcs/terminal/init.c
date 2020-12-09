@@ -20,7 +20,7 @@ static int	init_term_variables(void)
 	term->nb_lines = tigetnum(T_LINE);
 	if (!(block = ft_blocknew()))
 		return (EXIT_FAILURE);
-	if (!(term->list_blocks = ft_hashnew("block_1", block)))
+	if (!(term->list_blocks = ft_hashnew("block_0", block)))
 		return (EXIT_FAILURE);
 	term->historic = NULL;
 	term->current_block = term->list_blocks;

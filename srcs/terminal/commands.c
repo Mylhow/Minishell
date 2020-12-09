@@ -4,7 +4,7 @@
 #include "syntax_error.h"
 #include <signal.h>
 #include <stdio.h>
-
+#include "libft_mem.h"
 /*
  ** Prepare une nouvelle ligne de commande
  ** Return [int] Status de reussite
@@ -14,8 +14,10 @@ static int	clear_new_cmd(t_term *term, t_block *copy, int sig)
 {
 	if (ft_strlen(copy->str_cmd) != 0)
 	{
-		if (sig != SIGINT)
-			ft_histo_add(term, copy);
+		if (sig != SIGINT) {
+			ft_hashdel_key(&term->historic, "tmp");
+			ft_histo_add(term, "h", copy);
+		}
 		term->current_historic = NULL;
 		ft_hashclear(&(term->list_blocks));
 		if (!(term->list_blocks = ft_hashnew("block_1", ft_blocknew())))
@@ -66,12 +68,20 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
  ** Gere le \n dans le block. Ajoute un block dans la structure.
  ** Return [int] Status de reussite
 */
-
+#include "libft_number.h"
 int	ft_newline(t_term *term)
 {
 	t_hash	*hash;
 
-	if (!(hash = ft_hashnew("block_", ft_blocknew())))
+	ft_hashdel_key(&term->historic, "tmp");
+	term->current_historic = 0;
+	t_block *tmp = 0;
+	if ((tmp = ft_blockdup(ft_blockstrnew(term->str_ccmd)))) {
+		if (ft_histo_add(term, "tmp", tmp))
+			return (EXIT_FAILURE);
+		term->original_line++;
+	}
+	if (!(hash = ft_hashnew(ft_strjoin("block_", ft_itoa(ft_hashlen(term->list_blocks))), ft_blocknew())))
 		return (EXIT_FAILURE);
 	ft_hashadd_back(&(term->list_blocks), hash);
 	term->ndx_line++;

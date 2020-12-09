@@ -16,17 +16,10 @@ static int ft_checkop(t_term *term)
 	max = ft_strlen(current->str_cmd);
 	i = max;
 	while (current->str_cmd[i]
-	&& (current->str_cmd[i] == '\t' || current->str_cmd[i] == ' '))
-	{
+	&& !ft_charstr(current->str_cmd[i], "\t "))
 		i--;
-	}
 	i--;
-	if (current->str_cmd[i] == '&'
-	|| current->str_cmd[i] == '|'
-	|| current->str_cmd[i] == '<'
-	|| current->str_cmd[i] == '>')
-		return (0);
-	return (1);
+	return (ft_charstr(current->str_cmd[i], "&|<>()"));
 }
 
 /*
@@ -43,22 +36,18 @@ static int	ft_checksyntax(t_term *term, int flagantislash)
 	int index;
 	int len;
 
-	if (term->str_ccmd)
-		wrfree(term->str_ccmd);
-	if (!(term->str_ccmd = ft_strjoinblock(term->list_blocks)))
-		return (EXIT_FAILURE);
 	ret = syntax_error(term->str_ccmd, flagantislash);
 	if (ret == NEW_LINE)
 		return (ft_newline(term));
 	if (ret == NLINE_COMMA)
 	{
-		len = ft_strlen(((t_block *) (*getterm())->current_block->value)->str_cmd);
+		len = ft_strlen(((t_block *)term->current_block->value)->str_cmd);
 		index = ft_checkop(term);
 		if (index) {
-			((t_block *) (*getterm())->current_block->value)->str_cmd[len] = ';';
-			((t_block *) (*getterm())->current_block->value)->str_cmd[len + 1] = ' ';
+			((t_block *)term->current_block->value)->str_cmd[len] = ';';
+			((t_block *)term->current_block->value)->str_cmd[len + 1] = ' ';
 		} else
-			((t_block *) (*getterm())->current_block->value)->str_cmd[len] = ' ';
+			((t_block *)term->current_block->value)->str_cmd[len] = ' ';
 		return (ft_newline(term));
 	}
 	return (ret);
@@ -68,6 +57,7 @@ static int	ft_checksyntax(t_term *term, int flagantislash)
  ** Manage toutes les touches tape
  ** Return [int] Status de reussite
 */
+
 
 static int	check_key(t_term *term, t_block *block)
 {
@@ -81,7 +71,12 @@ static int	check_key(t_term *term, t_block *block)
 			return (EXIT_FAILURE);
 		return (PROCESS_SUCCESS);
 	}
-	else if (term->last_char == '\n') {
+	else if (term->last_char == '\n')
+	{
+		if (term->str_ccmd)
+			wrfree(term->str_ccmd);
+		if (!(term->str_ccmd = ft_strjoinblock(term->list_blocks)))
+			return (EXIT_FAILURE);
 		if (block->str_cmd[ft_strlen(block->str_cmd) - 1] == '\\')
 		{
 			block->str_cmd[ft_strlen(block->str_cmd) - 1] = '\0';
@@ -107,7 +102,7 @@ int			handle_key(void)
 
 	term = (*getterm());
 	term->nb_cols = tigetnum(T_COLUMN);
-	block = (t_block *)(term->current_block)->value;
+	block = (t_block *)(ft_hashlast(term->list_blocks)->value);
 	debug(term);
 	ret = check_key(term, block);
 	debug(term);
