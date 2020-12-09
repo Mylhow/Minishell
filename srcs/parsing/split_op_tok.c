@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 09:24:57 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/01 15:53:22 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/09 17:52:52 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ int		add_double_operator(t_list **l_op_tok, char *input, int *index)
 	return (1);
 }
 
+
+//!to erase
+#include <stdio.h>
 int		add_parenth(t_list	**l_op_tok, char *input, int *index)
 {
 	int		start;
@@ -67,6 +70,7 @@ int		add_parenth(t_list	**l_op_tok, char *input, int *index)
 	}
 	if (!(content = ft_strndup(input + start, i - start - 1)))
 		return (0);
+	printf("into add parenth, new string : [%s]\n", content);
 	if (!(new_elem = split_op_tok(content)))
 		return (0);
 	wrfree(content);
@@ -119,6 +123,7 @@ t_list	*split_op_tok(char *input)
 		{
 			if (!add_single_operator(&l_op_tok, input, &i))
 				return (0);
+			pass_blank(input, &i);
 		}
 		else if (input[i] == '(')
 		{
