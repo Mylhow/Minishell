@@ -24,7 +24,7 @@ SRCS		=	$(addprefix $(PATH_SRC)/expand/, $(SRCS_EXPAND)) \
 				$(addprefix $(PATH_SRC)/builtins/, $(SRCS_OTHER)) \
 				$(addprefix $(PATH_SRC)/terminal/, $(SRCS_TERM)) \
 				$(addprefix $(PATH_SRC)/, main.c utilities.c)
-		
+
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
 INCS		=	$(addprefix $(PATH_INC)/, minishell.h terminal.h env.h exec.h syntax_error.h)
 LOG			=	$(PATH_LOG)/minishell.log
@@ -33,6 +33,7 @@ LIBFT		=	-L$(PATH_LIBFT) -lft -lcurses
 # Commands of compilation
 COMP		=	clang
 COMP_FLAG	=	-Wall -Werror -Wextra
+COMP_DEB	=	-g3 -fsanitize=address
 COMP_ADD	=	-I$(PATH_LIBFT)/$(PATH_INC) -I$(PATH_INC)
 
 # Others Command
@@ -55,6 +56,9 @@ init:
 
 $(NAME): $(OBJS) $(INCS)
 	@ (set -x; $(COMP) $(COMP_FLAG) $(COMP_ADD) -o $(NAME) $(OBJS) $(LIBFT)) >> $(LOG) 2>&1
+
+debug: init $(OBJS) $(INCS)
+	@ (set -x; $(COMP) $(COMP_FLAG) $(COMP_DEB) $(COMP_ADD) -o minishell_debug $(OBJS) $(LIBFT)) >> $(LOG) 2>&1
 
 $(PATH_OBJ)/%.o : $(PATH_SRC)/*/%.c  $(INCS)
 	@ (set -x; $(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@) >> $(LOG) 2>&1

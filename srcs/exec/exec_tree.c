@@ -69,6 +69,8 @@ int exec_tree(t_btree *node, char **envp)
 {
     t_pretype   *pre;
 
+	if (!node)
+		return (0);
     pre = (t_pretype *)node->content;
     if (pre->type == WORD)
     {
@@ -83,11 +85,36 @@ int exec_tree(t_btree *node, char **envp)
     return (0);
 }
 
+
+//! to erase, test function for split_op_tok
+void	print_list(t_list *t_op_tok)
+{
+	t_list		*current;
+	t_pretype	*current_pret;
+
+	current = t_op_tok;
+	while (current)
+	{
+		current_pret = current->content;
+		if (current_pret->type != PARENTH)
+			ft_printf("type : [%d], content : [%s]\n", current_pret->type, (char *)current_pret->content);
+		else
+		{
+			ft_printf("******into parenth *******\n");
+			print_list(current_pret->content);
+			ft_printf("******end parenth *******\n");
+		}
+		current = current->next;
+	}
+}
+
 int exec_cmd(char *cmd)
 {
 	t_list *op_tok;
 	t_btree *tree;
 
+	op_tok = 0;
+	tree = 0;
 	if (!(op_tok = split_op_tok(cmd)))
 		return EXIT_FAILURE;
 	if ((creation_btree(op_tok, &tree)) == EXIT_FAILURE)

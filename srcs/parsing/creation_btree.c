@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 17:00:15 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/01 17:11:45 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/09 16:35:57 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int		creation_btree(t_list *list, t_btree **node)
 	t_pretype	*pretype;
 	int			return_value;
 
+	if (!list)
+		return (EXIT_SUCCESS);
 	pretype = (t_pretype *)list->content;
 	if((return_value = is_ope(list, node)) != 2)
 		return (return_value);

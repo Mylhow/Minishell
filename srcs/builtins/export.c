@@ -56,7 +56,7 @@ int    export(int ac, char **argv, char **environnment)
 		if ( ret < 0) //ici check validite de parametre
 		{
 			ft_printf("Syntax error.\n");
-			return -1; 
+			return -1;
 		}
 		add_env_var(env, argv[i]);
 		i++;
