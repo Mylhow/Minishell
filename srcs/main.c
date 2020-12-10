@@ -42,6 +42,7 @@ static int	update(void)
 		ret = handle_key();
 		if (!(ret) || ret == NCMD_SYNTAX_ERROR)
 		{
+			//ft_printf("from updqte");
 			if (new_cmd(term, 0, ret))
 				return (EXIT_FAILURE);
 			continue;

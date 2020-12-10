@@ -26,7 +26,7 @@ static int	movement_manage(t_term *term, t_block *block)
 	else if (term->esc_flag == 3)
 	{
 		read(STDIN_FILENO, &my_char, 1);
-		if (my_char == '2')
+		if (my_char == '5')
 		{
 			read(STDIN_FILENO, &my_char, 1);
 			if (ctrl_manage(term, block, my_char))
