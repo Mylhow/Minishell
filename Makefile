@@ -17,16 +17,18 @@ SRCS_EXPAND	=	expander.c expand_word.c expand_var.c expand_utils.c expand_quotes
 SRCS_REDIR	=	redirect.c redirect_handler.c
 SRCS_OTHER  =   ft_echo.c ft_env.c export.c env_utils.c ft_exit.c
 SRCS_PARS	=	creation_btree.c parsing_tools.c split_op_tok.c
+SRCS_ENV	=	environement.c environement_utils.c
 SRCS		=	$(addprefix $(PATH_SRC)/expand/, $(SRCS_EXPAND)) \
 				$(addprefix $(PATH_SRC)/redirect/, $(SRCS_REDIR)) \
 				$(addprefix $(PATH_SRC)/parsing/, $(SRCS_PARS)) \
 				$(addprefix $(PATH_SRC)/exec/, $(SRCS_EXEC)) \
 				$(addprefix $(PATH_SRC)/builtins/, $(SRCS_OTHER)) \
 				$(addprefix $(PATH_SRC)/terminal/, $(SRCS_TERM)) \
+				$(addprefix $(PATH_SRC)/env/, $(SRCS_ENV)) \
 				$(addprefix $(PATH_SRC)/, main.c utilities.c)
 
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
-INCS		=	$(addprefix $(PATH_INC)/, builtins.h terminal.h env.h exec.h syntax_error.h)
+INCS		=	$(addprefix $(PATH_INC)/, minishell.h terminal.h env.h exec.h btree.h syntax_error.h exec.h expander.h sh_utils.h redirect.h environement.h)
 LOG			=	$(PATH_LOG)/minishell.log
 LIBFT		=	-L$(PATH_LIBFT) -lft -lcurses
 
@@ -76,7 +78,6 @@ clean:
 fclean: clean
 	@ $(RM) -rf $(NAME)
 	@ $(RM) -rf $(PATH_LOG)
-	@ $(RM) -rf minishell_debug
 	@ make -C $(PATH_LIBFT) fclean
 
 re: fclean all

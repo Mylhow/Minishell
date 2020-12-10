@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   environement.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 11:30:29 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/10 15:46:29 by lrobino          ###   ########lyon.fr   */
+/*   Created: 2020/12/10 14:24:35 by lrobino           #+#    #+#             */
+/*   Updated: 2020/12/10 15:54:37 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef ENVIRONEMENT_H
+# define ENVIRONEMENT_H
 
-# include "unistd.h"
-# include "terminal.h"
-# include "environement.h"
-# include "sh_utils.h"
+# include <stdlib.h>
+# include "libft_string.h"
 
+extern char **g_envp;
 
-int	ft_exit(int ac, char **av, char **env);
-int	ft_echo(int ac, char **av, char **env);
-int	ft_cd(int ac, char **av, char **env);
-int	ft_pwd(int ac, char **av, char **env);
+int		load_env(char **envp);
+char	*get_env(char *var);
+int		add_var(char *name, char *value);
+int		set_var(char *name, char *value);
+int		del_var(char *name);
+
+char	*concat_var(char *name, char *value);
+char	**deconcat_var(char *var_line);
+int		is_valid_var_name(char *var);
+
 #endif
