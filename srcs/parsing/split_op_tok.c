@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 09:24:57 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/09 17:52:52 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/10 10:34:41 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int		add_parenth(t_list	**l_op_tok, char *input, int *index)
 	}
 	if (!(content = ft_strndup(input + start, i - start - 1)))
 		return (0);
-	printf("into add parenth, new string : [%s]\n", content);
 	if (!(new_elem = split_op_tok(content)))
 		return (0);
 	wrfree(content);

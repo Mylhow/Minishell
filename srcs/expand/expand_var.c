@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:23:45 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/04 19:05:51 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/10 10:52:12 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int		parse_var(char **dst, char *unparsed_var)
 
 	if (unparsed_var[1] == '?')
 	{
-		*dst = ft_itoa(g_exit_status);
+		*dst = ft_itoa(g_exit_status % 255);
 		return (VAR_VALID);
 	}
 	if (!(var_name = get_var_name(unparsed_var)))

@@ -76,6 +76,7 @@ clean:
 fclean: clean
 	@ $(RM) -rf $(NAME)
 	@ $(RM) -rf $(PATH_LOG)
+	@ $(RM) -rf minishell_debug
 	@ make -C $(PATH_LIBFT) fclean
 
 re: fclean all
