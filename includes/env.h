@@ -1,7 +1,7 @@
 #ifndef ENV_H
 # define ENV_H
 
-#include "minishell.h"
+#include "builtins.h"
 
 typedef struct ENV
 {

@@ -26,7 +26,7 @@ SRCS		=	$(addprefix $(PATH_SRC)/expand/, $(SRCS_EXPAND)) \
 				$(addprefix $(PATH_SRC)/, main.c utilities.c)
 
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
-INCS		=	$(addprefix $(PATH_INC)/, minishell.h terminal.h env.h exec.h syntax_error.h)
+INCS		=	$(addprefix $(PATH_INC)/, builtins.h terminal.h env.h exec.h syntax_error.h)
 LOG			=	$(PATH_LOG)/minishell.log
 LIBFT		=	-L$(PATH_LIBFT) -lft -lcurses
 
