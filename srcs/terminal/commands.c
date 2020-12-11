@@ -42,51 +42,50 @@ static int	clear_new_cmd(t_term *term, t_block *copy, int sig)
 int	new_cmd(t_term *term, int sig, int ret_handle)
 {
 	t_block *copy;
-	static int exec = 0;
-	static int test = 0;
+	
+	static int running = 0;
 	if (sig != SIGINT && put_cursor(0, term->original_line + ((ft_strlen(term->str_ccmd) + PROMPT_SIZE) / term->nb_cols) + 1) != 0)
 			return (EXIT_FAILURE);
 	if (!(copy = ft_blockhashdup(term->list_blocks)))
 		return (EXIT_FAILURE);
 	if (sig == SIGINT)
 	{
-		//positionne a la fin du text
-		if (exec == 0)
+		if (!running)
 		{
 			if (put_cursor((copy->size + PROMPT_SIZE) % term->nb_cols, term->original_line + ((copy->size + PROMPT_SIZE) / term->nb_cols)) != 0)
+				return (EXIT_FAILURE);
+			ft_printf("^C\n");
+			if (put_cursor(0, term->original_line + ((copy->size + PROMPT_SIZE) / term->nb_cols) + 1) != 0)
 				return (EXIT_FAILURE);
 		}
 		else
 		{
-			if (put_cursor(0, term->original_line + ((copy->size + PROMPT_SIZE) / term->nb_cols) +1) != 0)
+			ft_printf("^C\n");
+
+			get_pos();
+			if (put_cursor(0, term->ndx_line) != 0)
 				return (EXIT_FAILURE);
 		}
-		ft_printf("^C\n");
-		//positionne pour la nouvelle ligne
-		if (put_cursor(0, term->original_line + ((copy->size + PROMPT_SIZE) / term->nb_cols) + 1 + exec) != 0)
-			return (EXIT_FAILURE);
 		term->ndx_cursor = 0;
-		test = 1;
 	}
 	else if (ret_handle != NCMD_SYNTAX_ERROR)
 	{
-		exec = 1;
+		running = 1;
 		exec_cmd(term->str_ccmd);
-		exec = 0;
-		test = 2;
+		running = 0;
 	}
 	else
 		ft_printf("our bash : syntax error\n");
-	get_pos();
-	if (exec == 1)
+	if (running == 0)
 	{
-		ft_printf("$%d", test);
-	}
-	if (clear_new_cmd(term, copy, sig))
-		return (EXIT_FAILURE);
-	term->cursor_pos = PROMPT_SIZE;
+		get_pos();
+		ft_printf("$ ");
+		if (clear_new_cmd(term, copy, sig))
+			return (EXIT_FAILURE);
+		term->cursor_pos = PROMPT_SIZE;
+	}	
 	fflush(stdout);
-	clear_eos(term, term->ndx_line);
+	//clear_eos(term, term->ndx_line);
 	return (EXIT_SUCCESS);
 }
 
