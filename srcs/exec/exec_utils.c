@@ -6,29 +6,30 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:11:41 by lrobino           #+#    #+#             */
-/*   Updated: 2020/11/13 13:46:16 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/11 10:12:43 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "builtins.h"
 
-bool	is_builtin(char *str)
+exec_builtin	is_builtin(char *str)
 {
 	if (ft_strcmp(str, "echo") == 0)
-		return (true);
+		return (ft_echo);
 	if (ft_strcmp(str, "cd") == 0)
-		return (true);
+		return (ft_cd);
 	if (ft_strcmp(str, "pwd") == 0)
-		return (true);
+		return (ft_pwd);
 	if (ft_strcmp(str, "export") == 0)
-		return (true);
+		return (ft_export);
 	if (ft_strcmp(str, "unset") == 0)
-		return (true);
+		return (ft_unset);
 	if (ft_strcmp(str, "env") == 0)
-		return (true);
+		return (ft_env);
 	if (ft_strcmp(str, "exit") == 0)
-		return (true);
-	return (false);
+		return (ft_exit);
+	return (NULL);
 }
 
 bool	file_exists(char *file)

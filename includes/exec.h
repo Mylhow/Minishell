@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:08:04 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/04 18:39:52 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/11 11:48:32 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,24 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <limits.h>
+# include <signal.h>
 
 # include "expander.h"
 # include "redirect.h"
 
+typedef int(*exec_builtin)(int, char **, char **);
+
 /*
 **  UTILS
 */
-
-bool			is_builtin(char *str);
+exec_builtin	is_builtin(char *str);
 bool			file_exists(char *name);
 
 /*
 **  EXEC
 */
 int				exec_str(char *cmd, char **envp);
-
-int exec_cmd(char *cmd);
+int             execbi(char *name, char **argv, char **envp);
+int             exec_cmd(char *cmd);
 
 #endif

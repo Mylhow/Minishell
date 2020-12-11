@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   execbi.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 15:14:12 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 11:25:13 by lrobino          ###   ########.fr       */
+/*   Created: 2020/12/11 10:06:18 by lrobino           #+#    #+#             */
+/*   Updated: 2020/12/11 11:21:30 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "exec.h"
 
-int     ft_env(int ac, char **av, char **envp)
+static int  strplen(char **strp)
 {
-    int i;
+    int i = 0;
 
-    (void)av;
-    (void)envp;
-    if (ac != 1)
-    {
-        ft_fprintf(2, "minishell: env: too many arguments.\n");
+    while (strp[i] && *strp[i])
+        i++;
+    return (i);
+}
+
+int         execbi(char *name, char **argv, char **envp)
+{
+    exec_builtin exec;
+
+    if (!(exec = is_builtin(name)))
         return (1);
-    }
-    i = 0;
-    while (g_envp && g_envp[i])
-        ft_printf ("%s\n", g_envp[i++]);
-    return (0);
+    return (exec (strplen(argv), argv, envp));
 }

@@ -1,7 +1,7 @@
 #include "terminal.h"
-#include "minishell.h"
 #include "libft_printf.h"
 #include "libft_mem.h"
+#include "builtins.h"
 #include "syntax_error.h"
 #include <signal.h>
 #include <stdio.h>
@@ -68,6 +68,7 @@ int			main(int ac, char **av, char **environment)
 {
 	signal(SIGINT, signal_manager);
 	//(*getenvironment()) = environment;
+	load_env(environment);
 	g_env = environment;
 	if (!((*getterm()) = wrmalloc(sizeof(t_term))))
 		return (ft_exit(ac, av, environment));

@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:23:45 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/10 10:52:12 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/11 11:29:26 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-
-/*
-**  IS_VALID_BASH_CHAR
-**  Checks if char c is a valid bash variable name character, it
-**  follows the rule :
-**  [0-9][a-z][A-Z][_]
-*/
-
-static int		is_valid_bash_char(char c)
-{
-	return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') ||
-		(c >= 'A' && c <= 'Z') || c == '_');
-}
 
 /*
 **	GET_VAR_NAME

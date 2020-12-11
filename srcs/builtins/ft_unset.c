@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 15:14:12 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 11:25:13 by lrobino          ###   ########.fr       */
+/*   Created: 2020/12/10 15:44:43 by lrobino           #+#    #+#             */
+/*   Updated: 2020/12/11 10:28:23 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int     ft_env(int ac, char **av, char **envp)
+int ft_unset(int ac, char **av, char **envp)
 {
-    int i;
+    int     invalid_id;
 
-    (void)av;
     (void)envp;
-    if (ac != 1)
+    if (ac == 2)
     {
-        ft_fprintf(2, "minishell: env: too many arguments.\n");
-        return (1);
+        if ((invalid_id = is_valid_var_name(av[1])) != 0)
+            ft_fprintf(STDERR_FILENO,
+            "minishell: env: `%c': not a valid identifier\n", av[1][invalid_id]);
+        del_var(av[1]);
     }
-    i = 0;
-    while (g_envp && g_envp[i])
-        ft_printf ("%s\n", g_envp[i++]);
+    if (ac > 2)
+        ft_fprintf(STDERR_FILENO, "minishell: unset: too many arguments.\n");
     return (0);
 }

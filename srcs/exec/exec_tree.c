@@ -1,7 +1,7 @@
 #include "exec.h"
 #include "parsing.h"
 #include "syntax_error.h"
-#include "env.h"
+#include "environement.h"
 
 int exec_tree(t_btree *node, char **envp);
 
@@ -14,6 +14,7 @@ int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
         return (-1);
     else if (pids[0] == 0)
     {
+        signal(SIGINT, NULL);
         if (pipe(fd_pipe) < 0)
             return (-1);
         if ((pids[1] = fork()) < 0)
@@ -119,5 +120,5 @@ int exec_cmd(char *cmd)
 		return EXIT_FAILURE;
 	if ((creation_btree(op_tok, &tree)) == EXIT_FAILURE)
 		return EXIT_FAILURE;
-	return exec_tree(tree, g_env);
+	return exec_tree(tree, g_envp);
 }
