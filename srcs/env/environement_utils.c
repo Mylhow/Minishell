@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:23:46 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/10 15:55:54 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/11 10:47:13 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,32 @@ char	**deconcat_var(char *var_line)
 		ft_strlen(var_line) - (int)(equal_sym - var_line + 1));
 	return (deconcat);
 }
-
+#include <stdio.h>
 int		is_valid_var_name(char *var)
 {
 	int	i;
+	int	eq_sym;
+
+	eq_sym = 0;
+	i = 0;
 	while (var[i])
 	{
-		if (!is_ifs(var[i]) && var[i] != '=')
+		if (!is_ifs(var[i]) && (var[i] != '=' && eq_sym == 0))
 			return (i);
+		if (var[i] == '=')
+			eq_sym = 1;
 		i++;
 	}
+	printf ("VAR VALID\n");
 	return (0);
+}
+
+int		ft_strlchr(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
 }

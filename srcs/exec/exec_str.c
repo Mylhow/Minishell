@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/09 16:27:17 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/11 11:22:24 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,9 @@ int				exec_process(char **argv, t_list *redir, char **envp)
 
 	if (redir && (handle_redirection(redir)) == NO_FILE)
 		return (NO_FILE);
-	
-	
-	/*if (argv && argv[0] && is_builtin(argv[0]))
-	{
-		//	TODO builtin support (need to implement execbi(typedef int t_builtin builtin, char **argv, char **envp) )
-		printf("Builtin support not implemented yet.\n");
-	}
-	else*/ if (argv && argv[0] && get_location(argv[0], &argv[0]))
+	if (argv && argv[0] && is_builtin(argv[0]))
+		execbi(argv[0], argv, envp);
+	else if (argv && argv[0] && get_location(argv[0], &argv[0]))
 	{
 		if ((pid = fork()) == -1)
 			return (-1);

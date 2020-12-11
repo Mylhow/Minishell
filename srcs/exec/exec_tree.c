@@ -1,7 +1,7 @@
 #include "exec.h"
 #include "parsing.h"
 #include "syntax_error.h"
-#include "env.h"
+#include "environement.h"
 
 int exec_tree(t_btree *node, char **envp);
 
@@ -119,5 +119,5 @@ int exec_cmd(char *cmd)
 		return EXIT_FAILURE;
 	if ((creation_btree(op_tok, &tree)) == EXIT_FAILURE)
 		return EXIT_FAILURE;
-	return exec_tree(tree, g_env);
+	return exec_tree(tree, g_envp);
 }

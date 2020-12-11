@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 13:21:45 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/10 13:46:49 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/11 11:24:12 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-
+#include "builtins.h"
 //!changer malloc et free avec le wrapper
 //!changer printf avec ft_printf
 #include <stdlib.h>
@@ -47,13 +47,13 @@ int			ft_pwd(int ac, char **av, char **env)
 
 	cpy_errno = 34;
 	len_path = 5;
-	if (!(path = malloc(sizeof(char) * len_path)))
+	if (!(path = wrmalloc(sizeof(char) * len_path)))
 		exit_malloc();
 	while (cpy_errno == 34)
 	{
-		free(path);
+		wrfree(path);
 		len_path = len_path * 2;
-		if (!(path = malloc(sizeof(char) * len_path)))
+		if (!(path = wrmalloc(sizeof(char) * len_path)))
 			exit_malloc();
 		if (getcwd(path, len_path))
 		{

@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:21:14 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/10 14:29:49 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/11 10:34:11 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,14 @@ int			load_env(char **envp)
 char		*get_env(char *var)
 {
 	int	i;
-	int	n;
+	int n;
 
 	i = 0;
 	if (!g_envp)
 		return (NULL);
 	while (g_envp && g_envp[i])
 	{
-		n = 0;
-		while (g_envp[i][n] != '=')
-			n++;
+		n = ft_strlchr(g_envp[i], '=');
 		if (ft_strncmp(g_envp[i], var, n) == 0)
 			return (g_envp[i] + n + 1);
 		i++;
@@ -85,7 +83,7 @@ int			set_var(char *name, char *value)
 		return (1);
 	while (g_envp && g_envp[i])
 	{
-		if (ft_strncmp(g_envp[i], name, ft_strlen(name)) == 0)
+		if (ft_strncmp(g_envp[i], name, ft_strlchr(g_envp[i], '=')) == 0)
 		{
 			buffer = concat_var(name, value);
 			free(g_envp[i]);
@@ -111,7 +109,7 @@ int			del_var(char *name)
 	j = --i - 1;
 	while (i >= 0)
 	{
-		if (ft_strncmp(g_envp[i], name, ft_strlen(name)) != 0)
+		if (ft_strncmp(g_envp[i], name, ft_strlchr(g_envp[i], '=')) != 0)
 		{
 			new_envp[j] = ft_strdup(g_envp[i]);
 			j--;
