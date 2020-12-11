@@ -2,6 +2,7 @@
 #include "parsing.h"
 #include "syntax_error.h"
 #include "environement.h"
+#include "signal_manager.h"
 
 int exec_tree(t_btree *node, char **envp);
 
@@ -14,7 +15,8 @@ int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
         return (-1);
     else if (pids[0] == 0)
     {
-        signal(SIGINT, NULL);
+        signal(SIGINT, signal_process);
+        signal(SIGQUIT, signal_process);
         if (pipe(fd_pipe) < 0)
             return (-1);
         if ((pids[1] = fork()) < 0)
@@ -27,12 +29,12 @@ int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
             close(fd_pipe[1]);
             exit (0);
         }
-        else if (waitpid(pids[1], 0, 0) < 0)
-            return (-1);
         close(fd_pipe[1]);
         dup2(fd_pipe[0], STDIN_FILENO);
         exec_tree(r_child, envp);
         close(fd_pipe[0]);
+        if (waitpid(pids[1], 0, 0) < 0)
+            return (-1);
         exit (g_exit_status);
     }
     else if (waitpid(pids[0], &g_exit_status, 0) < 0)
@@ -50,7 +52,7 @@ int handle_operators(char *type, t_btree *l_child, t_btree *r_child, char **envp
     else if (ft_strncmp(type, "&&", 2) == 0)
     {
         exec_tree(l_child, envp);
-        if (g_exit_status == 0)
+        if (g_exit_status == 0 )
             exec_tree(r_child, envp);
     }
     else if (ft_strncmp(type, "||", 2) == 0)
@@ -70,7 +72,7 @@ int exec_tree(t_btree *node, char **envp)
 {
     t_pretype   *pre;
 
-	if (!node)
+	if (!node || g_interrupt)
 		return (0);
     pre = (t_pretype *)node->content;
     if (pre->type == WORD)
@@ -116,6 +118,7 @@ int exec_cmd(char *cmd)
 
 	op_tok = 0;
 	tree = 0;
+	g_interrupt = 0;
 	if (!(op_tok = split_op_tok(cmd)))
 		return EXIT_FAILURE;
 	if ((creation_btree(op_tok, &tree)) == EXIT_FAILURE)

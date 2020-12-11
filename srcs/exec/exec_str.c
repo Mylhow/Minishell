@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec_str.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 11:45:30 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/11 14:39:20 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
-
+#include "signal_manager.h"
 int	g_exit_status = 0;
 
 /*
@@ -74,22 +74,26 @@ static bool		get_location(char *file, char **file_path)
 int				exec_process(char **argv, t_list *redir, char **envp)
 {
 	pid_t	pid;
+	int		status;
 
 	if (redir && (handle_redirection(redir)) == NO_FILE)
 		return (NO_FILE);
 	if (argv && argv[0] && is_builtin(argv[0]))
-		execbi(argv[0], argv, envp);
+		g_exit_status = execbi(argv[0], argv, envp);
 	else if (argv && argv[0] && get_location(argv[0], &argv[0]))
 	{
 		if ((pid = fork()) == -1)
 			return (-1);
 		if (pid == 0)
-		{
-			signal(SIGINT, NULL);
 			execve(argv[0], argv, envp);
-		}
-		if (waitpid(pid, &g_exit_status, 0) == -1)
+		if (waitpid(pid, &status, 0) == -1)
 			return (-1);
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);	
+		else if (WIFSIGNALED(status))
+			g_exit_status = WTERMSIG(status) + 128;
+		else if (WIFSTOPPED(status))
+			g_exit_status = WSTOPSIG(status) + 128;
 	}
 	else
 	{
@@ -114,6 +118,7 @@ int				exec_str(char *str, char **envp)
 
 	argv = NULL;
 	cmd = NULL;
+	g_interrupt = 0;
 	backup_io();
 	//printf ("Starting expansions\n");
 	if (expand_cmd(&cmd, str) != 0)

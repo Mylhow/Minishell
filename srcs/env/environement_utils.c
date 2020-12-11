@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:23:46 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 11:28:59 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/11 15:26:18 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*concat_var(char *name, char *value)
 
 	concat_buf = ft_strjoin(name, "=");
 	concat = ft_strjoin(concat_buf, value);
-	free(concat_buf);
+	wrfree(concat_buf);
 	return (concat);
 }
 
@@ -42,7 +42,7 @@ char	**deconcat_var(char *var_line)
 
 	if (!(equal_sym = ft_strchr(var_line, '=')))
 		return (NULL);
-	if (!(deconcat = malloc(sizeof(char *) * 3)))
+	if (!(deconcat = wrmalloc(sizeof(char *) * 3)))
 		return (NULL);
 	deconcat[2] = NULL;
 	deconcat[0] = ft_strndup(var_line, (int)(equal_sym - var_line));
@@ -50,24 +50,21 @@ char	**deconcat_var(char *var_line)
 		ft_strlen(var_line) - (int)(equal_sym - var_line + 1));
 	return (deconcat);
 }
-#include <stdio.h>
-int		is_valid_var_name(char *var)
+
+int		is_valid_var_name(char *var, size_t sz)
 {
 	int	i;
 	int	eq_sym;
 
 	eq_sym = 0;
 	i = 0;
-	while (var[i])
+	while (var[i] && i < (int)sz)
 	{
-		if (!is_valid_bash_char(var[i]) && (var[i] != '=' && eq_sym == 0))
-			return (i);
-		if (var[i] == '=')
-			eq_sym = 1;
+		if (!is_valid_bash_char(var[i]))
+			return (i != 0 ? 0 : 1);
 		i++;
 	}
-	printf ("VAR VALID\n");
-	return (0);
+	return ((sz == 0) ? 1 : 0);
 }
 
 int		ft_strlchr(char *str, char c)
