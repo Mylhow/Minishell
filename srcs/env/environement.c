@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:21:14 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 10:34:11 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/11 14:47:25 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			load_env(char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	if (!(g_envp = malloc(sizeof(char *) * (i + 1))))
+	if (!(g_envp = wrmalloc(sizeof(char *) * (i + 1))))
 		return (1);
 	g_envp[i] = NULL;
 	while (--i + 1)
@@ -57,7 +57,7 @@ int			add_var(char *name, char *value)
 	i = 0;
 	while (g_envp[i])
 		i++;
-	if (!(new_envp = malloc(sizeof(char *) * (i + 2))))
+	if (!(new_envp = wrmalloc(sizeof(char *) * (i + 2))))
 		return (1);
 	new_envp[i + 1] = NULL;
 	new_envp[i] = concat;
@@ -65,8 +65,8 @@ int			add_var(char *name, char *value)
 		new_envp[i] = ft_strdup(g_envp[i]);
 	i = 0;
 	while (g_envp[i])
-		free(g_envp[i++]);
-	free(g_envp);
+		wrfree(g_envp[i++]);
+	wrfree(g_envp);
 	g_envp = new_envp;
 	return (0);
 }
@@ -86,7 +86,7 @@ int			set_var(char *name, char *value)
 		if (ft_strncmp(g_envp[i], name, ft_strlchr(g_envp[i], '=')) == 0)
 		{
 			buffer = concat_var(name, value);
-			free(g_envp[i]);
+			wrfree(g_envp[i]);
 			g_envp[i] = ft_strdup(buffer);
 		}
 		i++;
@@ -103,7 +103,7 @@ int			del_var(char *name)
 	i = 0;
 	while (g_envp[i])
 		i++;
-	if (!(new_envp = malloc(sizeof(char *) * i)))
+	if (!(new_envp = wrmalloc(sizeof(char *) * i)))
 		return (1);
 	new_envp[i - 1] = 0;
 	j = --i - 1;
@@ -114,10 +114,10 @@ int			del_var(char *name)
 			new_envp[j] = ft_strdup(g_envp[i]);
 			j--;
 		}
-		free(g_envp[i]);
+		wrfree(g_envp[i]);
 		i--;
 	}
-	free(g_envp);
+	wrfree(g_envp);
 	g_envp = new_envp;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:24:35 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 10:32:34 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/11 15:07:15 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include "libft_string.h"
+# include "libft_mem.h"
 # include "sh_utils.h"
 
 extern char **g_envp;
@@ -27,7 +28,7 @@ int		del_var(char *name);
 
 char	*concat_var(char *name, char *value);
 char	**deconcat_var(char *var_line);
-int		is_valid_var_name(char *var);
+int		is_valid_var_name(char *var, size_t sz);
 
 /*
 **  UTILS
