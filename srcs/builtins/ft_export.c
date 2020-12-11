@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:34:22 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 15:31:12 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/11 15:45:41 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void		p_declared(void)
 	i = 0;
 	while (g_envp && g_envp[i])
 		ft_printf("declare -x %s\n", g_envp[i++]);
-	return (0);
 }
 
 static void		deconcat_free(char **str)
@@ -32,7 +31,6 @@ static void		deconcat_free(char **str)
 int				ft_export(int ac, char **av, char **envp)
 {
 	char	**deconcat;
-	int		i;
 
 	(void)envp;
 	if (ac == 1)

@@ -3,11 +3,13 @@
 #include "libft_mem.h"
 #include "builtins.h"
 #include "syntax_error.h"
+#include "signal_manager.h"
+#include "exec.h"
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
 
-void signal_manager(int signal)
+void signal_main(int signal)
 {
 	if (signal == _EOF
 	&& ((t_block *)(*getterm())->current_block->value)->size <= 0)
@@ -15,11 +17,16 @@ void signal_manager(int signal)
 		ft_printf("exit\n");
 		ft_exit(0, 0, 0);
 	}
-	else if (signal == SIGINT)
-	{
-		if (new_cmd(*getterm(), signal, 0))
-			ft_exit(0, 0, 0);
-	}
+	if (signal == SIGINT || signal == SIGQUIT)
+		g_interrupt = 1;
+}
+
+void	signal_process(int signal)
+{
+	if (signal == SIGINT)
+		exit(130);
+	else if (signal == SIGQUIT)
+		exit(131);
 }
 
 /*
@@ -38,7 +45,7 @@ static int	update(void)
 	fflush(stdout);
 	while (read(STDIN_FILENO, &term->last_char, 1) > 0)
 	{
-		(term->last_char == _EOF) ? signal_manager(_EOF) : 0;
+		(term->last_char == _EOF) ? signal_main(_EOF) : 0;
 		ret = handle_key();
 		if (!(ret) || ret == NCMD_SYNTAX_ERROR)
 		{
@@ -65,7 +72,8 @@ char **g_env;
 
 int			main(int ac, char **av, char **environment)
 {
-	signal(SIGINT, signal_manager);
+	signal(SIGINT, signal_main);
+	signal(SIGQUIT, signal_main);
 	//(*getenvironment()) = environment;
 	load_env(environment);
 	g_env = environment;
