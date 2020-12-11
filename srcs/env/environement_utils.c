@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:23:46 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 10:47:13 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/11 11:28:59 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		is_valid_var_name(char *var)
 	i = 0;
 	while (var[i])
 	{
-		if (!is_ifs(var[i]) && (var[i] != '=' && eq_sym == 0))
+		if (!is_valid_bash_char(var[i]) && (var[i] != '=' && eq_sym == 0))
 			return (i);
 		if (var[i] == '=')
 			eq_sym = 1;

@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:08:04 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 10:19:25 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/11 11:48:32 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <limits.h>
+# include <signal.h>
 
 # include "expander.h"
 # include "redirect.h"

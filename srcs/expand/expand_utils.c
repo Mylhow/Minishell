@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:05:40 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/04 14:09:21 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/11 11:29:43 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,17 @@ int		contains_ifs(char *str)
 		str++;
 	}
 	return (0);
+}
+
+/*
+**  IS_VALID_BASH_CHAR
+**  Checks if char c is a valid bash variable name character, it
+**  follows the rule :
+**  [0-9][a-z][A-Z][_]
+*/
+
+int		is_valid_bash_char(char c)
+{
+	return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') ||
+		(c >= 'A' && c <= 'Z') || c == '_');
 }

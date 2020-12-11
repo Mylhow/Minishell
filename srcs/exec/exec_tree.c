@@ -14,6 +14,7 @@ int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
         return (-1);
     else if (pids[0] == 0)
     {
+        signal(SIGINT, NULL);
         if (pipe(fd_pipe) < 0)
             return (-1);
         if ((pids[1] = fork()) < 0)

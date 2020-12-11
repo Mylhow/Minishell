@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 11:22:24 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/11 11:45:30 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ int				exec_process(char **argv, t_list *redir, char **envp)
 		if ((pid = fork()) == -1)
 			return (-1);
 		if (pid == 0)
+		{
+			signal(SIGINT, NULL);
 			execve(argv[0], argv, envp);
+		}
 		if (waitpid(pid, &g_exit_status, 0) == -1)
 			return (-1);
 	}
