@@ -18,7 +18,13 @@ void signal_main(int signal)
 		ft_exit(0, 0, 0);
 	}
 	if (signal == SIGINT || signal == SIGQUIT)
+	{
 		g_interrupt = 1;
+		if (signal == SIGINT)
+			ft_fprintf(STDERR_FILENO, "^C\n");
+		else
+			ft_fprintf(STDERR_FILENO, "^\\Quit (core dumped)\n");
+	}	
 }
 
 void	signal_process(int signal)
