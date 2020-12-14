@@ -10,7 +10,7 @@
  ** Return [int] Status de reussite
 */
 
-static int	init_term_variables(void)
+static int	init_term_variables(t_termios *termios)
 {
 	t_term	*term;
 	t_block	*block;
@@ -32,6 +32,7 @@ static int	init_term_variables(void)
 	term->last_char = '\0';
 	term->esc_flag = 0;
 	term->str_ccmd = 0;
+	term->termios_backup = *termios;
 	return (EXIT_SUCCESS);
 }
 
@@ -42,9 +43,12 @@ static int	init_term_variables(void)
 
 int			init_term(void)
 {
+    t_termios backup;
+
+    tcgetattr(1, &backup);
 	if (setupterm(NULL, STDOUT_FILENO, NULL) != 0)
 		return (EXIT_FAILURE);
-	if (init_term_variables() == EXIT_FAILURE)
+	if (init_term_variables(&backup) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (tigetflag("os") != 0)
 		return (EXIT_FAILURE);

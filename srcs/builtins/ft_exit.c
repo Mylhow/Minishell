@@ -1,4 +1,6 @@
 #include "libft_mem.h"
+#include "terminal.h"
+#include <ncurses.h>
 
 /*
  ** Vide la memoire et renvoie le status
@@ -10,6 +12,8 @@ int ft_exit(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	(void) env;
-	wrdestroy();
+    if (tcsetattr(1, 0, &(*getterm())->termios_backup) == -1)
+        return 0;
+    wrdestroy();
 	exit(0);
 }
