@@ -11,8 +11,9 @@ int ft_echo(int ac, char **av, char **env)
 
 	(void) env;
 	new_line = 1;
+
 	i = 1;
-	while (ac >= 2 && (av[i][0] == '-') && i < ac)
+	while (ac >= 2 && i < ac && (av[i][0] == '-'))
 	{
 		j = 1;
 		while (av[i][j] == 'n')
