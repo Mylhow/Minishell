@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 13:21:45 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/11 11:24:12 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/14 10:45:59 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 static void	exit_malloc(void)
 {
-	printf("error malloc\n");
+	ft_printf("error malloc\n");
 	exit(1);
 }
 
@@ -30,10 +30,11 @@ static int	return_result(char **av, char *path, int cpy_errno)
 {
 	if (cpy_errno)
 	{
-		printf("minishell: %s: %s\n", av[0], strerror(cpy_errno));
+		ft_printf("minishell: %s: %s\n", av[0], strerror(cpy_errno));
 		return (1);
 	}
-	printf("%s\n", path);
+	ft_printf("%s\n", path);
+	wrfree(path);
 	return (0);
 }
 
