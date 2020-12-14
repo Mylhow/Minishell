@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:34:22 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 13:14:44 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/14 14:45:56 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,5 @@ int				ft_export(int ac, char **av, char **envp)
 		return (0);
 	}
 	ft_fprintf(STDERR_FILENO, "minishell: export: too many arguments.\n");
-	return (0);
+	return (1);
 }
