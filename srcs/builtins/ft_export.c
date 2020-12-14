@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:34:22 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 15:45:41 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/14 13:14:44 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-static void		p_declared(void)
-{
-	int	i;
-
-	i = 0;
-	while (g_envp && g_envp[i])
-		ft_printf("declare -x %s\n", g_envp[i++]);
-}
 
 static void		deconcat_free(char **str)
 {
@@ -28,13 +19,31 @@ static void		deconcat_free(char **str)
 	wrfree(str);
 }
 
+static void		p_declared(void)
+{
+	int	i;
+	char **deconcat;
+
+	i = 0;
+	while (g_envp && g_envp[i])
+	{
+		deconcat = deconcat_var(g_envp[i]);
+		ft_printf("declare -x %s=\"%s\"\n", deconcat[0], deconcat[1]);
+		deconcat_free(deconcat);
+		i++;
+	}
+}
+
 int				ft_export(int ac, char **av, char **envp)
 {
 	char	**deconcat;
 
 	(void)envp;
 	if (ac == 1)
+	{
 		p_declared();
+		return (0);
+	}
 	else if (ac == 2)
 	{
 		if (is_valid_var_name(av[1], ft_strlchr(av[1], '=')) != 0)
