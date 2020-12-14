@@ -36,9 +36,9 @@ int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
     if (waitpid(-1, 0, 0) < 0)
         return (-1);
     close(fd_pipe[1]);
+    close(fd_pipe[0]);
     if (waitpid(-1, 0, 0) < 0)
         return (-1);
-    close(fd_pipe[0]);
     return (0);
 }
 
