@@ -63,7 +63,7 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
     ft_printf("$ ");
     if (clear_new_cmd(term, copy, sig))
         return (EXIT_FAILURE);
-    term->cursor_pos = PROMPT_SIZE;
+    term->cursor_pos += 2;
     fflush(stdout);
     clear_eos(term, term->ndx_line);
     return (EXIT_SUCCESS);
