@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:11:41 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 10:12:43 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/14 12:59:28 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,16 @@ bool	file_exists(char *file)
 {
 	struct stat	s;
 
-	if (stat(file, &s) != -1)
+	if (stat(file, &s) == 0)
+		return (true);
+	return (false);
+}
+
+bool	is_executable(char *file)
+{
+	struct stat	s;
+
+	if (stat(file, &s) == 0 && s.st_mode & S_IXUSR)
 		return (true);
 	return (false);
 }

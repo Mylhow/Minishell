@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 09:18:27 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/14 13:05:26 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static bool		get_location(char *file, char **file_path)
 	if (file_exists(file))
 	{
 		*file_path	= file;
-		return (true);
+		return (1);
 	}
 	locations = ft_split(getenv("PATH"), ':');
 	while (locations && *locations)
@@ -59,12 +59,12 @@ static bool		get_location(char *file, char **file_path)
 		{
 			wrfree(file);
 			*file_path = cat_tmp;
-			return (true);
+			return (1);
 		}
 		wrfree(cat_tmp);
 		locations++;
 	}
-	return (false);
+	return (0);
 }
 
 /*
@@ -84,6 +84,11 @@ int				exec_process(char **argv, t_list *redir, char **envp)
 	{
 		if (check_permissions(argv[0]) != 0)
 			return (1);
+		if (!is_executable(argv[0]))
+		{
+			ft_fprintf(STDERR_FILENO, "minishell: %s: Permission denied.\n", argv[0]);
+			return (1);
+		}
 		if ((pid = fork()) == -1)
 			return (-1);
 		if (pid == 0)
