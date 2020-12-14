@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execbi.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 10:06:18 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 14:13:00 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/14 13:16:13 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int  strplen(char **strp)
 {
     int i = 0;
 
-    while (strp[i] && *strp[i])
+    while (strp[i])
         i++;
     return (i);
 }
