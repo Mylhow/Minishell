@@ -49,12 +49,16 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
         return (EXIT_FAILURE);
     if (!(copy = ft_blockhashdup(term->list_blocks)))
         return (EXIT_FAILURE);
+    if (tcsetattr(0, 0, &(*getterm())->termios_backup) == -1)
+        return (EXIT_FAILURE);
     if (sig == SIGINT)
         ft_printf("^C\n");
     else if (ret_handle != NCMD_SYNTAX_ERROR)
         exec_cmd(term->str_ccmd);
     else
         ft_printf("our bash : syntax error\n");
+    if (tcsetattr(0, 0, &(*getterm())->termios) == -1)
+        return (EXIT_FAILURE);
     get_pos();
     ft_printf("$ ");
     if (clear_new_cmd(term, copy, sig))
