@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:08:04 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 11:53:59 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/14 12:59:46 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef int(*exec_builtin)(int, char **, char **);
 */
 exec_builtin	is_builtin(char *str);
 bool			file_exists(char *name);
+bool	        is_executable(char *file);
+
 
 /*
 **  EXEC
