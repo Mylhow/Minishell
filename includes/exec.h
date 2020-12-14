@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:08:04 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 11:48:32 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/14 11:53:59 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # include "expander.h"
 # include "redirect.h"
+# include "parsing.h"
 
 typedef int(*exec_builtin)(int, char **, char **);
 
@@ -38,5 +39,6 @@ bool			file_exists(char *name);
 int				exec_str(char *cmd, char **envp);
 int             execbi(char *name, char **argv, char **envp);
 int             exec_cmd(char *cmd);
+int             exec_tree(t_btree *node, char **envp);
 
 #endif

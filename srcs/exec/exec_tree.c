@@ -8,37 +8,37 @@ int exec_tree(t_btree *node, char **envp);
 
 int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
 {
-    int pids[2];
-    int fd_pipe[2];
+    int     fd_pipe[2];
+    int     pid_childs[2];
 
-    if ((pids[0] = fork()) < 0)
+    if (pipe(fd_pipe) < 0)
         return (-1);
-    else if (pids[0] == 0)
+    if ((pid_childs[0] = fork()) < 0)
+        printf ("Fork err\n");
+    if (pid_childs[0] == 0)
     {
-        signal(SIGINT, signal_process);
-        signal(SIGQUIT, signal_process);
-        if (pipe(fd_pipe) < 0)
-            return (-1);
-        if ((pids[1] = fork()) < 0)
-            return (-1);
-        else if (pids[1] == 0)
-        {
-            close(fd_pipe[0]);
-            dup2(fd_pipe[1], STDOUT_FILENO);
-            exec_tree(l_child, envp);
-            close(fd_pipe[1]);
-            exit (0);
-        }
+        close(fd_pipe[0]);
+        dup2(fd_pipe[1], STDOUT_FILENO);
+        exec_tree(l_child, envp);
+        close(fd_pipe[1]);
+        exit(0);
+    }
+    if ((pid_childs[1] = fork()) < 0)
+        printf ("Fork err\n");
+    if (pid_childs[1] == 0)
+    {
         close(fd_pipe[1]);
         dup2(fd_pipe[0], STDIN_FILENO);
         exec_tree(r_child, envp);
         close(fd_pipe[0]);
-        if (waitpid(pids[1], 0, 0) < 0)
-            return (-1);
-        exit (g_exit_status);
+        exit(0);
     }
-    else if (waitpid(pids[0], &g_exit_status, 0) < 0)
+    if (waitpid(-1, 0, 0) < 0)
         return (-1);
+    close(fd_pipe[1]);
+    if (waitpid(-1, 0, 0) < 0)
+        return (-1);
+    close(fd_pipe[0]);
     return (0);
 }
 
