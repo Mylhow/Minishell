@@ -4,7 +4,7 @@
 #include "libft_number.h"
 #include "libft_printf.h"
 #include "syntax_error.h"
-
+#include "expander.h"
 
 static int ft_checkop(t_term *term)
 {
@@ -118,6 +118,9 @@ int			handle_key(void)
 	term->ndx_cursor = 0;
 	term->cursor_pos = 0;
 	if (ret == NCMD_SYNTAX_ERROR)
+	{
+		g_exit_status = 1;
 		return (NCMD_SYNTAX_ERROR);
+	}
 	return (EXIT_SUCCESS);
 }
