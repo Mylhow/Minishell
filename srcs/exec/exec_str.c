@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_str.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 14:39:20 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/14 09:18:27 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ int				exec_process(char **argv, t_list *redir, char **envp)
 	pid_t	pid;
 	int		status;
 
-	if (redir && (handle_redirection(redir)) == NO_FILE)
-		return (NO_FILE);
+	if (redir && (handle_redirection(redir)) != 0)
+		return (1);
 	if (argv && argv[0] && is_builtin(argv[0]))
 		g_exit_status = execbi(argv[0], argv, envp);
 	else if (argv && argv[0] && get_location(argv[0], &argv[0]))
 	{
+		if (check_permissions(argv[0]) != 0)
+			return (1);
 		if ((pid = fork()) == -1)
 			return (-1);
 		if (pid == 0)

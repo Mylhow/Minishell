@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:15:06 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/03 16:57:18 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/14 09:04:09 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,15 @@ int				handle_redirection(t_list *l_redir)
 	{
 		redirect = (t_redirect *)l_redir->content;
 		if ((ft_strcmp(redirect->type, ">") == 0)
-            && (redirect_stdout(redirect->file) < 0))
-				return (-1);
+            && (redirect_stdout(redirect->file) != 0))
+				return (1);
 		else if ((ft_strcmp(redirect->type, ">>") == 0)
-			&& (append_stdout(redirect->file) < 0))
-				return (-1);
+			&& (append_stdout(redirect->file) != 0))
+				return (1);
 		else if ((ft_strcmp(redirect->type, "<") == 0)
-			&& (redirect_stdin(redirect->file) == -2))
-				return (NO_FILE);
+			&& (redirect_stdin(redirect->file) != 0))
+				return (1);
 		l_redir = l_redir->next;
 	}
-	return (1);
+	return (0);
 }

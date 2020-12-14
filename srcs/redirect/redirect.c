@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 14:29:15 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/04 14:00:25 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/14 09:27:29 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ int		redirect_stdout(char *file)
 	int		fd;
 
 	restore_io();
+	if (is_file(file) && check_permissions(file) != F_PERMOK)
+		return (EXIT_FAILURE);
 	if ((fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, DEFAULT_PERM)) <= 0)
-		return (-1);
+		return (EXIT_FAILURE);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (EXIT_SUCCESS);
@@ -72,8 +74,10 @@ int		append_stdout(char *file)
 	int		fd;
 
 	restore_io();
+	if (is_file(file) && check_permissions(file) != F_PERMOK)
+		return (EXIT_FAILURE);
 	if ((fd = open(file, O_WRONLY | O_CREAT | O_APPEND, DEFAULT_PERM)) <= 0)
-		return (-1);
+		return (EXIT_FAILURE);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (EXIT_SUCCESS);
@@ -89,11 +93,10 @@ int		redirect_stdin(char *file)
 	int		fd;
 
 	restore_io();
+	if (check_permissions(file))
+		return (EXIT_FAILURE);
 	if ((fd = open(file, O_RDONLY, DEFAULT_PERM)) <= 0)
-	{
-		ft_fprintf(STDERR_FILENO , "minishell: %s: No such file or directory\n", file);
 		return (NO_FILE);
-	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	return (EXIT_SUCCESS);

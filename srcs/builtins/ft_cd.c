@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:46:26 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/11 11:19:27 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/14 08:48:47 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int		ft_cd(int ac, char **av, char **env)
 		printf("minishell: %s: %s: %s\n", av[0], av[1], strerror(cpy_errno));
 		return (1);
 	}
+	set_var("PWD", path);
 	return (0);
 }

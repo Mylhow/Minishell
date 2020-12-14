@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:23:45 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 11:29:26 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/14 08:45:53 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int		parse_var(char **dst, char *unparsed_var)
 		return (VAR_NONE);
 	}
 	// TODO REPLACE getenv by our own implementation of it !
-	if (!(*dst = getenv(var_name)) || *dst[0] == '\0')
+	if (!(*dst = get_env(var_name)) || *dst[0] == '\0')
 	{
 		*dst = NULL;
 		return (VAR_NONE);

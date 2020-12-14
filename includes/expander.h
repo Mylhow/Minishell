@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:22:44 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/04 18:40:52 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/14 08:46:55 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "libft_printf.h"
 # include "libft_number.h"
 # include "sh_utils.h"
+# include "environement.h"
 # include <stdlib.h>
 # include <unistd.h>
 
