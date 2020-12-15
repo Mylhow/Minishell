@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:08:04 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 12:59:46 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 09:24:31 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include "redirect.h"
 # include "parsing.h"
 
+
+
 typedef int(*exec_builtin)(int, char **, char **);
 
 /*
@@ -38,9 +40,9 @@ bool	        is_executable(char *file);
 /*
 **  EXEC
 */
-int				exec_str(char *cmd, char **envp);
-int             execbi(char *name, char **argv, char **envp);
+int				exec_str(char *cmd);
+int             execbi(char *name, char **argv);
 int             exec_cmd(char *cmd);
-int             exec_tree(t_btree *node, char **envp);
+int             exec_tree(t_btree *node);
 
 #endif

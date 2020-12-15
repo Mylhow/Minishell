@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 10:06:18 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 13:16:13 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 09:24:11 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static int  strplen(char **strp)
     return (i);
 }
 
-int         execbi(char *name, char **argv, char **envp)
+int         execbi(char *name, char **argv)
 {
     exec_builtin exec;
 
     if (!(exec = is_builtin(name)))
         return (1);
-    return (exec (strplen(argv), argv, envp));
+    return (exec (strplen(argv), argv, g_envp));
 }

@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 13:05:26 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 09:49:45 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ static bool		get_location(char *file, char **file_path)
 	char		**locations;
 	char		*cat_tmp;
 
-	if (!*file)
+	if (!*file || !ft_strcmp(file, ".."))
 		return (false);
 	if (file_exists(file))
 	{
 		*file_path	= file;
 		return (1);
 	}
-	locations = ft_split(getenv("PATH"), ':');
+	locations = ft_split(get_env("PATH"), ':');
 	while (locations && *locations)
 	{
 		if (file_exists((cat_tmp = path_cat(*locations, file))))
@@ -71,28 +71,27 @@ static bool		get_location(char *file, char **file_path)
 **	EXEC_PROCESS
 **	Executes a process builtin or by location using default arguments
 */
-int				exec_process(char **argv, t_list *redir, char **envp)
+int				exec_process(char **argv)
 {
 	pid_t	pid;
 	int		status;
 
-	if (redir && (handle_redirection(redir)) != 0)
-		return (1);
 	if (argv && argv[0] && is_builtin(argv[0]))
-		g_exit_status = execbi(argv[0], argv, envp);
+		g_exit_status = execbi(argv[0], argv);
 	else if (argv && argv[0] && get_location(argv[0], &argv[0]))
 	{
-		if (check_permissions(argv[0]) != 0)
-			return (1);
-		if (!is_executable(argv[0]))
+		if (!ft_strcmp(argv[0], "."))
 		{
-			ft_fprintf(STDERR_FILENO, "minishell: %s: Permission denied.\n", argv[0]);
-			return (1);
+			ft_fprintf(STDERR_FILENO, "minishell: .: filename argument required.\n");
+			g_exit_status = 2;
+			return (2);
 		}
+		if (check_permissions(argv[0]) != 0 || !is_executable(argv[0]))
+			return (1);
 		if ((pid = fork()) == -1)
 			return (-1);
 		if (pid == 0)
-			execve(argv[0], argv, envp);
+			execve(argv[0], argv, g_envp);
 		if (waitpid(pid, &status, 0) == -1)
 			return (-1);
 		if (WIFEXITED(status))
@@ -104,7 +103,10 @@ int				exec_process(char **argv, t_list *redir, char **envp)
 	}
 	else
 	{
-		ft_fprintf(2, "minishell: %s: command not found\n", argv[0]);
+		if (argv[0][0] == '/' || argv[0][1] == '/' || (argv[0][0] == '.' && argv[0][1] == '/'))
+			ft_fprintf(STDERR_FILENO, "minishell: %s: No such file or directory.\n", argv[0]);
+		else
+			ft_fprintf(2, "minishell: %s: command not found\n", argv[0]);
 		g_exit_status = 127;
 	}
 	wrfree(argv[0]);
@@ -118,7 +120,7 @@ int				exec_process(char **argv, t_list *redir, char **envp)
 **	Executes a simple command by string
 */
 
-int				exec_str(char *str, char **envp)
+int				exec_str(char *str)
 {
 	t_cmd	*cmd;
 	char	**argv;
@@ -127,22 +129,20 @@ int				exec_str(char *str, char **envp)
 	cmd = NULL;
 	g_interrupt = 0;
 	backup_io();
-	//printf ("Starting expansions\n");
 	if (expand_cmd(&cmd, str) != 0)
 	{
 		wrfree(cmd);
 		return (1);
 	}
-	//printf ("Parsed expansions\n");
     if (parse_redirections(cmd) != 0)
 		return (1);
-	//printf ("Parsed redirections\n");
 	if (parse_argv(&argv, cmd->l_argv) != 0)
 		return (1);
 	fflush(stdout);
-	if (exec_process(argv, cmd->l_redir, envp) != 0)
+	if (cmd->l_redir && (handle_redirection(cmd->l_redir)) != 0)
 		return (1);
-	//printf ("Executed command\n");
+	if (exec_process(argv) != 0)
+		return (1);
 	wrfree(cmd);
 	restore_io();
 	return (0);
