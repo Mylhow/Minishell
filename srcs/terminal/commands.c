@@ -45,14 +45,17 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
 {
     t_block *copy;
 
-    if (put_cursor(term->cursor_pos, term->ndx_line) != 0)
-        return (EXIT_FAILURE);
+
     if (!(copy = ft_blockhashdup(term->list_blocks)))
         return (EXIT_FAILURE);
+    if (put_cursor(0, term->original_line + ((copy->size + PROMPT_SIZE) / term->nb_cols)) != 0)
+        return (EXIT_FAILURE);
+    if (term->ndx_line < term->nb_lines)
+        ft_printf("\n");
     if (tcsetattr(0, 0, &(*getterm())->termios_backup) == -1)
         return (EXIT_FAILURE);
     if (sig == SIGINT)
-        ft_printf("^C\n");
+        ft_printf("\n");
     else if (ret_handle != NCMD_SYNTAX_ERROR)
         exec_cmd(term->str_ccmd);
     else

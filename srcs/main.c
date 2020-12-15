@@ -11,6 +11,7 @@
 
 void signal_main(int signal)
 {
+	t_term *term = (*getterm());
 	if (signal == _EOF
 	&& ((t_block *)(*getterm())->current_block->value)->size <= 0)
 	{
@@ -21,7 +22,12 @@ void signal_main(int signal)
 	{
 		g_interrupt = 1;
 		if (signal == SIGINT)
-			ft_fprintf(STDERR_FILENO, "^C\n");
+		{
+			ft_fprintf(STDERR_FILENO, "^A\n$ ");
+			get_pos();
+			term->ndx_cursor = 0;
+			term->original_line = term->ndx_line;
+		}
 		else
 			ft_fprintf(STDERR_FILENO, "^\\Quit (core dumped)\n");
 	}	

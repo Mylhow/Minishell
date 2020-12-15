@@ -109,9 +109,9 @@ int			handle_key(void)
 	if (ret == PROCESS_SUCCESS || ret == EXIT_FAILURE)
 		return (ret);
 	term->ndx_line = term->ndx_line + 1;
-	if (term->ndx_line > term->nb_lines - 1)
+	if (term->ndx_line > term->nb_lines)
 	{
-		term->ndx_line = term->nb_lines - 1;
+		term->ndx_line = term->nb_lines;
 		term->original_line = term->ndx_line - (block->nb_blocks - 1);
 	}
 	(term->last_char == '\n') ? ft_printf("\n") : 0;
