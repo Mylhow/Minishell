@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:15:06 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/15 13:09:04 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 13:36:29 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int     check_first_redirect(t_cmd *cmd, t_list *argv)
             cmd->l_argv = next;
         else
             cmd->l_argv = ft_lstnew("");
-        free(argv->next);
-        free(argv);
+        wrfree(argv->next);
+        wrfree(argv);
     }
     return (0);
 }
