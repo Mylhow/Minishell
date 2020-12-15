@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:46:26 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/14 11:33:44 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/15 09:26:54 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static void	exit_malloc(void)
 	exit(1);
 }
 
-static int	return_result(char **av, char *path, int cpy_errno, char **str)
+static int	return_result(char *origin_fct, char *path, int cpy_errno, char **str)
 {
 	if (cpy_errno)
 	{
-		ft_printf("minishell: %s: %s\n", av[0], strerror(cpy_errno));
+		ft_printf("minishell: %s: %s\n", origin_fct, strerror(cpy_errno));
 		g_exit_status = 1;
 		return (1);
 	}
@@ -36,7 +36,7 @@ static int	return_result(char **av, char *path, int cpy_errno, char **str)
 	return (0);
 }
 
-static int	ft_get_pwd(char **av, char **str)
+int			ft_get_pwd(char *origin_fct, char **str)
 {
 	int		cpy_errno;
 	size_t	len_path;
@@ -46,7 +46,7 @@ static int	ft_get_pwd(char **av, char **str)
 	len_path = 5;
 	if (!(path = wrmalloc(sizeof(char) * len_path)))
 		exit_malloc();
-	while (cpy_errno == 34)
+	while (cpy_errno == ERANGE)
 	{
 		wrfree(path);
 		len_path = len_path * 2;
@@ -59,10 +59,10 @@ static int	ft_get_pwd(char **av, char **str)
 		}
 		cpy_errno = errno;
 	}
-	return (return_result(av, path, cpy_errno, str));
+	return (return_result(origin_fct, path, cpy_errno, str));
 }
 
-int			ft_cd(int ac, char **av, char **env)
+int		ft_cd(int ac, char **av, char **env)
 {
 	char	*path;
 	int		cpy_errno;
@@ -78,7 +78,7 @@ int			ft_cd(int ac, char **av, char **env)
 		g_exit_status = 1;
 		return (g_exit_status);
 	}
-	if (ft_get_pwd(av, &path))
+	if (ft_get_pwd(av[0], &path))
 		return (1);
 	set_var("OLDPWD", get_env("PWD"));
 	set_var("PWD", path);

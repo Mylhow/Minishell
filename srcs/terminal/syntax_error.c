@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:02:57 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/02 16:15:19 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/15 09:40:10 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static char	check_end_line(char *input, int type, int flagantislash)
 short		condition_synt_err1(char *input, int *i, int *type)
 {
 	short	return_value;
+	int		old_type;
 
 	if (input[*i] == ')')
 		return (NCMD_SYNTAX_ERROR);
@@ -86,9 +87,11 @@ short		condition_synt_err1(char *input, int *i, int *type)
 			|| !ft_strncmp("&&", input + *i, 2)
 			|| !ft_strncmp("||", input + *i, 2))
 	{
-		if (*type == OPERAT || *type == REDIRECT)
-			return (NCMD_SYNTAX_ERROR);
+		old_type = *type;
 		*type = (!ft_strncmp(">>", input + *i, 2)) ? REDIRECT : OPERAT;
+		if (*type == OPERAT ||
+			(*type == REDIRECT && old_type == REDIRECT))
+			return (NCMD_SYNTAX_ERROR);
 		*i += 2;
 		return (-1);
 	}
@@ -104,11 +107,15 @@ short		condition_synt_err1(char *input, int *i, int *type)
 
 short		condition_synt_err2(char *input, int *i, int *type)
 {
+	int	old_type;
+
 	if (ft_memchr("<>|;", input[*i], 4))
 	{
-		if (*type == OPERAT || *type == REDIRECT)
-			return (NCMD_SYNTAX_ERROR);
+		old_type = *type;
 		*type = (ft_memchr("<>", input[*i], 2)) ? REDIRECT : OPERAT;
+		if (*type == OPERAT || 
+			(*type == REDIRECT && old_type == REDIRECT))
+			return (NCMD_SYNTAX_ERROR);
 		*i += 1;
 	}
 	else if (ft_memchr("\'\"", input[*i], 2))

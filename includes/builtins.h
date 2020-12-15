@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:30:29 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/11 11:24:27 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 09:18:34 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,12 @@ int	ft_pwd(int ac, char **av, char **env);
 int	ft_env(int ac, char **av, char **env);
 int	ft_export(int ac, char **av, char **env);
 int	ft_unset(int ac, char **av, char **env);
+
+/*
+** put pwd into str
+** origin_fct : fct where this function is executed (it is for error case)
+** return 0 if it works or 1 if error
+*/
+int	ft_get_pwd(char *origin_fct, char **str);
 
 #endif

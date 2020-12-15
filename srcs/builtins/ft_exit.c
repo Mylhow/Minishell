@@ -36,7 +36,6 @@ int ft_exit(int ac, char **av, char **env)
 {
 	(void)env;
 
-	ft_printf("exit\n");
 	if (ac >= 2)
 	{
 		if (ft_isnum(av[1]))
