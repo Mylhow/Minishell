@@ -4,9 +4,7 @@
 #include "environement.h"
 #include "signal_manager.h"
 
-int exec_tree(t_btree *node, char **envp);
-
-int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
+int handle_pipes(t_btree *l_child, t_btree *r_child)
 {
     int     fd_pipe[2];
     int     pid_childs[2];
@@ -19,7 +17,7 @@ int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
     {
         close(fd_pipe[0]);
         dup2(fd_pipe[1], STDOUT_FILENO);
-        exec_tree(l_child, envp);
+        exec_tree(l_child);
         close(fd_pipe[1]);
         exit(0);
     }
@@ -29,7 +27,7 @@ int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
     {
         close(fd_pipe[1]);
         dup2(fd_pipe[0], STDIN_FILENO);
-        exec_tree(r_child, envp);
+        exec_tree(r_child);
         close(fd_pipe[0]);
         exit(0);
     }
@@ -42,33 +40,33 @@ int handle_pipes(t_btree *l_child, t_btree *r_child, char **envp)
     return (0);
 }
 
-int handle_operators(char *type, t_btree *l_child, t_btree *r_child, char **envp)
+int handle_operators(char *type, t_btree *l_child, t_btree *r_child)
 {
     if (ft_strncmp(type, ";", 1) == 0)
     {
-        exec_tree(l_child, envp);
-        exec_tree(r_child, envp);
+        exec_tree(l_child);
+        exec_tree(r_child);
     }
     else if (ft_strncmp(type, "&&", 2) == 0)
     {
-        exec_tree(l_child, envp);
+        exec_tree(l_child);
         if (g_exit_status == 0 )
-            exec_tree(r_child, envp);
+            exec_tree(r_child);
     }
     else if (ft_strncmp(type, "||", 2) == 0)
     {
-        exec_tree(l_child, envp);
+        exec_tree(l_child);
         if (g_exit_status != 0)
-            exec_tree(r_child, envp);
+            exec_tree(r_child);
     }
     else if (ft_strncmp(type, "|", 1) == 0)
     {
-        handle_pipes(l_child, r_child, envp);
+        handle_pipes(l_child, r_child);
     }
     return (0);
 }
 
-int exec_tree(t_btree *node, char **envp)
+int exec_tree(t_btree *node)
 {
     t_pretype   *pre;
 
@@ -77,12 +75,12 @@ int exec_tree(t_btree *node, char **envp)
     pre = (t_pretype *)node->content;
     if (pre->type == WORD)
     {
-        exec_str((char *)pre->content, envp);
+        exec_str((char *)pre->content);
         return (0);
     }
     else if (pre->type == OPERAT)
     {
-        handle_operators((char *)pre->content, node->l_child, node->r_child, envp);
+        handle_operators((char *)pre->content, node->l_child, node->r_child);
         return (0);
     }
     return (0);
@@ -123,5 +121,5 @@ int exec_cmd(char *cmd)
 		return EXIT_FAILURE;
 	if ((creation_btree(op_tok, &tree)) == EXIT_FAILURE)
 		return EXIT_FAILURE;
-	return exec_tree(tree, g_envp);
+	return exec_tree(tree);
 }

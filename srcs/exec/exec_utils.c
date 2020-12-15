@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:11:41 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 12:59:28 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 09:38:56 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ bool	is_executable(char *file)
 
 	if (stat(file, &s) == 0 && s.st_mode & S_IXUSR)
 		return (true);
+	ft_fprintf(STDERR_FILENO, "Permission denied.\n");
 	return (false);
 }
 
