@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/15 13:28:24 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 13:40:22 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int				exec_process(char **argv)
 		if (argv[0][0] == '/' || argv[0][1] == '/' || (argv[0][0] == '.' && argv[0][1] == '/'))
 			ft_fprintf(STDERR_FILENO, "minishell: %s: No such file or directory.\n", argv[0]);
 		else
-			ft_fprintf(STDERR_FILENO, "minishell: %s: command not found.", argv[0]);
+			ft_fprintf(STDERR_FILENO, "minishell: %s: command not found.\n", argv[0]);
 	}
 	wrfree(argv[0]);
 	wrfree(argv);

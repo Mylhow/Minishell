@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:34:22 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 14:45:56 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 14:19:53 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ static void		p_declared(void)
 	while (g_envp && g_envp[i])
 	{
 		deconcat = deconcat_var(g_envp[i]);
-		ft_printf("declare -x %s=\"%s\"\n", deconcat[0], deconcat[1]);
+		if (!ft_strncmp("declare -x ", deconcat[0], 11))
+			ft_printf("%s\n", deconcat[0]);
+		else
+			ft_printf("declare -x %s=\"%s\"\n", deconcat[0], deconcat[1]);
 		deconcat_free(deconcat);
 		i++;
 	}
@@ -36,7 +39,7 @@ static void		p_declared(void)
 
 int				ft_export(int ac, char **av, char **envp)
 {
-	char	**deconcat;
+	char		**deconcat;
 
 	(void)envp;
 	if (ac == 1)
@@ -46,7 +49,8 @@ int				ft_export(int ac, char **av, char **envp)
 	}
 	else if (ac == 2)
 	{
-		if (is_valid_var_name(av[1], ft_strlchr(av[1], '=')) != 0)
+		if (is_valid_var_name(av[1], ft_strlchr(av[1], '=')) != 0
+		|| !ft_isalpha(av[1][0]))
 		{
 			ft_fprintf(STDERR_FILENO,
 			"minishell: export: `%s': not a valid identifier.\n", av[1]);

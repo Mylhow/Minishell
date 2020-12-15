@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:30:29 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/15 09:18:34 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/15 13:54:37 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# include "libft_ctype.h"
 # include "libft_mem.h"
 # include "libft_printf.h"
 # include "unistd.h"

@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:23:46 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 15:26:18 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 14:10:52 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,13 @@ char	**deconcat_var(char *var_line)
 	char	*equal_sym;
 
 	if (!(equal_sym = ft_strchr(var_line, '=')))
-		return (NULL);
+	{
+		if (!(deconcat = wrmalloc(sizeof(char *) * 2)))
+			return (NULL);
+		deconcat[0] = ft_strdup(var_line);
+		deconcat[1] = 0;
+		return (deconcat);
+	}
 	if (!(deconcat = wrmalloc(sizeof(char *) * 3)))
 		return (NULL);
 	deconcat[2] = NULL;

@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:21:14 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 14:47:25 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 14:16:08 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,18 @@ char		*get_env(char *var)
 	}
 	return (NULL);
 }
-
+#include <stdio.h>
 int			add_var(char *name, char *value)
 {
 	char	*concat;
 	char	**new_envp;
 	int		i;
 
+	if (!value)
+	{
+		value = "";
+		name = ft_strjoin("declare -x ", name);
+	}
 	concat = concat_var(name, value);
 	i = 0;
 	while (g_envp[i])

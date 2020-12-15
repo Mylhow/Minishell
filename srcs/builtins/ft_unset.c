@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:44:43 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 14:19:10 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 14:22:09 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_unset(int ac, char **av, char **envp)
 		}
 		if (get_env(av[i]) != NULL)
 			del_var(av[i]);
+		if (get_env(ft_strjoin("declare -x ", av[i])) != NULL)
+			del_var(ft_strjoin("declare -x ", av[i]));
 		i++;
 	}
 	return (0);

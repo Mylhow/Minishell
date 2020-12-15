@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:14:12 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 15:31:38 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 14:19:06 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ int		ft_env(int ac, char **av, char **envp)
 	}
 	i = 0;
 	while (g_envp && g_envp[i])
-		ft_printf("%s\n", g_envp[i++]);
+	{
+		if (ft_strncmp(g_envp[i], "declare -x ", 11))
+			ft_printf("%s\n", g_envp[i]);
+		i++;
+	}
 	return (0);
 }
