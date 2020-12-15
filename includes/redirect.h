@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:05:27 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 09:22:41 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 13:26:44 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,13 @@
 #include "libft_string.h"
 #include "sh_utils.h"
 
-int				backup_io(void);
-int				restore_io(void);
+# define    M_STDIN     0
+# define    M_STDOUT    1
+# define    M_FULLIO    2
+
+int				backup_io(int mode);
+int				restore_io(int mode);
+
 int				redirect_stdout(char *file);
 int				redirect_stdin(char *file);
 int				append_stdout(char *file);

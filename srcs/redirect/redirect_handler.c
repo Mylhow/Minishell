@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:15:06 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 09:04:09 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 13:09:04 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,36 @@ static t_redirect   *create_redirection(char *type, char *filename)
     return (NULL);
 }
 
+
+int     check_first_redirect(t_cmd *cmd, t_list *argv)
+{
+    char        *info_buff[2];
+    t_redirect  *redir;
+    t_list      *next;
+
+    if (!argv || !argv->next)
+        return (1);
+    info_buff[0] = (char *)argv->content;
+    info_buff[1] = (char *)argv->next->content;
+    if ((redir = create_redirection(info_buff[0], info_buff[1])))
+    {
+        cmd->l_redir = ft_lstnew(redir);
+        next = argv->next->next;
+        if (next)
+            cmd->l_argv = next;
+        else
+            cmd->l_argv = ft_lstnew("");
+        free(argv->next);
+        free(argv);
+    }
+    return (0);
+}
+
 /*
 **  PARSE_REDIRECTIONS
 **  Parses redirections in argv of cmd
 */
+#include <stdio.h>
 
 int     parse_redirections(t_cmd *cmd)
 {
@@ -44,21 +70,19 @@ int     parse_redirections(t_cmd *cmd)
     t_list      *next_tok;
     t_redirect  *redirect_buff;
     char        *info_buff[2];
-    int         list_created;
 
-    list_created = 0;
+    cmd->l_redir = 0;
+    check_first_redirect(cmd, cmd->l_argv);
     argv = cmd->l_argv;
     while (argv && argv->next && argv->next->next)
     {
         info_buff[0] = (char *)argv->next->content;
         info_buff[1] = (char *)argv->next->next->content;
+       // printf ("info_buffs : [%s] [%s]\n", info_buff[0], info_buff[1]);
         if ((redirect_buff = create_redirection(info_buff[0], info_buff[1])))
         {
-            if (!list_created)
-            {
+            if (!(cmd->l_redir))
                 cmd->l_redir = ft_lstnew(redirect_buff);
-                list_created = 1;
-            }
             else
                 ft_lstadd_back(&cmd->l_redir, ft_lstnew(redirect_buff));
             next_tok = argv->next->next->next;
@@ -71,7 +95,6 @@ int     parse_redirections(t_cmd *cmd)
     }
     return (0);
 }
-
 
 /*
 **	Handles list of I/O redirections as t_list ( must have: t_list.content: typeof(t_redirect *) )

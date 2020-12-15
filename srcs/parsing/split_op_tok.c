@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_op_tok.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 09:24:57 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/10 10:34:41 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/15 10:54:01 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,13 @@ t_list	*split_op_tok(char *input)
 	while (input[i])
 	{
 		pass_blank(input, &i);
-		if (!ft_strncmp(">>", input + i, 2) || !ft_strncmp("&&", input + i, 2)
+		if (!ft_strncmp("&&", input + i, 2)
 				|| !ft_strncmp("||", input + i, 2))
 		{
 			if (!add_double_operator(&l_op_tok, input, &i))
 				return (0);
 		}
-		else if (ft_memchr("<>|;", input[i], 5))
+		else if (ft_memchr("|;", input[i], 3))
 		{
 			if (!add_single_operator(&l_op_tok, input, &i))
 				return (0);

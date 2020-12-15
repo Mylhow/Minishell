@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/15 09:49:45 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/15 13:28:24 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,12 @@ int				exec_process(char **argv)
 		else if (WIFSTOPPED(status))
 			g_exit_status = WSTOPSIG(status) + 128;
 	}
-	else
+	else if (argv[0])
 	{
 		if (argv[0][0] == '/' || argv[0][1] == '/' || (argv[0][0] == '.' && argv[0][1] == '/'))
 			ft_fprintf(STDERR_FILENO, "minishell: %s: No such file or directory.\n", argv[0]);
 		else
-			ft_fprintf(2, "minishell: %s: command not found\n", argv[0]);
-		g_exit_status = 127;
+			ft_fprintf(STDERR_FILENO, "minishell: %s: command not found.", argv[0]);
 	}
 	wrfree(argv[0]);
 	wrfree(argv);
@@ -115,6 +114,27 @@ int				exec_process(char **argv)
 	return (0);
 }
 
+void	p_largv(t_list *av)
+{
+	printf ("largv: ");
+	while (av)
+	{
+		printf ("[%s] ", (char *)av->content);
+		av = av->next;
+	}
+	printf ("\n");
+}
+
+void	p_argv(char **av)
+{
+	printf ("argv: ");
+	while (av && *av)
+	{
+		printf ("[%s] ", *av);
+		av++;
+	}
+	printf ("\n");
+}
 
 /*
 **	Executes a simple command by string
@@ -128,7 +148,7 @@ int				exec_str(char *str)
 	argv = NULL;
 	cmd = NULL;
 	g_interrupt = 0;
-	backup_io();
+	backup_io(M_FULLIO);
 	if (expand_cmd(&cmd, str) != 0)
 	{
 		wrfree(cmd);
@@ -138,12 +158,11 @@ int				exec_str(char *str)
 		return (1);
 	if (parse_argv(&argv, cmd->l_argv) != 0)
 		return (1);
-	fflush(stdout);
 	if (cmd->l_redir && (handle_redirection(cmd->l_redir)) != 0)
 		return (1);
 	if (exec_process(argv) != 0)
 		return (1);
 	wrfree(cmd);
-	restore_io();
+	restore_io(M_FULLIO);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   creation_btree.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 17:00:15 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/09 16:35:57 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/15 10:55:03 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ t_list	*priority_operat(t_list *l_op_tok, t_list **l_left, t_list **l_right)
 	return (0);
 }
 
-
 //return 0 if their is an operator
 //return 1 if their is a malloc error
 //return 2 if their is no operator
@@ -94,7 +93,6 @@ int		is_ope(t_list *l_op_tok, t_btree **node)
 		return(1);
 	return (0);
 }
-
 //return 0 if everything go right
 //return 1 if malloc error
 int		creation_btree(t_list *list, t_btree **node)

@@ -117,9 +117,10 @@ int exec_cmd(char *cmd)
 	op_tok = 0;
 	tree = 0;
 	g_interrupt = 0;
+
 	if (!(op_tok = split_op_tok(cmd)))
 		return EXIT_FAILURE;
-	if ((creation_btree(op_tok, &tree)) == EXIT_FAILURE)
+	if ((creation_btree(op_tok, &tree)) != EXIT_SUCCESS)
 		return EXIT_FAILURE;
 	return exec_tree(tree);
 }
