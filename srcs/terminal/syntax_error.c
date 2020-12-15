@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:02:57 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/15 09:40:10 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/15 14:20:19 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ short		condition_synt_err1(char *input, int *i, int *type)
 	{
 		old_type = *type;
 		*type = (!ft_strncmp(">>", input + *i, 2)) ? REDIRECT : OPERAT;
-		if (*type == OPERAT ||
+		if ((*type == OPERAT && old_type == OPERAT) ||
 			(*type == REDIRECT && old_type == REDIRECT))
 			return (NCMD_SYNTAX_ERROR);
 		*i += 2;
@@ -113,7 +113,7 @@ short		condition_synt_err2(char *input, int *i, int *type)
 	{
 		old_type = *type;
 		*type = (ft_memchr("<>", input[*i], 2)) ? REDIRECT : OPERAT;
-		if (*type == OPERAT || 
+		if ((*type == OPERAT && old_type == OPERAT) || 
 			(*type == REDIRECT && old_type == REDIRECT))
 			return (NCMD_SYNTAX_ERROR);
 		*i += 1;
