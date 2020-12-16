@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:05:27 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 14:25:06 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 14:53:04 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,16 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/param.h>
+# include <errno.h>
 # include "libft_printf.h"
 # include "libft_string.h"
 # include "sh_utils.h"
 # include <errno.h>
 # include <string.h>
+
+# ifndef S_IFDIR
+#  define S_IFDIR __IFDIR
+# endif
 
 # define M_STDIN     0
 # define M_STDOUT    1

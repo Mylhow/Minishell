@@ -6,12 +6,11 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 14:28:21 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 14:29:11 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 14:53:41 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirect.h"
-#include <errno.h>
 
 int	check_permissions(char *file, int oflag)
 {
@@ -25,7 +24,7 @@ int	check_permissions(char *file, int oflag)
 	}
 	if (stat(file, &st) != 0)
 		return (-1);
-	if (st.st_mode & __S_IFDIR)
+	if (st.st_mode & S_IFDIR)
 	{
 		ft_fprintf(STDERR_FILENO,
 		"minishell: %s: Is a directory.\n", file);
