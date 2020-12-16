@@ -6,26 +6,27 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 10:06:18 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/15 09:24:11 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/16 14:31:10 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-static int  strplen(char **strp)
+static int	strplen(char **strp)
 {
-    int i = 0;
+	int	i;
 
-    while (strp[i])
-        i++;
-    return (i);
+	i = 0;
+	while (strp[i])
+		i++;
+	return (i);
 }
 
-int         execbi(char *name, char **argv)
+int			execbi(char *name, char **argv)
 {
-    exec_builtin exec;
+	t_exec_builtin	exec;
 
-    if (!(exec = is_builtin(name)))
-        return (1);
-    return (exec (strplen(argv), argv, g_envp));
+	if (!(exec = is_builtin(name)))
+		return (1);
+	return (exec(strplen(argv), argv, g_envp));
 }

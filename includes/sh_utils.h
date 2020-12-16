@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:18:59 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 11:30:31 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/16 14:27:23 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ typedef struct	s_redirect
 	char	*file;
 }				t_redirect;
 
-typedef struct  s_cmd
+typedef struct	s_cmd
 {
-	t_list      *l_argv;
-    t_list      *l_redir; // <t_redirect>
-}               t_cmd;
+	t_list		*l_argv;
+	t_list		*l_redir;
+}				t_cmd;
 
 /*
 **	Shell quotes handler.
@@ -37,16 +37,14 @@ typedef struct  s_cmd
 # define QUOTE_DOUBLE   '\"'
 # define QUOTE_RESET    "QRESET_MS"
 
-char    get_quotes(char *current);
+char			get_quotes(char *current);
 
-char	*replace_section
+char			*replace_section
 	(char *str, int index, const char *replace, size_t pattern_len);
-
-int		parse_argv(char ***argv, t_list	*l_argv);
-
-char	is_redirect(char *c);
-char	is_ifs(char c);
-int		contains_ifs(char *str);
-int		is_valid_bash_char(char c);
+int				parse_argv(char ***argv, t_list	*l_argv);
+char			is_redirect(char *c);
+char			is_ifs(char c);
+int				contains_ifs(char *str);
+int				is_valid_bash_char(char c);
 
 #endif

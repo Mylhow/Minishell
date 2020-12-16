@@ -6,12 +6,13 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:50:26 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 12:00:48 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/16 14:17:48 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "signal_manager.h"
+
 int	g_exit_status = 0;
 
 /*
@@ -49,7 +50,7 @@ static bool		get_location(char *file, char **file_path)
 		return (false);
 	if (file_exists(file))
 	{
-		*file_path	= file;
+		*file_path = file;
 		return (1);
 	}
 	locations = ft_split(get_env("PATH"), ':');
@@ -67,73 +68,56 @@ static bool		get_location(char *file, char **file_path)
 	return (0);
 }
 
+int				exec_fork(char **argv)
+{
+	int	pid;
+	int status;
+
+	if ((pid = fork()) == -1)
+		return (-1);
+	if (pid == 0)
+		execve(argv[0], argv, g_envp);
+	if (waitpid(pid, &status, 0) == -1)
+		return (-1);
+	if (WIFEXITED(status))
+		g_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_exit_status = WTERMSIG(status) + 128;
+	else if (WIFSTOPPED(status))
+		g_exit_status = WSTOPSIG(status) + 128;
+	return (0);
+}
+
 /*
 **	EXEC_PROCESS
 **	Executes a process builtin or by location using default arguments
 */
+
 int				exec_process(char **argv)
 {
-	pid_t	pid;
-	int		status;
-
 	if (argv && argv[0] && is_builtin(argv[0]))
 		g_exit_status = execbi(argv[0], argv);
 	else if (argv && argv[0] && get_location(argv[0], &argv[0]))
 	{
 		if (!ft_strcmp(argv[0], "."))
 		{
-			ft_fprintf(STDERR_FILENO, "minishell: .: filename argument required.\n");
+			ft_fprintf(STDERR_FILENO,
+			"minishell: .: filename argument required.\n");
 			g_exit_status = 2;
 			return (2);
 		}
-		if (check_permissions(argv[0]) != 0 || !is_executable(argv[0]))
+		if (check_permissions(argv[0], O_RDONLY) != 0
+			|| !is_executable(argv[0]))
 			return (1);
-		if ((pid = fork()) == -1)
+		if (exec_fork(argv) == -1)
 			return (-1);
-		if (pid == 0)
-			execve(argv[0], argv, g_envp);
-		if (waitpid(pid, &status, 0) == -1)
-			return (-1);
-		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);	
-		else if (WIFSIGNALED(status))
-			g_exit_status = WTERMSIG(status) + 128;
-		else if (WIFSTOPPED(status))
-			g_exit_status = WSTOPSIG(status) + 128;
 	}
 	else if (argv[0])
-	{
-		if (argv[0][0] == '/' || argv[0][1] == '/' || (argv[0][0] == '.' && argv[0][1] == '/'))
-			ft_fprintf(STDERR_FILENO, "minishell: %s: No such file or directory.\n", argv[0]);
-		else
-			ft_fprintf(STDERR_FILENO, "minishell: %s: command not found.\n", argv[0]);
-	}
+		print_not_found(argv[0]);
 	wrfree(argv[0]);
 	wrfree(argv);
 	argv = NULL;
 	return (0);
-}
-
-void	p_largv(t_list *av)
-{
-	printf ("largv: ");
-	while (av)
-	{
-		printf ("[%s] ", (char *)av->content);
-		av = av->next;
-	}
-	printf ("\n");
-}
-
-void	p_argv(char **av)
-{
-	printf ("argv: ");
-	while (av && *av)
-	{
-		printf ("[%s] ", *av);
-		av++;
-	}
-	printf ("\n");
 }
 
 /*
@@ -154,7 +138,7 @@ int				exec_str(char *str)
 		wrfree(cmd);
 		return (1);
 	}
-    if (parse_redirections(cmd) != 0)
+	if (parse_redirections(cmd) != 0)
 		return (1);
 	if (parse_argv(&argv, cmd->l_argv) != 0)
 		return (1);

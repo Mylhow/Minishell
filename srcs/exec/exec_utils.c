@@ -6,14 +6,14 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:11:41 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/15 11:56:38 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/16 14:21:05 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "builtins.h"
 
-exec_builtin	is_builtin(char *str)
+t_exec_builtin	is_builtin(char *str)
 {
 	if (ft_strcmp(str, "echo") == 0)
 		return (ft_echo);
@@ -32,7 +32,7 @@ exec_builtin	is_builtin(char *str)
 	return (NULL);
 }
 
-bool	file_exists(char *file)
+bool			file_exists(char *file)
 {
 	struct stat	s;
 
@@ -41,7 +41,7 @@ bool	file_exists(char *file)
 	return (false);
 }
 
-bool	is_executable(char *file)
+bool			is_executable(char *file)
 {
 	struct stat	s;
 
@@ -51,14 +51,14 @@ bool	is_executable(char *file)
 	return (false);
 }
 
-int		parse_argv(char ***argv, t_list	*l_argv)
+int				parse_argv(char ***argv, t_list *l_argv)
 {
 	char	*content_buffer;
 	int		index;
 	int		size;
 
 	size = ft_lstsize(l_argv);
-	if (!(*argv = (char **)wrmalloc(sizeof (char **) * (size + 1))))
+	if (!(*argv = (char **)wrmalloc(sizeof(char **) * (size + 1))))
 		return (1);
 	(*argv)[size] = NULL;
 	index = 0;
@@ -73,4 +73,16 @@ int		parse_argv(char ***argv, t_list	*l_argv)
 		l_argv = l_argv->next;
 	}
 	return (0);
+}
+
+void			print_not_found(char *file)
+{
+	g_exit_status = 127;
+	if (file[0] == '/' || file[1] == '/' ||
+	(file[0] == '.' && file[1] == '/'))
+		ft_fprintf(STDERR_FILENO,
+		"minishell: %s: No such file or directory.\n", file);
+	else
+		ft_fprintf(STDERR_FILENO,
+		"minishell: %s: command not found.\n", file);
 }

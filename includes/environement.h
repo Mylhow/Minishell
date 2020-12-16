@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:24:35 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 15:07:15 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/16 14:19:38 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int		is_valid_var_name(char *var, size_t sz);
 /*
 **  UTILS
 */
-int     ft_strlchr(char *str, char c);
+int		ft_strlchr(char *str, char c);
 
 #endif
