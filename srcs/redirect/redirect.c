@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 14:29:15 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 15:06:25 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 15:30:22 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int		redirect_stdout(char *file)
 	restore_io(M_STDOUT);
 	if ((fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, DEFAULT_PERM)) <= 0)
 	{
+		restore_io(M_FULLIO);
 		g_exit_status = 1;
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s.\n",
 		file, strerror(errno));
@@ -93,6 +94,7 @@ int		append_stdout(char *file)
 	restore_io(M_STDOUT);
 	if ((fd = open(file, O_WRONLY | O_CREAT | O_APPEND, DEFAULT_PERM)) <= 0)
 	{
+		restore_io(M_FULLIO);
 		g_exit_status = 1;
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s.\n",
 		file, strerror(errno));
@@ -115,6 +117,7 @@ int		redirect_stdin(char *file)
 	restore_io(M_STDIN);
 	if ((fd = open(file, O_RDONLY, DEFAULT_PERM)) <= 0)
 	{
+		restore_io(M_FULLIO);
 		g_exit_status = 1;
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s.\n",
 		file, strerror(errno));
