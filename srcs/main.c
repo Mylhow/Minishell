@@ -24,14 +24,17 @@ void signal_main(int signal)
 	{
 		g_interrupt = 1;
 		fflush(stdout);
-		clear_eos(term, term->ndx_line);
+
 		term->ndx_line = term->original_line + (((t_block *)term->current_block->value)->size + PROMPT_SIZE) / term->nb_cols + 1;
 		term->ndx_cursor = 0;
 		term->cursor_pos = PROMPT_SIZE;
 		if (term->ndx_line > term->nb_lines - 1)
 		{
 			if (!g_passed)
+			{
+				put_cursor(0, term->ndx_line);
 				ft_printf("\n");
+			}
 			term->ndx_line = term->nb_lines - 1;
 		}
 		if (put_cursor(0, term->ndx_line) != 0)

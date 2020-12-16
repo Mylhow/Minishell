@@ -71,7 +71,7 @@ int		clear_eos(t_term *term, int original_line)
 {
 	int i;
 
-	i = term->ndx_line;
+	i = term->nb_lines - 1;
 	while (i > original_line)
 	{
 		if (put_cursor(0, i) != 0)
