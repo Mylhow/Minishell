@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:50:24 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 14:06:42 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 15:20:07 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	exec_piped_child(t_btree *child, int fd_pipe[2], int mode)
 	dup2(fd_pipe[mode], mode);
 	exec_tree(child);
 	close(fd_pipe[mode]);
-	exit(0);
+	exit(g_exit_status);
 }
 
 int			handle_pipes(t_btree *l_child, t_btree *r_child)
@@ -40,11 +40,11 @@ int			handle_pipes(t_btree *l_child, t_btree *r_child)
 		ft_fprintf(STDERR_FILENO, "minishell: Fork error.\n");
 	if (pid_childs[1] == 0)
 		exec_piped_child(r_child, fd_pipe, 0);
-	if (waitpid(-1, 0, 0) < 0)
+	if (waitpid(-1, &g_exit_status, 0) < 0)
 		return (-1);
 	close(fd_pipe[1]);
 	close(fd_pipe[0]);
-	if (waitpid(-1, 0, 0) < 0)
+	if (waitpid(-1, &g_exit_status, 0) < 0)
 		return (-1);
 	return (0);
 }
