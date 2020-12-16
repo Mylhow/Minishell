@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:05:27 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/15 13:26:44 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/16 11:57:05 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 #include "libft_printf.h"
 #include "libft_string.h"
 #include "sh_utils.h"
+#include <errno.h>
+#include <string.h>
 
 # define    M_STDIN     0
 # define    M_STDOUT    1

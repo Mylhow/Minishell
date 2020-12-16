@@ -6,13 +6,14 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:22:44 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/14 08:46:55 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/16 12:23:07 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
+# include "libft_ctype.h"
 # include "libft_mem.h"
 # include "libft_string.h"
 # include "libft_printf.h"
