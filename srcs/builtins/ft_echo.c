@@ -52,9 +52,11 @@ int	ft_echo(int ac, char **av, char **env)
 		if (i < ac - 1)
 		{
 			ft_putstr(" ");
-			(*getterm())->addposcurs += 1;
+			if (!new_line)
+				(*getterm())->addposcurs += 1;
 		}
-		(*getterm())->addposcurs += ft_strlen(av[i]);
+		if (!new_line)
+			(*getterm())->addposcurs += ft_strlen(av[i]);
 		i++;
 	}
 	if (new_line)
