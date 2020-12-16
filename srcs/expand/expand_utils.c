@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:05:40 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/11 11:29:43 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/16 12:40:13 by lrobino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,62 +70,14 @@ char	get_quotes(char *current)
 
 	if (*current == '\\')
 		last_is_bslash = 1;
-
 	if (ft_strcmp(QUOTE_RESET, current) == 0)
 		return (current_quote = QUOTE_NONE);
-
 	if (current_quote == QUOTE_NONE && !last_is_bslash
 		&& (*current == QUOTE_SINGLE || *current == QUOTE_DOUBLE))
 		current_quote = *current;
 	else if (*current == current_quote && !last_is_bslash)
 		current_quote = QUOTE_NONE;
-
 	if (last_is_bslash && *current != '\\')
 		last_is_bslash = 0;
 	return (current_quote);
-}
-
-char	is_redirect(char *c)
-{
-	return (ft_strncmp(c, ">>", 2) == 0 || ft_strncmp(c, ">", 1) == 0
-        || ft_strncmp(c, "<", 1) == 0);
-}
-
-/*
-**	IS_IFS
-**	Checks if c is an Input Field Separator character
-**	Bash default is: $IFS=" \t\n"
-*/
-char	is_ifs(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n');
-}
-
-/*
-**	IS_IFS
-**	Checks if str is made of IFS characters
-**	Bash default is: $IFS=" \t\n"
-*/
-int		contains_ifs(char *str)
-{
-	while (str && *str)
-	{
-		if (is_ifs(*str))
-			return (1);
-		str++;
-	}
-	return (0);
-}
-
-/*
-**  IS_VALID_BASH_CHAR
-**  Checks if char c is a valid bash variable name character, it
-**  follows the rule :
-**  [0-9][a-z][A-Z][_]
-*/
-
-int		is_valid_bash_char(char c)
-{
-	return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') ||
-		(c >= 'A' && c <= 'Z') || c == '_');
 }

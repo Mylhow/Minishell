@@ -20,10 +20,11 @@ void signal_main(int signal)
 	}
 	if (signal == SIGINT || signal == SIGQUIT)
 	{
+		restore_io(M_FULLIO);
 		g_interrupt = 1;
 		if (signal == SIGINT)
 		{
-			ft_fprintf(STDERR_FILENO, "^A\n$ ");
+			ft_fprintf(STDERR_FILENO, "^C\n$ ");
 			get_pos();
 			term->ndx_cursor = 0;
 			term->original_line = term->ndx_line;

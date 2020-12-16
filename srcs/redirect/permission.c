@@ -1,31 +1,15 @@
 
 #include "redirect.h"
+#include <errno.h>
 
 int check_permissions(char *file)
 {
-    struct stat st;
-
-    if (ft_strlen(file) > PATH_MAX)
+    if (open(file, O_RDWR, DEFAULT_PERM) < 0)
     {
-		ft_fprintf(STDERR_FILENO, "minishell: %s: Filename too long.\n", file);
-        return (F_TOLONG);
+        ft_fprintf(STDERR_FILENO, "minishell: %s: %s.\n", file, strerror(errno));
+        return (-1);
     }
-	if (stat(file, &st) == -1)
-    {
-        ft_fprintf(STDERR_FILENO, "minishell: %s: File not found\n", file);
-		return (F_NOTFOUD);
-    }
-	if (S_ISDIR(st.st_mode))
-    {
-		ft_fprintf(STDERR_FILENO, "minishell: %s: Is a directory.\n", file);
-        return (F_DIRECTORY);
-    }
-	if (!(st.st_mode & S_IRUSR))
-    {
-		ft_fprintf(STDERR_FILENO, "minishell: %s: Permission denied.\n", file);
-        return (F_ACCESSDENY);
-    }
-    return (F_PERMOK);
+    return (0);
 }
 
 int is_file(char *file)
