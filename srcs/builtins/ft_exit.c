@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/16 12:30:07 by abourbou          #+#    #+#             */
+/*   Updated: 2020/12/16 12:30:25 by abourbou         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft_mem.h"
 #include "terminal.h"
 #include "libft_printf.h"
@@ -32,10 +44,9 @@ static void	ft_quit(int number)
  ** Return [int] Status
 */
 
-int ft_exit(int ac, char **av, char **env)
+int			ft_exit(int ac, char **av, char **env)
 {
 	(void)env;
-
 	if (ac >= 2)
 	{
 		if (ft_isnum(av[1]))

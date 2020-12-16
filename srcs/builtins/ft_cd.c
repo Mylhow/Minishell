@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:46:26 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/15 09:26:54 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 12:23:39 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	exit_malloc(void)
 	exit(1);
 }
 
-static int	return_result(char *origin_fct, char *path, int cpy_errno, char **str)
+static int	return_result(char *origin_fct, char *path,
+								int cpy_errno, char **str)
 {
 	if (cpy_errno)
 	{
@@ -55,14 +56,14 @@ int			ft_get_pwd(char *origin_fct, char **str)
 		if (getcwd(path, len_path))
 		{
 			cpy_errno = 0;
-			break;
+			break ;
 		}
 		cpy_errno = errno;
 	}
 	return (return_result(origin_fct, path, cpy_errno, str));
 }
 
-int		ft_cd(int ac, char **av, char **env)
+int			ft_cd(int ac, char **av, char **env)
 {
 	char	*path;
 	int		cpy_errno;
