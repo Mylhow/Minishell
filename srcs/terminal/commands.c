@@ -7,6 +7,7 @@
 #include "libft_mem.h"
 #include "libft_number.h"
 #include "exec.h"
+#include "signal_manager.h"
 
 /*
  ** Prepare une nouvelle ligne de commande
@@ -45,7 +46,6 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
 {
     t_block *copy;
 
-
     if (!(copy = ft_blockhashdup(term->list_blocks)))
         return (EXIT_FAILURE);
     if (put_cursor(0, term->original_line + ((copy->size + PROMPT_SIZE) / term->nb_cols)) != 0)
@@ -54,21 +54,22 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
         ft_printf("\n");
     if (tcsetattr(0, 0, &(*getterm())->termios_backup) == -1)
         return (EXIT_FAILURE);
-    if (sig == SIGINT)
-        ft_printf("\n");
-    else if (ret_handle != NCMD_SYNTAX_ERROR)
+    if (ret_handle != NCMD_SYNTAX_ERROR)
         exec_cmd(term->str_ccmd);
     else
         ft_printf("our bash : syntax error\n");
     if (tcsetattr(0, 0, &(*getterm())->termios) == -1)
         return (EXIT_FAILURE);
-    get_pos();
-    ft_printf("$ ");
-    if (clear_new_cmd(term, copy, sig))
+    if (g_interrupt)
+        ft_printf("\n");
+	get_pos();
+	ft_printf("$ ");
+	if (clear_new_cmd(term, copy, sig))
         return (EXIT_FAILURE);
     term->cursor_pos += 2;
     fflush(stdout);
     clear_eos(term, term->ndx_line);
+    g_passed = 0;
     return (EXIT_SUCCESS);
 }
 

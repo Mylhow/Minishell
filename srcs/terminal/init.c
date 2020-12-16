@@ -58,8 +58,7 @@ int			init_term(void)
 		return (EXIT_FAILURE);
 	if (tcgetattr(0, &(*getterm())->termios) == -1)
 		return (EXIT_FAILURE);
-	(*getterm())->termios.c_lflag &= ~(ICANON);
-	(*getterm())->termios.c_lflag &= ~(ECHO);
+	(*getterm())->termios.c_lflag &= ~(ICANON | VINTR | ECHO);
 	if (tcsetattr(0, 0, &(*getterm())->termios) == -1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

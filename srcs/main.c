@@ -11,35 +11,40 @@
 
 void signal_main(int signal)
 {
-	t_term *term = (*getterm());
+	t_term *term;
+
+	term = (*getterm());
 	if (signal == _EOF
-	&& ((t_block *)(*getterm())->current_block->value)->size <= 0)
+	&& ((t_block *)term->current_block->value)->size <= 0)
 	{
 		ft_printf("exit\n");
 		ft_exit(0, 0, 0);
 	}
 	if (signal == SIGINT || signal == SIGQUIT)
 	{
-		restore_io(M_FULLIO);
 		g_interrupt = 1;
-		if (signal == SIGINT)
+		fflush(stdout);
+		clear_eos(term, term->ndx_line);
+		term->ndx_line = term->original_line + (((t_block *)term->current_block->value)->size + PROMPT_SIZE) / term->nb_cols + 1;
+		term->ndx_cursor = 0;
+		term->cursor_pos = PROMPT_SIZE;
+		if (term->ndx_line > term->nb_lines - 1)
 		{
-			ft_fprintf(STDERR_FILENO, "^C\n$ ");
-			get_pos();
-			term->ndx_cursor = 0;
-			term->original_line = term->ndx_line;
+			if (!g_passed)
+				ft_printf("\n");
+			term->ndx_line = term->nb_lines - 1;
 		}
-		else
-			ft_fprintf(STDERR_FILENO, "^\\Quit (core dumped)\n");
-	}	
-}
-
-void	signal_process(int signal)
-{
-	if (signal == SIGINT)
-		exit(130);
-	else if (signal == SIGQUIT)
-		exit(131);
+		if (put_cursor(0, term->ndx_line) != 0)
+			return;
+		term->current_historic = NULL;
+		ft_hashclear(&(term->list_blocks));
+		if (!(term->list_blocks = ft_hashnew("block_1", ft_blocknew())))
+			return ;
+		term->current_block = term->list_blocks;
+		term->original_line = term->ndx_line;
+		if (!g_passed)
+			ft_printf("$ ");
+	}
 }
 
 /*
@@ -56,9 +61,9 @@ static int	update(void)
 	term = *getterm();
 	ft_printf("$ ");
 	fflush(stdout);
-	while (read(STDIN_FILENO, &term->last_char, 1) > 0)
+	while ((read(STDIN_FILENO, &term->last_char, 1) > 0))
 	{
-		(term->last_char == _EOF) ? signal_main(_EOF) : 0;
+        (term->last_char == _EOF) ? signal_main(_EOF) : 0;
 		ret = handle_key();
 		if (!(ret) || ret == NCMD_SYNTAX_ERROR)
 		{

@@ -61,7 +61,7 @@ typedef struct			s_term
 	int					ndx_line;
 	int					original_line;
 	unsigned char		last_char;
-	char				esc_flag;
+	int 				esc_flag;
 	int					nb_cols;
 	int					nb_lines;
 	t_termios			termios;

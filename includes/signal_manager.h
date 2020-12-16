@@ -11,6 +11,6 @@
 /* ************************************************************************** */
 
 void	signal_main(int signal);
-void	signal_process(int signal);
 
 int		g_interrupt;
+int 	g_passed;
