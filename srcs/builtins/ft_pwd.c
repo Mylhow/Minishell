@@ -6,25 +6,22 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 13:21:45 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/14 10:45:59 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 12:38:11 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include "builtins.h"
-//!changer malloc et free avec le wrapper
-//!changer printf avec ft_printf
 #include <stdlib.h>
 #include <stdio.h>
+#include "builtins.h"
 
 static void	exit_malloc(void)
 {
 	ft_printf("error malloc\n");
 	exit(1);
 }
-
 
 static int	return_result(char **av, char *path, int cpy_errno)
 {
@@ -40,12 +37,12 @@ static int	return_result(char **av, char *path, int cpy_errno)
 
 int			ft_pwd(int ac, char **av, char **env)
 {
-	(void)ac;
-	(void)env;
 	int		cpy_errno;
 	size_t	len_path;
 	char	*path;
 
+	(void)ac;
+	(void)env;
 	cpy_errno = 34;
 	len_path = 5;
 	if (!(path = wrmalloc(sizeof(char) * len_path)))
@@ -59,9 +56,9 @@ int			ft_pwd(int ac, char **av, char **env)
 		if (getcwd(path, len_path))
 		{
 			cpy_errno = 0;
-			break;
+			break ;
 		}
 		cpy_errno = errno;
 	}
-	return(return_result(av, path, cpy_errno));
+	return (return_result(av, path, cpy_errno));
 }
