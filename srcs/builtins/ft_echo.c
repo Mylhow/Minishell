@@ -14,6 +14,8 @@
 #include "libft_put.h"
 #include "libft_string.h"
 #include "libft_printf.h"
+#include "terminal.h"
+#include <stdio.h>
 
 int	is_new_line(int *index, int ac, char **av)
 {
@@ -36,7 +38,6 @@ int	is_new_line(int *index, int ac, char **av)
 	*index = i;
 	return (new_line);
 }
-
 int	ft_echo(int ac, char **av, char **env)
 {
 	int	i;
@@ -45,6 +46,7 @@ int	ft_echo(int ac, char **av, char **env)
 	(void)env;
 	i = 1;
 	new_line = is_new_line(&i, ac, av);
+	(*getterm())->addposcurs = ft_strlen(av[i]);
 	while (i < ac - 1)
 	{
 		ft_putstr(av[i]);

@@ -26,7 +26,7 @@ int		print_historic(t_term *term, t_block *dup)
 	if (!(term->current_block->value = ft_blockdup(dup)))
 		return (EXIT_FAILURE);
 	block = term->current_block->value;
-	term->cursor_pos = PROMPT_SIZE;
+	term->cursor_pos = PROMPT_SIZE + term->addposcurs;
 	if (put_cursor(term->cursor_pos, term->original_line) != 0)
 		return (EXIT_FAILURE);
 	if (put_caps(T_CLEOL, 0) != 0)
@@ -34,8 +34,8 @@ int		print_historic(t_term *term, t_block *dup)
 	if (clear_eos(term, term->original_line))
 		return (EXIT_FAILURE);
 	ft_printf("%s", block->str_cmd);
-	block->nb_blocks = (block->size + PROMPT_SIZE) / term->nb_cols + 1;
-	term->cursor_pos = (block->size + PROMPT_SIZE) % term->nb_cols;
+	block->nb_blocks = (block->size + term->cursor_pos) / term->nb_cols + 1;
+	term->cursor_pos = (block->size + term->cursor_pos) % term->nb_cols;
 	term->ndx_cursor = block->size;
 	term->ndx_line = term->original_line + (block->nb_blocks - 1);
 	if (term->ndx_line > term->nb_lines - 1)

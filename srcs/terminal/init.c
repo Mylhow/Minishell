@@ -32,6 +32,7 @@ static int	init_term_variables(t_termios *termios)
 	term->last_char = '\0';
 	term->esc_flag = 0;
 	term->str_ccmd = 0;
+	term->addposcurs = 0;
 	term->termios_backup = *termios;
 	return (EXIT_SUCCESS);
 }
