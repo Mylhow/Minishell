@@ -24,6 +24,11 @@ t_block	*ft_blocknew(void)
 	return (ptr);
 }
 
+/*
+ ** Cree un block en se basant sur une chaine de caractère
+ ** Return [t_block] Pointeur sur le block nouvellement crée
+*/
+
 t_block	*ft_blockstrnew(char *s)
 {
 	t_block	*ptr;

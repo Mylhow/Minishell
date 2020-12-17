@@ -5,6 +5,11 @@
 #include "syntax_error.h"
 #include "expander.h"
 
+/*
+ ** Check, si des opérateurs sont dans la chaine de la commande
+ ** Return [int] Status de reussite
+*/
+
 static int	ft_checkop(t_term *term)
 {
 	int		i;
@@ -91,7 +96,6 @@ static int	check_key(t_term *term, t_block *block)
 /*
 ** Manage le key control
 ** Return [int] Status de reussite
-** TODO En prod, supprimer les debug
 */
 
 int			handle_key(void)
