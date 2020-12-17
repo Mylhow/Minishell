@@ -1,7 +1,8 @@
-/cmake-build-debug/
+/cmake-build-debug*/
 /.idea/
 *.a
 *.o
 *.log
 minishell
 CMakeLists.txt
+.vscode
