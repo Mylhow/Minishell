@@ -11,4 +11,3 @@ t_term		**getterm(void)
 
 	return (&term);
 }
-
