@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:02:57 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/17 15:48:21 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 16:44:41 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ short		condition_synt_err2(char *input, int *i, int *type, int old_type)
 ** Return [short] 4 - Syntax error. New command
 ** Type : 0 Word, 1 Operator, 2 Parenthesis, 3 redirection
 */
+#include <stdio.h>
 
 short		syntax_error(char *input, int flagantislash)
 {
