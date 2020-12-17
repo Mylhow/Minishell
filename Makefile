@@ -12,7 +12,7 @@ PATH_LIBFT	=	lib/libft
 
 # List of sources
 SRCS_TERM	=	move.c handle_key.c utils.c init.c blocks.c escape.c ctrl.c insert_key.c backspace.c syntax_error.c syntax_error2.c syntax_tool.c commands.c historic.c
-SRCS_EXEC	=	exec_str.c exec_utils.c exec_tree.c execbi.c exec_sigquit.c
+SRCS_EXEC	=	exec_str.c exec_utils.c exec_tree.c execbi.c handle_operators.c
 SRCS_EXPAND	=	expander.c expand_word.c expand_var.c expand_utils.c expand_quotes.c expand_bslash.c character_utils.c
 SRCS_REDIR	=	redirect.c redirect_handler.c permission.c
 SRCS_OTHER  =   ft_echo.c ft_env.c ft_export.c ft_unset.c ft_exit.c ft_cd.c ft_pwd.c
@@ -28,8 +28,9 @@ SRCS		=	$(addprefix $(PATH_SRC)/expand/, $(SRCS_EXPAND)) \
 				$(addprefix $(PATH_SRC)/, main.c utilities.c)
 
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
-INCS		=	$(addprefix $(PATH_INC)/, terminal.h exec.h syntax_error.h exec.h expander.h sh_utils.h redirect.h environement.h \
-				signal_manager.h)
+INCS		=	$(addprefix $(PATH_INC)/, terminal.h exec.h syntax_error.h \
+				exec.h expander.h sh_utils.h redirect.h environement.h \
+				signal_manager.h builtins.h expander.h parsing.h)
 LOG			=	$(PATH_LOG)/minishell.log
 LIBFT		=	-L$(PATH_LIBFT) -lft -lcurses
 

@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:50:24 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/17 18:24:43 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 18:44:35 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,54 +53,6 @@ int			handle_pipes(t_btree *l_child, t_btree *r_child)
 	return (0);
 }
 
-int			handle_operators2(char *type, t_btree *l_child, t_btree *r_child)
-{
-	int	error;
-
-	error = 0;
-	if (ft_strncmp(type, "&&", 2) == 0)
-	{
-		error += exec_tree(l_child);
-		handle_sigquit();
-		if (g_exit_status == 0)
-		{
-			error += exec_tree(r_child);
-			handle_sigquit();
-		}
-	}
-	else if (ft_strncmp(type, "||", 2) == 0)
-	{
-		error += exec_tree(l_child);
-		handle_sigquit();
-		if (g_exit_status != 0)
-			error += exec_tree(r_child);
-		handle_sigquit();
-	}
-	else if (ft_strncmp(type, "|", 1) == 0)
-	{
-		error += handle_pipes(l_child, r_child);
-		handle_sigquit();
-	}
-	return (error);
-}
-
-int			handle_operators(char *type, t_btree *l_child, t_btree *r_child)
-{
-	int	error;
-
-	error = 0;
-	if (ft_strncmp(type, ";", 1) == 0)
-	{
-		error += exec_tree(l_child);
-		handle_sigquit();
-		error += exec_tree(r_child);
-		handle_sigquit();
-	}
-	else
-		error = handle_operators2(type, l_child, r_child);
-	return (error > 0 ? 1 : 0);
-}
-
 int			exec_tree(t_btree *node)
 {
 	t_pretype	*pre;
@@ -115,8 +67,8 @@ int			exec_tree(t_btree *node)
 	}
 	else if (pre->type == OPERAT)
 	{
-		if (handle_operators
-((char *)pre->content, node->l_child, node->r_child) != 0)
+		if (handle_operators((char *)pre->content,
+				node->l_child, node->r_child) != 0)
 			return (EXIT_FAILURE);
 	}
 	return (0);

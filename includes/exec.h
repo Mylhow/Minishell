@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:08:04 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/17 17:33:21 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 18:44:02 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int				exec_str(char *cmd);
 int				execbi(char *name, char **argv);
 int				exec_cmd(char *cmd);
 int				exec_tree(t_btree *node);
-void			handle_sigquit(void);
+int				handle_pipes(t_btree *l_child, t_btree *r_child);
+int				handle_operators(char *type, t_btree *l_child,
+												t_btree *r_child);
 
 #endif
