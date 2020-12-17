@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:50:24 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 15:20:07 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 16:13:46 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	exec_piped_child(t_btree *child, int fd_pipe[2], int mode)
 	dup2(fd_pipe[mode], mode);
 	exec_tree(child);
 	close(fd_pipe[mode]);
-	exit(g_exit_status);
+	exit(0);
 }
 
 int			handle_pipes(t_btree *l_child, t_btree *r_child)
@@ -51,26 +51,29 @@ int			handle_pipes(t_btree *l_child, t_btree *r_child)
 
 int			handle_operators(char *type, t_btree *l_child, t_btree *r_child)
 {
+	int	error;
+
+	error = 0;
 	if (ft_strncmp(type, ";", 1) == 0)
 	{
-		exec_tree(l_child);
-		exec_tree(r_child);
+		error += exec_tree(l_child);
+		error += exec_tree(r_child);
 	}
 	else if (ft_strncmp(type, "&&", 2) == 0)
 	{
-		exec_tree(l_child);
+		error += exec_tree(l_child);
 		if (g_exit_status == 0)
-			exec_tree(r_child);
+			error += exec_tree(r_child);
 	}
 	else if (ft_strncmp(type, "||", 2) == 0)
 	{
-		exec_tree(l_child);
+		error += exec_tree(l_child);
 		if (g_exit_status != 0)
-			exec_tree(r_child);
+			error += exec_tree(r_child);
 	}
 	else if (ft_strncmp(type, "|", 1) == 0)
 	{
-		handle_pipes(l_child, r_child);
+		error += handle_pipes(l_child, r_child);
 	}
 	return (0);
 }
@@ -84,13 +87,14 @@ int			exec_tree(t_btree *node)
 	pre = (t_pretype *)node->content;
 	if (pre->type == WORD)
 	{
-		exec_str((char *)pre->content);
-		return (0);
+		if (exec_str((char *)pre->content) != 0)
+			return (EXIT_FAILURE);
 	}
 	else if (pre->type == OPERAT)
 	{
-		handle_operators((char *)pre->content, node->l_child, node->r_child);
-		return (0);
+		if (handle_operators
+((char *)pre->content, node->l_child, node->r_child) != 0)
+			return (EXIT_FAILURE);
 	}
 	return (0);
 }
@@ -103,7 +107,6 @@ int			exec_cmd(char *cmd)
 	op_tok = 0;
 	tree = 0;
 	g_interrupt = 0;
-	g_passed = 1;
 	if (!(op_tok = split_op_tok(cmd)))
 		return (EXIT_FAILURE);
 	if ((creation_btree(op_tok, &tree)) != EXIT_SUCCESS)
