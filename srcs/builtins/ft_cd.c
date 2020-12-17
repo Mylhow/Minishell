@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:46:26 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/16 12:23:39 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 10:27:40 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ int			ft_cd(int ac, char **av, char **env)
 	path = (ac == 1) ? get_env("HOME") : av[1];
 	if (!path || !path[0])
 		return (0);
+	if (ac > 2)
+	{
+		ft_printf("minishell: %s: too many arguments\n", av[0]);
+		return (1);
+	}
 	if (chdir(path) == -1)
 	{
 		cpy_errno = errno;
