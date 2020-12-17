@@ -37,6 +37,8 @@ void signal_main(int signal)
 			}
 			term->ndx_line = term->nb_lines - 1;
 		}
+		if (!g_passed)
+			ft_printf("^C");
 		if (put_cursor(0, term->ndx_line) != 0)
 			return;
 		term->current_historic = NULL;
