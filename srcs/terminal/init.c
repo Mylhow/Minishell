@@ -2,7 +2,6 @@
 #include <unistd.h>
 #include "libft_mem.h"
 #include "libft_string.h"
-#include "libft_printf.h"
 #include "terminal.h"
 
 /*
@@ -44,9 +43,9 @@ static int	init_term_variables(t_termios *termios)
 
 int			init_term(void)
 {
-    t_termios backup;
+	t_termios backup;
 
-    tcgetattr(1, &backup);
+	tcgetattr(1, &backup);
 	if (setupterm(NULL, STDOUT_FILENO, NULL) != 0)
 		return (EXIT_FAILURE);
 	if (init_term_variables(&backup) == EXIT_FAILURE)
