@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:21:14 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/15 14:16:08 by lrobino          ###   ########.fr       */
+/*   Updated: 2020/12/17 15:57:49 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char		*get_env(char *var)
 	}
 	return (NULL);
 }
-#include <stdio.h>
+
 int			add_var(char *name, char *value)
 {
 	char	*concat;
