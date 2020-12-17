@@ -2,12 +2,17 @@
 #include "terminal.h"
 #include "libft_ctype.h"
 
-int ft_histo_add(t_term *term, char *key, void *value)
+/*
+ ** Ajoute un element a l historique
+ ** Return [int] Status de reussite
+*/
+
+int		ft_histo_add(t_term *term, char *key, void *value)
 {
 	t_hash *tmp;
 
 	if (!value)
-		return PROCESS_SUCCESS;
+		return (PROCESS_SUCCESS);
 	if (!(tmp = ft_hashnew(key, value)))
 		return (EXIT_FAILURE);
 	ft_hashadd_back(&term->historic, tmp);
