@@ -55,7 +55,7 @@ void		signal_main(int signal)
 		ft_printf("exit\n");
 		ft_exit(0, 0, 0);
 	}
-	if (signal == SIGINT || signal == SIGQUIT)
+	if (signal == SIGINT)
 	{
 		g_interrupt = 1;
 		fflush(stdout);
@@ -64,10 +64,9 @@ void		signal_main(int signal)
 			term->nb_cols + 1;
 		term->ndx_cursor = 0;
 		term->cursor_pos = PROMPT_SIZE;
+		g_exit_status = 130;
 		signal_main_2(term);
 	}
-	if (signal == SIGINT)
-		g_exit_status = 130;
 }
 
 /*
@@ -106,7 +105,6 @@ static int	update(void)
 int			main(int ac, char **av, char **environment)
 {
 	signal(SIGINT, signal_main);
-	signal(SIGQUIT, signal_main);
 	load_env(environment);
 	if (!((*getterm()) = wrmalloc(sizeof(t_term))))
 		return (ft_exit(ac, av, environment));
