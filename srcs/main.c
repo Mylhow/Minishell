@@ -88,7 +88,7 @@ static int	update(void)
 	{
 		(term->last_char == _EOF) ? signal_main(_EOF) : 0;
 		ret = handle_key();
-		if (!(ret) || ret == NCMD_SYNTAX_ERROR)
+		if (ret == TO_EXECUTE || ret == NCMD_SYNTAX_ERROR || ret == NEW_COMMAND)
 		{
 			if (new_cmd(term, 0, ret))
 				return (EXIT_FAILURE);

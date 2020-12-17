@@ -78,9 +78,9 @@ int			new_cmd(t_term *term, int sig, int ret_handle)
 	if (tcsetattr(0, 0, &(*getterm())->termios_backup) == -1)
 		return (EXIT_FAILURE);
 	term->addposcurs = 0;
-	if (ret_handle != NCMD_SYNTAX_ERROR)
+	if (ret_handle == TO_EXECUTE)
 		exec_cmd(term->str_ccmd);
-	else
+	else if (ret_handle == NCMD_SYNTAX_ERROR)
 	{
 		ft_printf("minishell: syntax error\n");
 		g_exit_status = 2;
