@@ -58,11 +58,16 @@ int	new_cmd(t_term *term, int sig, int ret_handle)
     if (ret_handle != NCMD_SYNTAX_ERROR)
         exec_cmd(term->str_ccmd);
     else
+	{
         ft_printf("our bash : syntax error\n");
+		g_exit_status = 2;
+	}
     if (tcsetattr(0, 0, &(*getterm())->termios) == -1)
-        return (EXIT_FAILURE);
+    	return (EXIT_FAILURE);
     if (g_interrupt)
-        ft_printf("\n");
+	{
+    	ft_printf("\n");
+	}
 	get_pos();
 	ft_printf("$ ");
 	if (clear_new_cmd(term, copy, sig))
