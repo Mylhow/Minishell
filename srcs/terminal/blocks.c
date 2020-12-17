@@ -23,7 +23,7 @@ t_block	*ft_blocknew(void)
 	ft_bzero(ptr->str_cmd, ptr->alloc_size);
 	return (ptr);
 }
-#include "libft_printf.h"
+
 t_block	*ft_blockstrnew(char *s)
 {
 	t_block	*ptr;
@@ -31,11 +31,11 @@ t_block	*ft_blockstrnew(char *s)
 
 	term = (*getterm());
 	if (!s)
-		return 0;
+		return (0);
 	if (!(ptr = wrmalloc(sizeof(t_block))))
-		return (NULL);
+		return (0);
 	if (!(ptr->str_cmd = ft_strdup(s)))
-		return 0;
+		return (0);
 	ptr->size = ft_strlen(ptr->str_cmd);
 	ptr->nb_blocks = ptr->size / term->nb_cols + 1;
 	ptr->alloc_size = term->nb_cols * ptr->nb_blocks + 1 - PROMPT_SIZE;
