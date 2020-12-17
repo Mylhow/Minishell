@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 17:00:15 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/17 16:15:19 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 18:24:18 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ t_btree	*node_new(void *content)
 **find the operator and the operator is cutting the list
 */
 
-int		find_operat(char *operator1, char *operator2,
-					t_list *t_op_tok, t_list **l_buffer)
+int		find_operat(char *operator, t_list *t_op_tok, t_list **l_buffer)
 {
 	t_list		*prev;
 	t_list		*current;
@@ -44,8 +43,7 @@ int		find_operat(char *operator1, char *operator2,
 	{
 		c_pretype = current->content;
 		if (c_pretype->type == OPERAT &&
-		(!ft_strcmp(operator1, (char *)c_pretype->content)
-			|| !ft_strcmp(operator2, (char *)c_pretype->content)))
+		(!ft_strcmp(operator, (char *)c_pretype->content)))
 		{
 			if (prev)
 				prev->next = 0;
@@ -68,9 +66,9 @@ t_list	*priority_operat(t_list *l_op_tok, t_list **l_left, t_list **l_right)
 {
 	t_list	*l_operator;
 
-	if (find_operat(";", "", l_op_tok, &l_operator) ||
-		find_operat("&&", "||", l_op_tok, &l_operator) ||
-		find_operat("|", "", l_op_tok, &l_operator))
+	if (find_operat(";", l_op_tok, &l_operator) ||
+		find_operat2("&&", "||", l_op_tok, &l_operator) ||
+		find_operat("|", l_op_tok, &l_operator))
 	{
 		*l_left = l_op_tok;
 		*l_right = l_operator->next;

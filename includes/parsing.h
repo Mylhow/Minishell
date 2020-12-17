@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 09:19:58 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/17 16:33:09 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 18:22:52 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,6 @@ int				add_pretype(t_list **l_op_tok, int type, void *content);
 t_btree			*node_new(void *content);
 
 int				creation_btree(t_list *list, t_btree **node);
+int		find_operat2(char *operator1, char *operator2,
+					t_list *current, t_list **l_buffer);
 #endif

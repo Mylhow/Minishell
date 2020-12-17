@@ -105,6 +105,7 @@ static int	update(void)
 int			main(int ac, char **av, char **environment)
 {
 	signal(SIGINT, signal_main);
+	signal(SIGQUIT, signal_main);
 	load_env(environment);
 	if (!((*getterm()) = wrmalloc(sizeof(t_term))))
 		return (ft_exit(ac, av, environment));

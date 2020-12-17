@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:08:04 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 14:21:51 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 17:33:21 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ int				exec_str(char *cmd);
 int				execbi(char *name, char **argv);
 int				exec_cmd(char *cmd);
 int				exec_tree(t_btree *node);
+void			handle_sigquit(void);
 
 #endif
