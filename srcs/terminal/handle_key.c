@@ -51,6 +51,7 @@ static int	ft_checksyntax(t_term *term, int flagantislash)
 		{
 			((t_block *)term->current_block->value)->str_cmd[len] = ';';
 			((t_block *)term->current_block->value)->str_cmd[len + 1] = ' ';
+			((t_block *)term->current_block->value)->size += 2;
 		}
 		else
 			((t_block *)term->current_block->value)->str_cmd[len] = ' ';
@@ -120,9 +121,8 @@ int			handle_key(void)
 	term->ndx_cursor = 0;
 	term->cursor_pos = 0;
 	if (ret == NCMD_SYNTAX_ERROR)
-	{
 		g_exit_status = 1;
-		return (NCMD_SYNTAX_ERROR);
-	}
+	if (ret != EXIT_SUCCESS)
+		return (ret);
 	return (EXIT_SUCCESS);
 }
