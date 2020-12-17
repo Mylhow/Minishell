@@ -82,7 +82,7 @@ int			new_cmd(t_term *term, int sig, int ret_handle)
 		exec_cmd(term->str_ccmd);
 	else
 	{
-		ft_printf("our bash : syntax error\n");
+		ft_printf("minishell: syntax error\n");
 		g_exit_status = 2;
 	}
 	if (new_cmd_2(term, copy, sig))
