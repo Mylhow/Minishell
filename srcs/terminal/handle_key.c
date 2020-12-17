@@ -121,9 +121,8 @@ int			handle_key(void)
 	term->ndx_cursor = 0;
 	term->cursor_pos = 0;
 	if (ret == NCMD_SYNTAX_ERROR)
-	{
 		g_exit_status = 1;
-		return (NCMD_SYNTAX_ERROR);
-	}
+	if (ret != EXIT_SUCCESS)
+		return (ret);
 	return (EXIT_SUCCESS);
 }
