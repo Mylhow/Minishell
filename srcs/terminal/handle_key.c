@@ -1,15 +1,14 @@
 #include "terminal.h"
 #include "libft_mem.h"
 #include "libft_string.h"
-#include "libft_number.h"
 #include "libft_printf.h"
 #include "syntax_error.h"
 #include "expander.h"
 
-static int ft_checkop(t_term *term)
+static int	ft_checkop(t_term *term)
 {
-	int i;
-	int max;
+	int		i;
+	int		max;
 	t_block *current;
 
 	current = (t_block *)term->current_block->value;
@@ -43,10 +42,12 @@ static int	ft_checksyntax(t_term *term, int flagantislash)
 	{
 		len = ft_strlen(((t_block *)term->current_block->value)->str_cmd);
 		index = ft_checkop(term);
-		if (index) {
+		if (index)
+		{
 			((t_block *)term->current_block->value)->str_cmd[len] = ';';
 			((t_block *)term->current_block->value)->str_cmd[len + 1] = ' ';
-		} else
+		}
+		else
 			((t_block *)term->current_block->value)->str_cmd[len] = ' ';
 		return (ft_newline(term));
 	}
@@ -57,7 +58,6 @@ static int	ft_checksyntax(t_term *term, int flagantislash)
  ** Manage toutes les touches tape
  ** Return [int] Status de reussite
 */
-
 
 static int	check_key(t_term *term, t_block *block)
 {
@@ -103,9 +103,7 @@ int			handle_key(void)
 	term = (*getterm());
 	term->nb_cols = tigetnum(T_COLUMN);
 	block = (t_block *)(ft_hashlast(term->list_blocks)->value);
-	debug(term);
 	ret = check_key(term, block);
-	debug(term);
 	if (ret == PROCESS_SUCCESS || ret == EXIT_FAILURE)
 		return (ret);
 	term->ndx_line = term->ndx_line + 1;
