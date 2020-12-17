@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:50:24 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 16:13:46 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 11:58:02 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,18 @@ static int	exec_piped_child(t_btree *child, int fd_pipe[2], int mode)
 	dup2(fd_pipe[mode], mode);
 	exec_tree(child);
 	close(fd_pipe[mode]);
-	exit(0);
+	exit(g_exit_status);
 }
 
 int			handle_pipes(t_btree *l_child, t_btree *r_child)
 {
 	int		fd_pipe[2];
 	int		pid_childs[2];
+	int		first_exited;
+	int		first_status;
+	static  int iter = -1;
 
+	iter++;
 	if (pipe(fd_pipe) < 0)
 		return (-1);
 	if ((pid_childs[0] = fork()) < 0)
@@ -40,12 +44,16 @@ int			handle_pipes(t_btree *l_child, t_btree *r_child)
 		ft_fprintf(STDERR_FILENO, "minishell: Fork error.\n");
 	if (pid_childs[1] == 0)
 		exec_piped_child(r_child, fd_pipe, 0);
-	if (waitpid(-1, &g_exit_status, 0) < 0)
+	if ((first_exited = waitpid(-1, &first_status, 0)) && first_exited < 0)
 		return (-1);
 	close(fd_pipe[1]);
 	close(fd_pipe[0]);
 	if (waitpid(-1, &g_exit_status, 0) < 0)
 		return (-1);
+	//printf ("[%d] ---\nexit: first:%d  last:%d\n", iter, first_status % 255, g_exit_status % 255);
+	if (first_exited == pid_childs[1])
+		g_exit_status = first_status;
+	//printf ("=> returned: %d\n", g_exit_status % 255);
 	return (0);
 }
 
@@ -75,7 +83,7 @@ int			handle_operators(char *type, t_btree *l_child, t_btree *r_child)
 	{
 		error += handle_pipes(l_child, r_child);
 	}
-	return (0);
+	return (error > 0 ? 1 : 0);
 }
 
 int			exec_tree(t_btree *node)

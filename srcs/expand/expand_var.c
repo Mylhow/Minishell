@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:23:45 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 13:46:05 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 11:22:26 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ static int		check_ambiguous(char *var, char *var_buffer, int index)
 	if (is_redirect(var + index) &&
 		(var_buffer == NULL || contains_ifs(var_buffer)))
 	{
+		g_exit_status = 1;
 		ft_fprintf(STDERR_FILENO, "minishell: $%s: ambiguous redirection\n",
 			get_var_name(var + i));
 		return (VAR_AMBIGUOUS);

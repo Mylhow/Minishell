@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:11:41 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 14:21:05 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 11:26:09 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ bool			is_executable(char *file)
 
 	if (stat(file, &s) == 0 && s.st_mode & S_IXUSR)
 		return (true);
+	g_exit_status = 126;
 	ft_fprintf(STDERR_FILENO, "minishell: %s: Permission denied.\n", file);
 	return (false);
 }

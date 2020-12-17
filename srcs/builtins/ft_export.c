@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:34:22 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 12:33:15 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 10:50:00 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,32 @@ static int		p_declared(void)
 int				ft_export(int ac, char **av, char **envp)
 {
 	char		**deconcat;
+	int			i;
+	int			error;
 
+	error = 0;
+	i = 1;
 	(void)envp;
 	if (ac == 1)
 		return (p_declared());
-	else if (ac == 2)
+	while (i < ac)
 	{
-		if (is_valid_var_name(av[1], ft_strlchr(av[1], '=')) != 0
-		|| !ft_isalpha(av[1][0]))
+		if (is_valid_var_name(av[i], ft_strlchr(av[i], '=')) != 0
+		|| !ft_isalpha(av[i][0]))
 		{
 			ft_fprintf(STDERR_FILENO,
-			"minishell: export: `%s': not a valid identifier.\n", av[1]);
-			return (1);
+			"minishell: export: `%s': not a valid identifier.\n", av[i++]);
+			error = 1;
+			continue;
 		}
-		if (!(deconcat = deconcat_var(av[1])))
+		if (!(deconcat = deconcat_var(av[i])))
 			return (1);
 		if (get_env(deconcat[0]) != NULL)
 			set_var(deconcat[0], deconcat[1]);
 		else
 			add_var(deconcat[0], deconcat[1]);
 		deconcat_free(deconcat);
-		return (0);
+		i++;
 	}
-	ft_fprintf(STDERR_FILENO, "minishell: export: too many arguments.\n");
-	return (1);
+	return (error);
 }
