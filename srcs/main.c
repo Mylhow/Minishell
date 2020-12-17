@@ -49,6 +49,7 @@ void signal_main(int signal)
 		term->original_line = term->ndx_line;
 		if (!g_passed)
 			ft_printf("$ ");
+		term->addposcurs = 0;
 	}
 }
 
