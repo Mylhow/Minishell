@@ -10,8 +10,6 @@
 # define T_BCOLOR "setab"
 # define T_RESET "sgr0"
 # define T_POS "cup"
-# define T_SAVE "sc"
-# define T_RESTORE "rc"
 # define T_COLUMN "cols"
 # define T_LINE "lines"
 
@@ -28,8 +26,6 @@
 # define _EOF 4
 
 # define PROCESS_SUCCESS 2
-
-# define DEBUG 0
 
 typedef struct termios	t_termios;
 
@@ -55,14 +51,14 @@ typedef struct			s_term
 	t_hash				*historic;
 	t_hash				*current_historic;
 	t_hash				*current_block;
-	char 				*str_ccmd;
+	char				*str_ccmd;
 	int					cursor_pos;
-	int 				addposcurs;
+	int					addposcurs;
 	int					ndx_cursor;
 	int					ndx_line;
 	int					original_line;
 	unsigned char		last_char;
-	int 				esc_flag;
+	int					esc_flag;
 	int					nb_cols;
 	int					nb_lines;
 	t_termios			termios;
