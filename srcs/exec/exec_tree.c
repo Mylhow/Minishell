@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:50:24 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/17 11:58:02 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 12:47:04 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	exec_piped_child(t_btree *child, int fd_pipe[2], int mode)
 	dup2(fd_pipe[mode], mode);
 	exec_tree(child);
 	close(fd_pipe[mode]);
-	exit(g_exit_status);
+	exit(g_exit_status % 255);
 }
 
 int			handle_pipes(t_btree *l_child, t_btree *r_child)
@@ -50,10 +50,8 @@ int			handle_pipes(t_btree *l_child, t_btree *r_child)
 	close(fd_pipe[0]);
 	if (waitpid(-1, &g_exit_status, 0) < 0)
 		return (-1);
-	//printf ("[%d] ---\nexit: first:%d  last:%d\n", iter, first_status % 255, g_exit_status % 255);
 	if (first_exited == pid_childs[1])
 		g_exit_status = first_status;
-	//printf ("=> returned: %d\n", g_exit_status % 255);
 	return (0);
 }
 
