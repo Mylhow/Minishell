@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:02:57 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/15 14:20:19 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 15:48:21 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,13 @@ short		condition_synt_err1(char *input, int *i, int *type)
 ** return >0 if it needs to return
 */
 
-short		condition_synt_err2(char *input, int *i, int *type)
+short		condition_synt_err2(char *input, int *i, int *type, int old_type)
 {
-	int	old_type;
-
 	if (ft_memchr("<>|;", input[*i], 4))
 	{
 		old_type = *type;
 		*type = (ft_memchr("<>", input[*i], 2)) ? REDIRECT : OPERAT;
-		if ((*type == OPERAT && old_type == OPERAT) || 
-			(*type == REDIRECT && old_type == REDIRECT))
+		if (*type == old_type)
 			return (NCMD_SYNTAX_ERROR);
 		*i += 1;
 	}
@@ -163,7 +160,7 @@ short		syntax_error(char *input, int flagantislash)
 			return (return_value);
 		else if (!return_value)
 		{
-			if ((return_value = condition_synt_err2(input, &i, &type)))
+			if ((return_value = condition_synt_err2(input, &i, &type, 0)))
 				return (return_value);
 		}
 	}

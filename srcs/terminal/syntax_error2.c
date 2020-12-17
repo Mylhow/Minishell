@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:10:48 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/02 15:15:51 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 15:58:58 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,14 @@ char		syntax_parenth(char *input, int type, int *index)
 			if (pass_quotes(input, &i))
 				return (NCMD_SYNTAX_ERROR);
 		}
-		else if (input[i] == '(')
-			nbr_parenth++;
-		else if (input[i] == ')')
-			nbr_parenth--;
+		else if (input[i] == '(' || input[i] == ')')
+			nbr_parenth += (input[i] == '(') ? 1 : -1;
 		i += (nbr_parenth) ? 1 : 0;
 	}
 	if (nbr_parenth)
 	{
-		if (syntax_error(input + 1, 0) == NCMD_SYNTAX_ERROR)
-			return (NCMD_SYNTAX_ERROR);
-		return (NLINE_COMMA);
+		return ((syntax_error(input + 1, 0) == NCMD_SYNTAX_ERROR)
+						? NCMD_SYNTAX_ERROR : NLINE_COMMA);
 	}
 	*index += i + 1;
 	return (recursion_parenth(input + 1, i));
