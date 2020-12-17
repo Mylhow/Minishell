@@ -31,7 +31,7 @@ int		print_historic(t_term *term, t_block *dup)
 	if (!(term->current_block->value = ft_blockdup(dup)))
 		return (EXIT_FAILURE);
 	block = term->current_block->value;
-	term->cursor_pos = PROMPT_SIZE + term->addposcurs;
+	term->cursor_pos = term->cursor_pos - term->ndx_cursor;
 	if (put_cursor(term->cursor_pos, term->original_line) != 0)
 		return (EXIT_FAILURE);
 	if (put_caps(T_CLEOL, 0) != 0)

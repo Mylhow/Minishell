@@ -53,7 +53,6 @@ typedef struct			s_term
 	t_hash				*current_block;
 	char				*str_ccmd;
 	int					cursor_pos;
-	int					addposcurs;
 	int					ndx_cursor;
 	int					ndx_line;
 	int					original_line;

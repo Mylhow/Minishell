@@ -50,13 +50,7 @@ int	ft_echo(int ac, char **av, char **env)
 	{
 		ft_putstr(av[i]);
 		if (i < ac - 1)
-		{
 			ft_putstr(" ");
-			if (!new_line)
-				(*getterm())->addposcurs += 1;
-		}
-		if (!new_line)
-			(*getterm())->addposcurs += ft_strlen(av[i]);
 		i++;
 	}
 	if (new_line)

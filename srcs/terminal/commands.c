@@ -49,11 +49,12 @@ static int	new_cmd_2(t_term *term, t_block *copy, int sig)
 		return (EXIT_FAILURE);
 	if (g_interrupt)
 		ft_printf("\n");
-	get_pos();
 	ft_printf("$ ");
+	get_pos();
 	if (clear_new_cmd(term, copy, sig))
 		return (EXIT_FAILURE);
-	term->cursor_pos += 2;
+	if (term->cursor_pos == 0)
+		term->cursor_pos = PROMPT_SIZE;
 	fflush(stdout);
 	clear_eos(term, term->ndx_line);
 	g_passed = 0;
@@ -77,7 +78,6 @@ int			new_cmd(t_term *term, int sig, int ret_handle)
 	(term->ndx_line < term->nb_lines) ? ft_printf("\n") : 0;
 	if (tcsetattr(0, 0, &(*getterm())->termios_backup) == -1)
 		return (EXIT_FAILURE);
-	term->addposcurs = 0;
 	if (ret_handle == TO_EXECUTE)
 		exec_cmd(term->str_ccmd);
 	else if (ret_handle == NCMD_SYNTAX_ERROR)
