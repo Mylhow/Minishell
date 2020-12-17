@@ -51,6 +51,7 @@ static int	ft_checksyntax(t_term *term, int flagantislash)
 		{
 			((t_block *)term->current_block->value)->str_cmd[len] = ';';
 			((t_block *)term->current_block->value)->str_cmd[len + 1] = ' ';
+			((t_block *)term->current_block->value)->size += 2;
 		}
 		else
 			((t_block *)term->current_block->value)->str_cmd[len] = ' ';
