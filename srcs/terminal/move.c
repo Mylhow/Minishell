@@ -45,8 +45,6 @@ void	move_left(void)
 	}
 }
 
-#include "libft_hash.h"
-
 /*
  ** Gere le mouvement du haut et affiche l'historique - 1
  ** Return [int] Status de reussite
