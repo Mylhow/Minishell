@@ -14,11 +14,11 @@
  ** Return [int] Status de reussite
 */
 
-static int	clear_new_cmd(t_term *term, t_block *copy, int sig)
+static int	clear_new_cmd(t_term *term, t_block *copy, int sig, int ret_handle)
 {
 	if (ft_strlen(copy->str_cmd) != 0)
 	{
-		if (sig != SIGINT)
+		if (sig != SIGINT && ret_handle != NEW_COMMAND)
 		{
 			ft_hashdel_key(&term->historic, "tmp");
 			ft_histo_add(term, "h", copy);
@@ -43,7 +43,7 @@ static int	clear_new_cmd(t_term *term, t_block *copy, int sig)
  ** Return [int] Status de reussite
 */
 
-static int	new_cmd_2(t_term *term, t_block *copy, int sig)
+static int	new_cmd_2(t_term *term, t_block *copy, int sig, int ret_handle)
 {
 	if (tcsetattr(0, 0, &term->termios) == -1)
 		return (EXIT_FAILURE);
@@ -51,7 +51,7 @@ static int	new_cmd_2(t_term *term, t_block *copy, int sig)
 		ft_printf("\n");
 	ft_printf("$ ");
 	get_pos();
-	if (clear_new_cmd(term, copy, sig))
+	if (clear_new_cmd(term, copy, sig, ret_handle))
 		return (EXIT_FAILURE);
 	if (term->cursor_pos == 0)
 		term->cursor_pos = PROMPT_SIZE;
@@ -85,7 +85,7 @@ int			new_cmd(t_term *term, int sig, int ret_handle)
 		ft_printf("minishell: syntax error\n");
 		g_exit_status = 2;
 	}
-	if (new_cmd_2(term, copy, sig))
+	if (new_cmd_2(term, copy, sig, ret_handle))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
