@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:34:22 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/17 10:50:00 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 14:33:58 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,22 @@ static int		p_declared(void)
 	return (0);
 }
 
-int				ft_export(int ac, char **av, char **envp)
+static int		update_var(char *var_name)
 {
 	char		**deconcat;
+
+	if (!(deconcat = deconcat_var(var_name)))
+		return (1);
+	if (get_env(deconcat[0]) != NULL)
+		set_var(deconcat[0], deconcat[1]);
+	else
+		add_var(deconcat[0], deconcat[1]);
+	deconcat_free(deconcat);
+	return (0);
+}
+
+int				ft_export(int ac, char **av, char **envp)
+{
 	int			i;
 	int			error;
 
@@ -59,13 +72,8 @@ int				ft_export(int ac, char **av, char **envp)
 			error = 1;
 			continue;
 		}
-		if (!(deconcat = deconcat_var(av[i])))
+		if (update_var(av[i]) == 1)
 			return (1);
-		if (get_env(deconcat[0]) != NULL)
-			set_var(deconcat[0], deconcat[1]);
-		else
-			add_var(deconcat[0], deconcat[1]);
-		deconcat_free(deconcat);
 		i++;
 	}
 	return (error);

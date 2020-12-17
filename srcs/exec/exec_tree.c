@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:50:24 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/17 12:47:04 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/17 12:59:21 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int			handle_pipes(t_btree *l_child, t_btree *r_child)
 	int		pid_childs[2];
 	int		first_exited;
 	int		first_status;
-	static  int iter = -1;
 
-	iter++;
 	if (pipe(fd_pipe) < 0)
 		return (-1);
 	if ((pid_childs[0] = fork()) < 0)
