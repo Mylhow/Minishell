@@ -15,7 +15,6 @@
 
 # include "libft_list.h"
 
-//type = 0 operator, 1 simple word, 2 word into parenthesis
 typedef struct	s_pretype
 {
 	int		type;
@@ -29,17 +28,12 @@ typedef struct	s_btree
 	struct s_btree	*r_child;
 }				t_btree;
 
+t_list			*split_op_tok(char *input);
 
-//SPLIT_OP_TOK_C
-t_list	*split_op_tok(char *input);
+t_pretype		*create_pretype(int type, void *content);
+int				add_pretype(t_list **l_op_tok, int type, void *content);
 
-//PARSING_TOOLS_C
-t_pretype	*create_pretype(int type, void *content);
-int			add_pretype(t_list **l_op_tok, int type, void *content);
+t_btree			*node_new(void *content);
 
-//BTREE_TOOL_C
-t_btree		*node_new(void *content);
-
-//CREATION_BTREE_C
-int		creation_btree(t_list *list, t_btree **node);
+int				creation_btree(t_list *list, t_btree **node);
 #endif
