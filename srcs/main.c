@@ -51,6 +51,8 @@ void signal_main(int signal)
 			ft_printf("$ ");
 		term->addposcurs = 0;
 	}
+	if (signal == SIGINT)
+		g_exit_status = 130;
 }
 
 /*
