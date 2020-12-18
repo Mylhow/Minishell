@@ -16,6 +16,7 @@
 #include "libft_printf.h"
 #include "syntax_error.h"
 #include "expander.h"
+#include "sh_utils.h"
 
 /*
  ** Check, si des opérateurs sont dans la chaine de la commande
@@ -95,7 +96,7 @@ static int	check_key(t_term *term, t_block *block)
 			wrfree(term->str_ccmd);
 		if (!(term->str_ccmd = ft_strjoinblock(term->list_blocks)))
 			return (EXIT_FAILURE);
-		if (block->str_cmd[ft_strlen(block->str_cmd) - 1] == '\\')
+		if (block->str_cmd[ft_strlen(block->str_cmd) - 1] == '\\' && !is_escaped(block->str_cmd, ft_strlen(block->str_cmd) - 1))
 		{
 			block->str_cmd[ft_strlen(block->str_cmd) - 1] = '\0';
 			block->size--;
