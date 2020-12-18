@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   escape.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dgascon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/18 09:39:19 by dgascon           #+#    #+#             */
+/*   Updated: 2020/12/18 09:39:20 by dgascon          ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "terminal.h"
 #include "libft_mem.h"
 #include <unistd.h>
 
 /*
- ** Manage les mouvements curseur (ctrl, move)
- ** Return [int] Status de reussite
- ** Use 2 on mac and 5 on linux
+** Manage les mouvements curseur (ctrl, move)
+** Return [int] Status de reussite
+** Use 2 on mac and 5 on linux
 */
 
 static int	movement_manage(t_term *term, t_block *block)

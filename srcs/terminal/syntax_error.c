@@ -143,7 +143,6 @@ short		condition_synt_err2(char *input, int *i, int *type, int old_type)
 ** Return [short] 4 - Syntax error. New command
 ** Type : 0 Word, 1 Operator, 2 Parenthesis, 3 redirection
 */
-#include <stdio.h>
 
 short		syntax_error(char *input, int flagantislash)
 {
