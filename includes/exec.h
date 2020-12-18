@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:08:04 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/18 11:18:28 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 14:30:08 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,5 @@ int				handle_pipes(t_btree *l_child, t_btree *r_child);
 int				handle_operators(char *type, t_btree *l_child,
 												t_btree *r_child);
 void			handle_sigquit(void);
-
 
 #endif
