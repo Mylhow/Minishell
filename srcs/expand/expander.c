@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 10:35:32 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 13:46:16 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:50:18 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	free_all(char **dst, char *simple_cmd)
 **	ORDER OF EXPANSION :
 **		- bash variables
 **		- word splitting
-**		- quote removal
-**		- backslash removal
+**		- quote removal + backslash
 */
 
 int		expand_cmd(t_cmd **cmd, char *simple_command)
@@ -54,6 +53,5 @@ int		expand_cmd(t_cmd **cmd, char *simple_command)
 	}
 	free_all(dst, simple_command);
 	expand_quotes(*cmd);
-	expand_bslash(*cmd);
 	return (0);
 }

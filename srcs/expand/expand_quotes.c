@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 11:17:33 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 13:45:54 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 16:07:24 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,14 @@ static size_t	get_trimmed_quotes_len(char *str)
 	quotes = get_quotes(QUOTE_RESET);
 	while (str[i])
 	{
-		if ((quotes == QUOTE_NONE && (str[i] == QUOTE_SINGLE ||
-		str[i] == QUOTE_DOUBLE)) || (quotes != QUOTE_NONE && (str[i] == quotes)
-		&& i > 0 && str[i - 1] != '\\'))
+		if (quotes != QUOTE_SINGLE && str[i] == '\\')
+		{
+			out_len--;
+			i++;
+		}
+		else if ((quotes == QUOTE_NONE && (str[i] == QUOTE_SINGLE
+		|| str[i] == QUOTE_DOUBLE))
+		|| (quotes != QUOTE_NONE && str[i] == quotes))
 			out_len--;
 		quotes = get_quotes(str + i);
 		i++;
@@ -48,11 +53,13 @@ static int		expand_quotes_str(char **dst, char *str)
 	j = 0;
 	while (i < (int)out_len && str[j])
 	{
-		if (!(quotes == QUOTE_NONE && (str[j] == QUOTE_SINGLE
-		|| str[j] == QUOTE_DOUBLE)) && !(quotes != QUOTE_NONE &&
-		(str[j] == quotes) && j > 0 && str[j - 1] != '\\'))
-			(*dst)[i++] = str[j];
 		quotes = get_quotes(str + j);
+		if (quotes != QUOTE_SINGLE && str[j] == '\\')
+			(*dst)[i++] = str[++j];
+		else if (!(quotes == QUOTE_NONE && (str[j] == QUOTE_SINGLE
+		|| str[j] == QUOTE_DOUBLE))
+		&& (str[j] != quotes))
+			(*dst)[i++] = str[j];
 		j++;
 	}
 	(*dst)[out_len] = '\0';

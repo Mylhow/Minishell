@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:45:37 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/18 11:57:31 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 16:08:26 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ int		is_escaped(char *c, int p)
 	int	count;
 
 	count = 0;
+	if (p <= 0)
+		return (0);
 	while (--p && c[p] == '\\')
 		count++;
-    return (count % 2);
+	return (count % 2);
 }

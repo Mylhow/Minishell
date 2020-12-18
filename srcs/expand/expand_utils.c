@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:05:40 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 13:46:00 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:57:43 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	get_quotes(char *current)
 	static char current_quote = QUOTE_NONE;
 	static int	last_is_bslash = 0;
 
-	if (*current == '\\')
+	if (*current == '\\' && current_quote != QUOTE_SINGLE)
 		last_is_bslash = 1;
 	if (ft_strcmp(QUOTE_RESET, current) == 0)
 		return (current_quote = QUOTE_NONE);
