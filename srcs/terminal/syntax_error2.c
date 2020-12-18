@@ -6,13 +6,14 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:10:48 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/17 15:58:58 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 12:20:52 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mem.h"
 #include "libft_string.h"
 #include "syntax_error.h"
+#include "sh_utils.h"
 
 /*
 ** Check le contenu des parentheses
@@ -45,25 +46,25 @@ static char	recursion_parenth(char *input, int length)
 ** Return [char] * - Check le contenu des parentheses
 */
 
-char		syntax_parenth(char *input, int type, int *index)
+char			syntax_parenth(char *input, int type, int *index, int i)
 {
-	int		i;
 	int		nbr_parenth;
 
 	if (type == WORD || type == REDIRECT)
 		return (NCMD_SYNTAX_ERROR);
-	i = 1;
 	nbr_parenth = 1;
 	while (input[i] && nbr_parenth)
 	{
-		if (ft_memchr("\'\"", input[i], 2))
+		if (input[i] == '\\')
+			i++;
+		else if (ft_memchr("\'\"", input[i], 2))
 		{
 			if (pass_quotes(input, &i))
 				return (NCMD_SYNTAX_ERROR);
 		}
 		else if (input[i] == '(' || input[i] == ')')
 			nbr_parenth += (input[i] == '(') ? 1 : -1;
-		i += (nbr_parenth) ? 1 : 0;
+		i += (nbr_parenth && input[i]) ? 1 : 0;
 	}
 	if (nbr_parenth)
 	{
@@ -72,4 +73,17 @@ char		syntax_parenth(char *input, int type, int *index)
 	}
 	*index += i + 1;
 	return (recursion_parenth(input + 1, i));
+}
+
+int				is_end_escaped(char *input)
+{
+	int		i;
+
+	i = 0;
+	while (input[i])
+		i++;
+	if (!i)
+		return (0);
+	i--;
+	return (is_escaped(input, i));
 }

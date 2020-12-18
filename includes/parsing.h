@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 09:19:58 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/17 18:22:52 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 12:24:29 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "libft_string.h"
 # include "syntax_error.h"
 # include "libft_mem.h"
+# include "sh_utils.h"
 
 typedef struct	s_pretype
 {

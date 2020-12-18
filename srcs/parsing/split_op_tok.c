@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 09:24:57 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/17 16:42:36 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 12:27:37 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ int		add_word(t_list **l_op_tok, char *input, int *index)
 
 	i = *index;
 	start = i;
-	while (input[i] && !ft_memchr("|;", input[i], 2)
-			&& ft_strncmp("&&", input + i, 2))
+	while (input[i] && (!is_escaped(input, i) && (!ft_memchr("|;", input[i], 2)
+			&& ft_strncmp("&&", input + i, 2))))
 	{
-		if (ft_memchr("\'\"", input[i], 2))
+		if (input[i] == '\\')
+			i++;
+		else if (ft_memchr("\'\"", input[i], 2))
 			pass_quotes(input, &i);
 		i++;
 	}
@@ -61,13 +63,13 @@ int		split_op_tok2(int *index, char *input, t_list **l_op_tok)
 	int	i;
 
 	i = *index;
-	if (ft_memchr("|;", input[i], 3))
+	if (!is_escaped(input, i) && ft_memchr("|;", input[i], 3))
 	{
 		if (!add_single_operator(l_op_tok, input, &i))
 			return (0);
 		pass_blank(input, &i);
 	}
-	else if (input[i] == '(')
+	else if (!is_escaped(input, i) && input[i] == '(')
 	{
 		if (!add_parenth(l_op_tok, input, &i))
 			return (0);
@@ -92,8 +94,8 @@ t_list	*split_op_tok(char *input)
 	while (input[i])
 	{
 		pass_blank(input, &i);
-		if (!ft_strncmp("&&", input + i, 2)
-				|| !ft_strncmp("||", input + i, 2))
+		if (!is_escaped(input, i) && (!ft_strncmp("&&", input + i, 2)
+				|| !ft_strncmp("||", input + i, 2)))
 		{
 			if (!add_double_operator(&l_op_tok, input, &i))
 				return (0);

@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:02:57 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/17 16:44:41 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 12:30:46 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ static char	check_end_line(char *input, int type, int flagantislash)
 {
 	int i;
 
-	if (flagantislash)
+	if (is_end_escaped(input))
+		return (TO_EXECUTE);
+	else if (flagantislash)
 		return (NEW_LINE);
 	else if (type == OPERAT)
 	{
@@ -74,11 +76,19 @@ short		condition_synt_err1(char *input, int *i, int *type)
 	short	return_value;
 	int		old_type;
 
-	if (input[*i] == ')')
+	if (input[*i] == '\\')
+	{
+		if (*type == PARENTH)
+			return (NCMD_SYNTAX_ERROR);
+		*type = WORD;
+		*i += (input[*i + 1]) ? 2 : 1;
+		return (-1);
+	}
+	else if (input[*i] == ')')
 		return (NCMD_SYNTAX_ERROR);
 	else if (input[*i] == '(')
 	{
-		if ((return_value = syntax_parenth(input + *i, *type, i)))
+		if ((return_value = syntax_parenth(input + *i, *type, i, 1)))
 			return (return_value);
 		*type = PARENTH;
 		return (-1);
