@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:50:24 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/17 18:44:35 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 11:22:56 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 static int	exec_piped_child(t_btree *child, int fd_pipe[2], int mode)
 {
+	g_piped = 1;
 	close(fd_pipe[!mode]);
 	dup2(fd_pipe[mode], mode);
 	exec_tree(child);
@@ -64,6 +65,7 @@ int			exec_tree(t_btree *node)
 	{
 		if (exec_str((char *)pre->content) != 0)
 			return (EXIT_FAILURE);
+		handle_sigquit();
 	}
 	else if (pre->type == OPERAT)
 	{
@@ -83,6 +85,7 @@ int			exec_cmd(char *cmd)
 	tree = 0;
 	g_interrupt = 0;
 	g_passed = 1;
+	g_piped = 0;
 	if (!(op_tok = split_op_tok(cmd)))
 		return (EXIT_FAILURE);
 	if ((creation_btree(op_tok, &tree)) != EXIT_SUCCESS)

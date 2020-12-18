@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 17:30:10 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/17 18:46:03 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 11:22:05 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 void	handle_sigquit(void)
 {
-	if (g_exit_status % 255 == 131)
+	if (g_exit_status % 255 == 131 && g_piped != 1)
 		ft_printf("Quit (core dumped)\n");
 }
 
@@ -30,20 +30,16 @@ int		handle_operators2(char *type, t_btree *l_child, t_btree *r_child,
 	if (ft_strncmp(type, "&&", 2) == 0)
 	{
 		error += exec_tree(l_child);
-		handle_sigquit();
 		if (g_exit_status == 0)
 		{
 			error += exec_tree(r_child);
-			handle_sigquit();
 		}
 	}
 	else if (ft_strncmp(type, "||", 2) == 0)
 	{
 		error += exec_tree(l_child);
-		handle_sigquit();
 		if (g_exit_status != 0)
 			error += exec_tree(r_child);
-		handle_sigquit();
 	}
 	else if (ft_strncmp(type, "|", 1) == 0)
 	{
@@ -61,9 +57,7 @@ int		handle_operators(char *type, t_btree *l_child, t_btree *r_child)
 	if (ft_strncmp(type, ";", 1) == 0)
 	{
 		error += exec_tree(l_child);
-		handle_sigquit();
 		error += exec_tree(r_child);
-		handle_sigquit();
 	}
 	else
 		error = handle_operators2(type, l_child, r_child, 0);
