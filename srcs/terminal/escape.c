@@ -19,7 +19,7 @@
 ** Return [int] Status de reussite
 ** Use 2 on mac and 5 on linux
 */
-
+#include "libft_printf.h"
 static int	movement_manage(t_term *term, t_block *block)
 {
 	char my_char;
@@ -44,6 +44,11 @@ static int	movement_manage(t_term *term, t_block *block)
 			if (ctrl_manage(term, block, my_char))
 				return (EXIT_FAILURE);
 			return (PROCESS_SUCCESS);
+		}
+		else
+		{
+			term->esc_flag = 0;
+			return (EXIT_FAILURE);
 		}
 	}
 	return (EXIT_SUCCESS);
@@ -107,7 +112,7 @@ int			ctrl_manage(t_term *term, t_block *block, char my_char)
  ** Manage la sequence d'echappement
  ** Return [int] Status de reussite
 */
-
+#include "syntax_error.h"
 int			escape_sequences(t_term *term, t_block *block)
 {
 	if (term->last_char == '\033')
@@ -124,6 +129,11 @@ int			escape_sequences(t_term *term, t_block *block)
 	{
 		if (movement_manage(term, block))
 			return (EXIT_FAILURE);
+	}
+	else
+	{
+		term->esc_flag = 0;
+		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
