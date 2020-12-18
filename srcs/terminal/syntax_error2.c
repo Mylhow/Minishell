@@ -6,14 +6,13 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:10:48 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/18 12:20:52 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 13:25:26 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_mem.h"
 #include "libft_string.h"
 #include "syntax_error.h"
-#include "sh_utils.h"
 
 /*
 ** Check le contenu des parentheses
@@ -46,7 +45,7 @@ static char	recursion_parenth(char *input, int length)
 ** Return [char] * - Check le contenu des parentheses
 */
 
-char			syntax_parenth(char *input, int type, int *index, int i)
+char		syntax_parenth(char *input, int type, int *index, int i)
 {
 	int		nbr_parenth;
 
@@ -75,7 +74,7 @@ char			syntax_parenth(char *input, int type, int *index, int i)
 	return (recursion_parenth(input + 1, i));
 }
 
-int				is_end_escaped(char *input)
+int			is_end_escaped(char *input)
 {
 	int		i;
 

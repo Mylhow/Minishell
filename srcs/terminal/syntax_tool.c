@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 16:14:42 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/18 11:43:55 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 13:22:12 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,16 @@ char	pass_quotes(char *str, int *index)
 	i = *index;
 	quote = str[i];
 	i++;
-	while (str[i] && !(str[i] == quote && str[i - 1] != '\\'))
-		i++;
+	if (quote == '\"')
+	{
+		while (str[i] && !(str[i] == quote && !is_escaped(str, i)))
+			i++;
+	}
+	else
+	{
+		while (str[i] && str[i] != quote)
+			i++;
+	}
 	if (!str[i])
 		return (quote);
 	*index = i;

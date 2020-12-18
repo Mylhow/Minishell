@@ -6,12 +6,14 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 15:48:04 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/18 12:21:12 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 13:24:11 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYNTAX_ERROR_H
 # define SYNTAX_ERROR_H
+
+# include "sh_utils.h"
 
 # define TO_EXECUTE 0
 # define MALLOC_ERROR 1
