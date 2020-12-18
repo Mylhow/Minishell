@@ -6,7 +6,7 @@
 /*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:39:14 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 15:29:34 by nlecaill         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:57:29 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int			new_cmd(t_term *term, int sig, int ret_handle)
 		exec_cmd(term->str_ccmd);
 	else if (ret_handle == NCMD_SYNTAX_ERROR)
 	{
-		ft_printf("minishell: syntax error\n");
+		ft_printf("minishell: \033[%dmsyntax error\n\033[0m", ERROR_COLOR);
 		g_exit_status = 2;
 	}
 	if (new_cmd_2(term, copy, sig, ret_handle))
@@ -129,7 +129,8 @@ int			ft_newline(t_term *term)
 	term->ndx_line++;
 	term->cursor_pos = PROMPT_SIZE;
 	ft_printf("\033[%dm\n> \033[0m", term->colors[term->color]);
-	(term->color == NB_COLORS - 1 ? term->color = 0 : term->color++);	term->current_block = hash;
+	(term->color == NB_COLORS - 1 ? term->color = 0 : term->color++);
+	term->current_block = hash;
 	term->ndx_cursor = 0;
 	return (PROCESS_SUCCESS);
 }
