@@ -59,7 +59,7 @@ static int	new_cmd_2(t_term *term, t_block *copy, int sig, int ret_handle)
 {
 	if (tcsetattr(0, 0, &term->termios) == -1)
 		return (EXIT_FAILURE);
-	if (g_interrupt)
+	if (g_interrupt && g_passed && g_exit_status != 0)
 		ft_printf("\n");
 	ft_printf("$ ");
 	get_pos();
