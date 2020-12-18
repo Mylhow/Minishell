@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 15:11:41 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/17 11:26:09 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 16:07:08 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ void			print_not_found(char *file)
 		"minishell: %s: No such file or directory.\n", file);
 	else
 		ft_fprintf(STDERR_FILENO,
-		"minishell: %s: command not found.\n", file);
+		"minishell: \033[%dm%s\033[0m: \033[%dmCommand not found.\n\033[0m", MSG_COLOR, file, ERROR_COLOR);
 }

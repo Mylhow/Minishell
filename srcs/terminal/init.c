@@ -6,7 +6,7 @@
 /*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:39:17 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 15:12:17 by nlecaill         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:52:30 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,17 @@
 
 static void	init_colors(t_term *term)
 {
-	term->colors[0] = 31;
-	term->colors[1] = 32;
-	term->colors[2] = 33;
-	term->colors[3] = 34;
-	term->colors[4] = 35;
-	term->colors[5] = 36;
-	term->colors[6] = 90;
-	term->colors[7] = 91;
-	term->colors[8] = 92;
-	term->colors[9] = 93;
-	term->colors[10] = 94;
-	term->colors[11] = 95;
-	term->colors[12] = 96;
+	term->colors[0] = 32;
+	term->colors[1] = 33;
+	term->colors[2] = 34;
+	term->colors[3] = 35;
+	term->colors[4] = 36;
+	term->colors[5] = 90;
+	term->colors[6] = 92;
+	term->colors[7] = 93;
+	term->colors[8] = 94;
+	term->colors[9] = 95;
+	term->colors[10] = 96;
 	term->color = 0;
 }
 

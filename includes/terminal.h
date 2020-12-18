@@ -6,7 +6,7 @@
 /*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:43:41 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 15:07:36 by nlecaill         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:59:40 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 
 # define PROMPT_SIZE 2
 # define NB_COLORS 13
+# define ERROR_COLOR 91
+# define MSG_COLOR 96
 
 # define LEFTCHAR 'D'
 # define RIGHTCHAR 'C'
