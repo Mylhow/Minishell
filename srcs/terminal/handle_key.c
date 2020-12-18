@@ -23,20 +23,16 @@
  ** Return [int] Status de reussite
 */
 
-static int	ft_checkop(t_term *term)
+static int	ft_checkop(char *current, int size_str)
 {
 	int		i;
-	int		max;
-	t_block *current;
 
-	current = (t_block *)term->current_block->value;
-	max = ft_strlen(current->str_cmd);
-	i = max;
-	while (current->str_cmd[i]
-	&& !ft_charstr(current->str_cmd[i], "\t "))
+	i = size_str;
+	while (current[i]
+	&& !ft_charstr(current[i], "\t "))
 		i--;
 	i--;
-	return (ft_charstr(current->str_cmd[i], "&|<>()"));
+	return (ft_charstr(current[i], "&|<>();"));
 }
 
 /*
@@ -47,7 +43,7 @@ static int	ft_checkop(t_term *term)
 ** Return [int] 4 - Ask new command on syntax_error (Ncmd_syntax_error)
 */
 
-static int	ft_checksyntax(t_term *term, int flagantislash)
+static int	ft_checksyntax(t_term *term, t_block *block, int flagantislash)
 {
 	int	ret;
 	int index;
@@ -58,16 +54,10 @@ static int	ft_checksyntax(t_term *term, int flagantislash)
 		return (ft_newline(term));
 	if (ret == NLINE_COMMA)
 	{
-		len = ft_strlen(((t_block *)term->current_block->value)->str_cmd);
-		index = ft_checkop(term);
-		if (index)
-		{
-			((t_block *)term->current_block->value)->str_cmd[len] = ';';
-			((t_block *)term->current_block->value)->str_cmd[len + 1] = ' ';
-			((t_block *)term->current_block->value)->size += 2;
-		}
-		else
-			((t_block *)term->current_block->value)->str_cmd[len] = ' ';
+		len = ft_strlen(term->str_ccmd);
+		index = ft_checkop(term->str_ccmd, len);
+		if (index && block->size > 0)
+			block->str_cmd[block->size] = ';';
 		return (ft_newline(term));
 	}
 	return (ret);
@@ -96,13 +86,13 @@ static int	check_key(t_term *term, t_block *block)
 			wrfree(term->str_ccmd);
 		if (!(term->str_ccmd = ft_strjoinblock(term->list_blocks)))
 			return (EXIT_FAILURE);
-		if (block->str_cmd[ft_strlen(block->str_cmd) - 1] == '\\' && !is_escaped(block->str_cmd, ft_strlen(block->str_cmd) - 1))
+		if (block->str_cmd[ft_strlen(block->str_cmd) - 1] == '\\'
+		&& !is_escaped(block->str_cmd, ft_strlen(block->str_cmd) - 1))
 		{
-			block->str_cmd[ft_strlen(block->str_cmd) - 1] = '\0';
-			block->size--;
-			return (ft_checksyntax(term, 1));
+			block->str_cmd[block->size-- - 1] = '\0';
+			return (ft_checksyntax(term, block, 1));
 		}
-		return (ft_checksyntax(term, 0));
+		return (ft_checksyntax(term, block, 0));
 	}
 	return (EXIT_FAILURE);
 }
@@ -135,5 +125,7 @@ int			handle_key(void)
 	term->cursor_pos = 0;
 	if (ret == NCMD_SYNTAX_ERROR)
 		g_exit_status = 1;
-	return (ret);
+	if (ret != EXIT_SUCCESS)
+		return (ret);
+	return (EXIT_SUCCESS);
 }
