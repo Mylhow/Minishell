@@ -28,6 +28,8 @@
 
 static void	signal_main_2(t_term *term)
 {
+	if (!g_passed)
+		ft_printf("^C");
 	if (term->ndx_line > term->nb_lines - 1)
 	{
 		if (!g_passed)
@@ -37,8 +39,6 @@ static void	signal_main_2(t_term *term)
 		}
 		term->ndx_line = term->nb_lines - 1;
 	}
-	if (!g_passed)
-		ft_printf("^C");
 	if (put_cursor(0, term->ndx_line) != 0)
 		return ;
 	term->current_historic = NULL;
