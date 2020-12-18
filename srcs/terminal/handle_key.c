@@ -135,5 +135,5 @@ int			handle_key(void)
 	term->cursor_pos = 0;
 	if (ret == NCMD_SYNTAX_ERROR)
 		g_exit_status = 1;
-	return (EXIT_SUCCESS);
+	return (ret);
 }

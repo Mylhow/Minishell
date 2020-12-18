@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 15:48:04 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/18 13:24:11 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 14:03:22 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ short	syntax_error(char *input, int flagantislash);
 
 char	syntax_parenth(char *input, int type, int *index, int i);
 int		is_end_escaped(char *input);
+int		check_empty_line(char *input);
+int		is_operator(char *input, int *i);
 
 #endif

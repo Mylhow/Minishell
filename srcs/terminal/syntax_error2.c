@@ -6,7 +6,7 @@
 /*   By: abourbou <abourbou@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:10:48 by abourbou          #+#    #+#             */
-/*   Updated: 2020/12/18 13:25:26 by abourbou         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 13:54:42 by abourbou         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,7 @@ int			is_end_escaped(char *input)
 	if (!i)
 		return (0);
 	i--;
+	if (i > 0 && !ft_strncmp("||", input + i - 1, 2))
+		return (0);
 	return (is_escaped(input, i));
 }
