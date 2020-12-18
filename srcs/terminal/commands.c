@@ -6,7 +6,7 @@
 /*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:39:14 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 15:07:36 by nlecaill         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:29:34 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ int			ft_newline(t_term *term)
 	ft_hashadd_back(&(term->list_blocks), hash);
 	term->ndx_line++;
 	term->cursor_pos = PROMPT_SIZE;
-	ft_printf("\n> ");
-	term->current_block = hash;
+	ft_printf("\033[%dm\n> \033[0m", term->colors[term->color]);
+	(term->color == NB_COLORS - 1 ? term->color = 0 : term->color++);	term->current_block = hash;
 	term->ndx_cursor = 0;
 	return (PROCESS_SUCCESS);
 }
