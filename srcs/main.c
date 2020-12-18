@@ -6,7 +6,7 @@
 /*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:39:09 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 15:07:36 by nlecaill         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 16:43:48 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ static int	update(void)
 
 	term = *getterm();
 	ft_printf("\033[%dm$ \033[0m", term->colors[term->color]);
-	(term->color == NB_COLORS - 1 ? term->color = 0 : term->color++);	fflush(stdout);
+	(term->color == NB_COLORS - 1 ? term->color = 0 : term->color++);
+	fflush(stdout);
 	while ((read(STDIN_FILENO, &term->last_char, 1) > 0))
 	{
 		(term->last_char == _EOF) ? signal_main(_EOF) : 0;

@@ -6,7 +6,7 @@
 /*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:39:19 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 15:11:38 by nlecaill         ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 16:17:15 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,28 @@
 ** Use 2 on mac and 5 on linux
 */
 
-static int	movement_manage(t_term *term, t_block *block)
+static int	is_ctrl(t_term *term, t_block *block)
 {
 	char my_char;
 
+	read(STDIN_FILENO, &my_char, 1);
+	if (my_char == '5')
+	{
+		read(STDIN_FILENO, &my_char, 1);
+		if (ctrl_manage(term, block, my_char))
+			return (EXIT_FAILURE);
+		return (PROCESS_SUCCESS);
+	}
+	else
+	{
+		term->esc_flag = 0;
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+static int	movement_manage(t_term *term, t_block *block)
+{
 	if (term->esc_flag == 2)
 	{
 		if (term->last_char == '1')
@@ -36,21 +54,7 @@ static int	movement_manage(t_term *term, t_block *block)
 		return (PROCESS_SUCCESS);
 	}
 	else if (term->esc_flag == 3)
-	{
-		read(STDIN_FILENO, &my_char, 1);
-		if (my_char == '5')
-		{
-			read(STDIN_FILENO, &my_char, 1);
-			if (ctrl_manage(term, block, my_char))
-				return (EXIT_FAILURE);
-			return (PROCESS_SUCCESS);
-		}
-		else
-		{
-			term->esc_flag = 0;
-			return (EXIT_FAILURE);
-		}
-	}
+		return (is_ctrl(term, block));
 	return (EXIT_SUCCESS);
 }
 
@@ -112,7 +116,7 @@ int			ctrl_manage(t_term *term, t_block *block, char my_char)
  ** Manage la sequence d'echappement
  ** Return [int] Status de reussite
 */
-#include "syntax_error.h"
+
 int			escape_sequences(t_term *term, t_block *block)
 {
 	if (term->last_char == '\033')
