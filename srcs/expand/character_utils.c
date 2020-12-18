@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:45:37 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 13:45:40 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 11:57:31 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,14 @@ int		is_valid_bash_char(char c)
 {
 	return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') ||
 		(c >= 'A' && c <= 'Z') || c == '_');
+}
+
+int		is_escaped(char *c, int p)
+{
+	int	count;
+
+	count = 0;
+	while (--p && c[p] == '\\')
+		count++;
+    return (count % 2);
 }

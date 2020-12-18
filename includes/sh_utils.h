@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:18:59 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/16 14:27:23 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 11:30:00 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ char			is_redirect(char *c);
 char			is_ifs(char c);
 int				contains_ifs(char *str);
 int				is_valid_bash_char(char c);
+int				is_escaped(char *c, int p);
 
 #endif

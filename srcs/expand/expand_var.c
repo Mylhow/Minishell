@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:23:45 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/17 11:22:26 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 11:51:29 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static char		*get_var_buff(char **dst, int i, char quotes)
 	char	*var_buffer;
 	size_t	var_len;
 
-	if ((*dst)[i] == '$' && (i == 0 || (i > 0 && (*dst)[i - 1] != '\\')) &&
+	if ((*dst)[i] == '$' && !is_escaped(*dst, i) &&
 	(is_valid_bash_char((*dst)[i + 1]) || (*dst)[i + 1] == '?')
 	&& quotes != QUOTE_SINGLE)
 	{
