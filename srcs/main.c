@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgascon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:39:09 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 09:39:11 by dgascon          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:07:36 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ static void	signal_main_2(t_term *term)
 	term->current_block = term->list_blocks;
 	term->original_line = term->ndx_line;
 	if (!g_passed)
-		ft_printf("$ ");
+	{
+		ft_printf("\033[%dm$ \033[0m", term->colors[term->color]);
+		(term->color == NB_COLORS - 1 ? term->color = 0 : term->color++);
+	}
 }
 
 /*
@@ -92,8 +95,8 @@ static int	update(void)
 	int		ret;
 
 	term = *getterm();
-	ft_printf("$ ");
-	fflush(stdout);
+	ft_printf("\033[%dm$ \033[0m", term->colors[term->color]);
+	(term->color == NB_COLORS - 1 ? term->color = 0 : term->color++);	fflush(stdout);
 	while ((read(STDIN_FILENO, &term->last_char, 1) > 0))
 	{
 		(term->last_char == _EOF) ? signal_main(_EOF) : 0;

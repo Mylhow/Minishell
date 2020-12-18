@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   escape.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgascon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:39:19 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 09:39:20 by dgascon          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:11:38 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** Return [int] Status de reussite
 ** Use 2 on mac and 5 on linux
 */
-#include "libft_printf.h"
+
 static int	movement_manage(t_term *term, t_block *block)
 {
 	char my_char;

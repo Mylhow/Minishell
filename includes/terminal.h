@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgascon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:43:41 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 09:43:42 by dgascon          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:07:36 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define T_LINE "lines"
 
 # define PROMPT_SIZE 2
+# define NB_COLORS 13
 
 # define LEFTCHAR 'D'
 # define RIGHTCHAR 'C'
@@ -72,6 +73,8 @@ typedef struct			s_term
 	int					esc_flag;
 	int					nb_cols;
 	int					nb_lines;
+	int					color;
+	int					colors[NB_COLORS];
 	t_termios			termios;
 	t_termios			termios_backup;
 }						t_term;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgascon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nlecaill <nlecaill@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 09:39:14 by dgascon           #+#    #+#             */
-/*   Updated: 2020/12/18 09:39:15 by dgascon          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 15:07:36 by nlecaill         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static int	new_cmd_2(t_term *term, t_block *copy, int sig, int ret_handle)
 		return (EXIT_FAILURE);
 	if (g_interrupt && g_passed && g_exit_status != 0)
 		ft_printf("\n");
-	ft_printf("$ ");
+	ft_printf("\033[%dm$ \033[0m", term->colors[term->color]);
+	(term->color == NB_COLORS - 1 ? term->color = 0 : term->color++);
 	get_pos();
 	if (clear_new_cmd(term, copy, sig, ret_handle))
 		return (EXIT_FAILURE);
