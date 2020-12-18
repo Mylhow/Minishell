@@ -15,10 +15,10 @@
 
 # include "libft_list.h"
 # include "syntax_error.h"
-#include "libft_list.h"
-#include "libft_string.h"
-#include "syntax_error.h"
-#include "libft_mem.h"
+# include "libft_list.h"
+# include "libft_string.h"
+# include "syntax_error.h"
+# include "libft_mem.h"
 
 typedef struct	s_pretype
 {
@@ -35,8 +35,8 @@ typedef struct	s_btree
 
 t_list			*split_op_tok(char *input);
 void			pass_parenth(int *index, char *input);
-int		add_single_operator(t_list **l_op_tok, char *input, int *index);
-int		add_double_operator(t_list **l_op_tok, char *input, int *index);
+int				add_single_operator(t_list **l_op_tok, char *input, int *index);
+int				add_double_operator(t_list **l_op_tok, char *input, int *index);
 
 t_pretype		*create_pretype(int type, void *content);
 int				add_pretype(t_list **l_op_tok, int type, void *content);
@@ -44,6 +44,6 @@ int				add_pretype(t_list **l_op_tok, int type, void *content);
 t_btree			*node_new(void *content);
 
 int				creation_btree(t_list *list, t_btree **node);
-int		find_operat2(char *operator1, char *operator2,
+int				find_operat2(char *operator1, char *operator2,
 					t_list *current, t_list **l_buffer);
 #endif
