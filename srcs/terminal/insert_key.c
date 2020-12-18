@@ -83,8 +83,7 @@ static int	insert_key(t_term *term, t_block *block)
 		ft_bzero(block->str_cmd, block->size);
 		if (!(ft_memcpy(block->str_cmd, tmp, term->ndx_cursor)))
 			return (EXIT_FAILURE);
-		if (term->last_char != '\\')
-			block->str_cmd[term->ndx_cursor] = term->last_char;
+		block->str_cmd[term->ndx_cursor] = term->last_char;
 		if (!(ft_strcat(block->str_cmd, tmp + term->ndx_cursor)))
 			return (EXIT_FAILURE);
 		if (put_caps(T_CLEOL, 0) != 0)
