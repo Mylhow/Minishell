@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 14:21:14 by lrobino           #+#    #+#             */
-/*   Updated: 2020/12/17 15:57:49 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/12/18 16:55:26 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ int			load_env(char **envp)
 
 char		*get_env(char *var)
 {
-	int	i;
-	int n;
+	int		i;
+	int		n;
+	char	*buff;
 
 	i = 0;
 	if (!g_envp)
@@ -40,8 +41,13 @@ char		*get_env(char *var)
 	while (g_envp && g_envp[i])
 	{
 		n = ft_strlchr(g_envp[i], '=');
-		if (ft_strncmp(g_envp[i], var, n) == 0)
+		buff = ft_strndup(g_envp[i], n);
+		if (ft_strcmp(buff, var) == 0)
+		{
+			wrfree(buff);
 			return (g_envp[i] + n + 1);
+		}
+		wrfree(buff);
 		i++;
 	}
 	return (NULL);
