@@ -10,8 +10,3 @@ Lancement:
 Utilisation:
 Pour lancer des commandes dans minishell vous devez utiliser la syntaxe suivante:
 Commande [argument1] [argument2]...
-
-Les commandes supportées:
-- echo
-- env
-- export
